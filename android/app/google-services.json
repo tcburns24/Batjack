@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "599063975211",
+    "firebase_url": "https://blacktom-549a8.firebaseio.com",
+    "project_id": "blacktom-549a8",
+    "storage_bucket": "blacktom-549a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599063975211:android:d8b6ea748c2f240b86e16e",
+        "android_client_info": {
+          "package_name": "com.kokopelli.blacktom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599063975211-dvtpf6abupu2ln7efrt0k7eanngnglmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz_E4GB_m3I-Pf_qWqy-QmhruNc3XINUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599063975211-dvtpf6abupu2ln7efrt0k7eanngnglmr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
