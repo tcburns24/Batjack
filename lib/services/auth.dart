@@ -10,6 +10,10 @@ class AuthService {
     return fbUser != null ? User(uid: fbUser.uid) : null;
   }
 
+  Stream<User> get user {
+    return _auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebase(user));
+  }
+
   Future signInAnon() async {
     try {
       AuthResult result = await _auth.signInAnonymously();
@@ -26,5 +30,12 @@ class AuthService {
   // 3) Register w/ Email/Password
 
   // 4) Sign Out
-
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (err) {
+      print('Sign out error = ${err.toString()}');
+      return null;
+    }
+  }
 }

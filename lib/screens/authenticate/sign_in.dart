@@ -1,5 +1,4 @@
 import 'package:blacktom/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -24,11 +23,11 @@ class _SignInState extends State<SignIn> {
           child: RaisedButton(
             child: Text('Sign In Anonymously'),
             onPressed: () async {
-              AuthResult result = await _auth.signInAnon();
+              dynamic result = await _auth.signInAnon();
               if (result == null) {
-                print('ahh shit. no can do.');
+                print('❌❌❌ ahh shit. no can do.');
               } else {
-                print('result = $result');
+                print('✅✅✅ signed in. result = ${result.uid}');
               }
             },
           )),
