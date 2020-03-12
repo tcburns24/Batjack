@@ -1,19 +1,22 @@
 import 'package:blacktom/services/auth.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
-  SignIn({this.toggleView});
+class Register extends StatefulWidget {
+  Register({this.toggleView});
   final Function toggleView;
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = new AuthService();
 
   String email = '';
   String password = '';
+  String errorText = '';
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +25,13 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.green[900],
         elevation: 6.0,
-        title: Text('Sign In to BlackTom'),
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.featured_video,
-                color: Colors.white,
-              ),
-              label: Text(
-                'Register',
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
+        title: Text('Sign up for BlackTom'),
+        actions: <Widget>[FlatButton.icon(onPressed: () {}, icon: Icon(Icons.featured_video), label: Text('Sign In'))],
       ),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
           child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 SizedBox(height: 20),
@@ -48,6 +41,7 @@ class _SignInState extends State<SignIn> {
                       email = val;
                     });
                   },
+                  validator: (val) => val.isEmpty ? 'Enter your email, dumbass' : null,
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -57,16 +51,30 @@ class _SignInState extends State<SignIn> {
                       password = val;
                     });
                   },
+                  validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
                 ),
                 SizedBox(height: 20),
                 RaisedButton(
                   color: Colors.blueAccent[700],
                   textColor: Colors.white,
-                  child: Text('Sign in'),
+                  child: Text('Sign up'),
                   onPressed: () async {
-                    print('Email: $email\nPassword: $password');
+                    if (_formKey.currentState.validate()) {
+                      dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                      if (result == null) {
+                        setState(() {
+                          errorText = 'Try again';
+                        });
+                      } else {
+                        setState(() {
+                          errorText = 'you win!';
+                        });
+                      }
+                    }
                   },
-                )
+                ),
+                SizedBox(height: 12),
+                Text(errorText, style: TextStyle(color: Colors.red, fontFamily: 'Avenir')),
               ],
             ),
           )),
