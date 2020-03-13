@@ -25,8 +25,16 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Colors.green[900],
         elevation: 6.0,
-        title: Text('Sign up for BlackTom'),
-        actions: <Widget>[FlatButton.icon(onPressed: () {}, icon: Icon(Icons.featured_video), label: Text('Sign In'))],
+        title: Text('Sign up'),
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () => widget.toggleView(),
+              icon: Icon(
+                Icons.featured_video,
+                color: Colors.white10,
+              ),
+              label: Text('Sign In', style: TextStyle(color: Colors.white10)))
+        ],
       ),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
@@ -42,6 +50,10 @@ class _RegisterState extends State<Register> {
                     });
                   },
                   validator: (val) => val.isEmpty ? 'Enter your email, dumbass' : null,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -52,6 +64,10 @@ class _RegisterState extends State<Register> {
                     });
                   },
                   validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 SizedBox(height: 20),
                 RaisedButton(
