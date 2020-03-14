@@ -1,4 +1,5 @@
 import 'package:blacktom/models/user.dart';
+import 'package:blacktom/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -42,6 +43,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser fbUser = result.user;
+      await DatabaseService(uid: fbUser.uid).updateUserData(email, 100, 1);
       return _userFromFirebase(fbUser);
     } catch (err) {
       print('err = ${err.toString()}');
