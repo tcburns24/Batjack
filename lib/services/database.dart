@@ -1,3 +1,4 @@
+import 'package:blacktom/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -12,8 +13,17 @@ class DatabaseService {
     return await gamblersCollection.document(uid).setData({'username': username, 'chips': chips, 'level': level});
   }
 
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(uid: uid, chips: snapshot.data['chips'], username: snapshot.data['username'], level: snapshot.data['level']);
+  }
+
   // 2) Gamblers collection stream
   Stream<QuerySnapshot> get gamblers {
     return gamblersCollection.snapshots();
+  }
+
+  // 3) Get individual Gambler document stream
+  Stream<UserData> get gamblerData {
+    return gamblersCollection.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 }
