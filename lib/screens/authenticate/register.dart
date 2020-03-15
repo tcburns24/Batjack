@@ -26,7 +26,7 @@ class _RegisterState extends State<Register> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.green[900],
+              backgroundColor: Colors.limeAccent[600],
               elevation: 6.0,
               title: Text('Sign up'),
               actions: <Widget>[

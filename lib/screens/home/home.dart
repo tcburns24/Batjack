@@ -1,6 +1,7 @@
 import 'package:blacktom/screens/home/leaderboard.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
+import 'package:blacktom/shared/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,16 @@ class Home extends StatelessWidget {
             elevation: 0.8,
             actions: <Widget>[
               FlatButton.icon(
-                  onPressed: () async {
-                    await _auth.signOut();
-                  },
-                  icon: Icon(
-                    Icons.person,
-                  ),
-                  label: Text('Sign out'))
+                onPressed: () async {
+                  await _auth.signOut();
+                },
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                label: Text(''),
+              )
             ],
           ),
           body: Container(
@@ -35,6 +39,7 @@ class Home extends StatelessWidget {
               child: Leaderboard(),
             ),
           )),
+          drawer: MainDrawer(),
         ));
   }
 }
