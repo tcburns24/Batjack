@@ -1,4 +1,6 @@
 import 'package:blacktom/models/user.dart';
+import 'package:blacktom/screens/home/leaderboard.dart';
+import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/assets/palettes.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'loading.dart';
 
 class MainDrawer extends StatelessWidget {
+  AuthService _auth = new AuthService();
+
   @override
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
@@ -22,18 +26,18 @@ class MainDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                    padding: EdgeInsets.symmetric(vertical: statusBar * 2, horizontal: 15),
+                    padding: EdgeInsets.symmetric(vertical: statusBar, horizontal: 16),
                     color: CasinoColors.purple,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                            padding: EdgeInsets.only(top: 4, bottom: 4),
+                            padding: EdgeInsets.only(top: 16, bottom: 4),
                             child: Text(userData.username,
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Avenir', color: Colors.white))),
                         Container(
-                            padding: EdgeInsets.only(top: 4, bottom: 4),
+                            padding: EdgeInsets.only(top: 12),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
@@ -47,8 +51,19 @@ class MainDrawer extends StatelessWidget {
                             ))
                       ],
                     )),
-                ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
-                ListTile(title: Text('Sign Out'), leading: Icon(Icons.flight_takeoff)),
+                GestureDetector(
+                  child: ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Leaderboard()),
+                    );
+                  },
+                ),
+                GestureDetector(
+                  child: ListTile(title: Text('Sign Out'), leading: Icon(Icons.flight_takeoff)),
+                  onTap: () => _auth.signOut(),
+                ),
               ],
             ));
           } else {

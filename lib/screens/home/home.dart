@@ -32,13 +32,7 @@ class Home extends StatelessWidget {
               )
             ],
           ),
-          body: Container(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-            child: Container(
-              child: Leaderboard(),
-            ),
-          )),
+          body: Leaderboard(),
           drawer: MainDrawer(),
         ));
   }
