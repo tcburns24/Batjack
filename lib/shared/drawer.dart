@@ -54,10 +54,7 @@ class MainDrawer extends StatelessWidget {
                 GestureDetector(
                   child: ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Leaderboard()),
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Leaderboard()));
                   },
                 ),
                 GestureDetector(

@@ -22,6 +22,10 @@ class DatabaseService {
     return gamblersCollection.snapshots();
   }
 
+  Stream<QuerySnapshot> get allGamblers {
+    return gamblersCollection.snapshots();
+  }
+
   // 3) Get individual Gambler document stream
   Stream<UserData> get gamblerData {
     return gamblersCollection.document(uid).snapshots().map(_userDataFromSnapshot);

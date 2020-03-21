@@ -1,4 +1,4 @@
-import 'package:blacktom/screens/home/leaderboard.dart';
+import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/drawer.dart';
@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = new AuthService();
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return StreamProvider<QuerySnapshot>.value(
         value: DatabaseService().gamblers,
         child: Scaffold(
@@ -32,7 +34,11 @@ class Home extends StatelessWidget {
               )
             ],
           ),
-          body: Leaderboard(),
+          body: Column(
+            children: <Widget>[
+              Text('Home screen'),
+            ],
+          ),
           drawer: MainDrawer(),
         ));
   }
