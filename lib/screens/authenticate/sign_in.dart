@@ -27,18 +27,6 @@ class _SignInState extends State<SignIn> {
         backgroundColor: Colors.green[900],
         elevation: 6.0,
         title: Text('Sign in'),
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () => widget.toggleView(),
-              icon: Icon(
-                Icons.featured_video,
-                color: Colors.white10,
-              ),
-              label: Text(
-                'Register',
-                style: TextStyle(color: Colors.white10),
-              ))
-        ],
       ),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
@@ -46,7 +34,7 @@ class _SignInState extends State<SignIn> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                SizedBox(height: 20),
+                Padding(padding: EdgeInsets.only(top: 12, bottom: 12), child: Container(child: Text('Sign up for Blacktom'))),
                 TextFormField(
                   onChanged: (val) {
                     setState(() {
@@ -97,6 +85,13 @@ class _SignInState extends State<SignIn> {
                       ),
                 SizedBox(height: 12),
                 Text(errorText, style: TextStyle(color: Colors.red, fontFamily: 'Avenir')),
+                Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Container(
+                        child: GestureDetector(
+                      child: Text('New to Blacktom? Sign up here.'),
+                      onTap: () => widget.toggleView(),
+                    )))
               ],
             ),
           )),

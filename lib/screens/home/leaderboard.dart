@@ -1,4 +1,4 @@
-import 'package:blacktom/shared/assets/palettes.dart';
+import 'package:blacktom/shared/palettes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class _LeaderboardState extends State<Leaderboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CasinoColors.grey,
+        backgroundColor: BatmanColors.jokerGreen,
         title: Text('Leaderboard'),
       ),
       body: StreamBuilder(

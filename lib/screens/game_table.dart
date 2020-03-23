@@ -1,4 +1,4 @@
-import 'package:blacktom/shared/assets/palettes.dart';
+import 'package:blacktom/shared/palettes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ class GameTable extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => CasinoColors.green;
+  Color get barrierColor => BatmanColors.lightGrey;
 
   @override
   String get barrierLabel => null;

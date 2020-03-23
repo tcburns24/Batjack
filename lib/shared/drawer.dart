@@ -2,7 +2,7 @@ import 'package:blacktom/models/user.dart';
 import 'package:blacktom/screens/home/leaderboard.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
-import 'package:blacktom/shared/assets/palettes.dart';
+import 'package:blacktom/shared/palettes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class MainDrawer extends StatelessWidget {
               children: <Widget>[
                 Container(
                     padding: EdgeInsets.symmetric(vertical: statusBar, horizontal: 16),
-                    color: CasinoColors.purple,
+                    color: BatmanColors.jokerPurple,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

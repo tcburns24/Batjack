@@ -1,6 +1,8 @@
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/shared/loading.dart';
+import 'package:blacktom/shared/palettes.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Register extends StatefulWidget {
   Register({this.toggleView});
@@ -24,20 +26,11 @@ class _RegisterState extends State<Register> {
     return isLoading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: BatmanColors.lightGrey,
             appBar: AppBar(
-              backgroundColor: Colors.limeAccent[600],
+              backgroundColor: BatmanColors.darkGrey,
               elevation: 6.0,
               title: Text('Sign up'),
-              actions: <Widget>[
-                FlatButton.icon(
-                    onPressed: () => widget.toggleView(),
-                    icon: Icon(
-                      Icons.featured_video,
-                      color: Colors.white10,
-                    ),
-                    label: Text('Sign In', style: TextStyle(color: Colors.white10)))
-              ],
             ),
             body: Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
@@ -45,7 +38,9 @@ class _RegisterState extends State<Register> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 20),
+                      Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 12),
+                          child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
                       TextFormField(
                         onChanged: (val) {
                           setState(() {
@@ -54,8 +49,20 @@ class _RegisterState extends State<Register> {
                         },
                         validator: (val) => val.isEmpty ? 'Enter your email, dumbass' : null,
                         decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: BatmanColors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: BatmanColors.black),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          labelText: 'Email',
+                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
                         ),
                       ),
                       SizedBox(height: 20),
@@ -68,14 +75,26 @@ class _RegisterState extends State<Register> {
                         },
                         validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
                         decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: BatmanColors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: BatmanColors.black),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          labelText: 'Password',
+                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
                         ),
                       ),
                       SizedBox(height: 20),
                       RaisedButton(
-                        color: Colors.blueAccent[700],
-                        textColor: Colors.white,
+                        color: BatmanColors.black,
+                        textColor: BatmanColors.yellow,
                         child: Text('Sign up'),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
@@ -93,7 +112,14 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       SizedBox(height: 12),
-                      Text(errorText, style: TextStyle(color: Colors.red, fontFamily: 'Avenir')),
+                      Text(errorText, style: GoogleFonts.oxanium(color: Colors.orange)),
+                      Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Container(
+                              child: GestureDetector(
+                            child: Text('Already signed up? Log in here.', style: GoogleFonts.oxanium()),
+                            onTap: () => widget.toggleView(),
+                          )))
                     ],
                   ),
                 )),
