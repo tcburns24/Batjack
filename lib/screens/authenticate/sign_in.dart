@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                Padding(padding: EdgeInsets.only(top: 12, bottom: 12), child: Container(child: Text('Sign up for Blacktom'))),
+                Padding(padding: EdgeInsets.only(top: 12, bottom: 12), child: Container(child: Text('Sign up for Batjack'))),
                 TextFormField(
                   onChanged: (val) {
                     setState(() {

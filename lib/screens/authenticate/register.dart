@@ -21,8 +21,18 @@ class _RegisterState extends State<Register> {
   String errorText = '';
   bool isLoading = false;
 
+  String validEmailRegex =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  bool _isValidEmail(String email) {
+    RegExp regex = new RegExp(validEmailRegex);
+    return regex.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
+    num batLogoWidth = MediaQuery.of(context).size.width / 2;
+    num batLogoHeight = batLogoWidth * 0.6;
     return isLoading
         ? Loading()
         : Scaffold(
@@ -39,6 +49,10 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     children: <Widget>[
                       Padding(
+                        padding: EdgeInsets.only(top: 8, bottom: 12),
+                        child: Image.asset('assets/batman_logos/yellow_bg.png', height: batLogoHeight, width: batLogoWidth),
+                      ),
+                      Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
                       TextFormField(
@@ -47,7 +61,8 @@ class _RegisterState extends State<Register> {
                             email = val;
                           });
                         },
-                        validator: (val) => val.isEmpty ? 'Enter your email, dumbass' : null,
+                        validator: (val) =>
+                            !_isValidEmail(val) ? 'You underestimate Batcave security. Enter a real email.' : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -59,10 +74,15 @@ class _RegisterState extends State<Register> {
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orange),
+                            borderSide: BorderSide(color: Colors.orangeAccent),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: Colors.orangeAccent),
                           ),
                           labelText: 'Email',
                           labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
                         ),
                       ),
                       SizedBox(height: 20),
@@ -85,17 +105,22 @@ class _RegisterState extends State<Register> {
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orange),
+                            borderSide: BorderSide(color: Colors.orangeAccent),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            borderSide: BorderSide(color: Colors.orangeAccent),
                           ),
                           labelText: 'Password',
                           labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
                         ),
                       ),
                       SizedBox(height: 20),
                       RaisedButton(
                         color: BatmanColors.black,
                         textColor: BatmanColors.yellow,
-                        child: Text('Sign up'),
+                        child: Text('Sign up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600)),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             setState(() {
@@ -112,12 +137,12 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       SizedBox(height: 12),
-                      Text(errorText, style: GoogleFonts.oxanium(color: Colors.orange)),
+                      Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
                       Padding(
                           padding: EdgeInsets.only(top: 8),
                           child: Container(
                               child: GestureDetector(
-                            child: Text('Already signed up? Log in here.', style: GoogleFonts.oxanium()),
+                            child: Text('Already signed up? Log in here.', style: GoogleFonts.oxanium(color: Colors.white)),
                             onTap: () => widget.toggleView(),
                           )))
                     ],
