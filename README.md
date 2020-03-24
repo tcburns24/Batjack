@@ -1,6 +1,6 @@
-# Blacktom
+# Batjack
 
-Classic casino blackjack presented through the magic of Flutter.
+Batman-themed casino blackjack presented through the magic of Flutter.
 
 ## Getting Started
 
