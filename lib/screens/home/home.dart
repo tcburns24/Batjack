@@ -11,8 +11,28 @@ import 'package:provider/provider.dart';
 class Home extends StatelessWidget {
   final AuthService _auth = new AuthService();
 
+  List<Widget> casinos = [
+    Padding(
+        padding: EdgeInsets.all(10),
+        child:
+            Container(padding: EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.green), child: Text('I am a casino'))),
+    Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(
+            padding: EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.deepOrange), child: Text('I am a casino'))),
+    Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(
+            padding: EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.blueAccent), child: Text('I am a casino'))),
+    Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(padding: EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.grey), child: Text('I am a casino')))
+  ];
+
   @override
   Widget build(BuildContext context) {
+    num batLogoWidth = MediaQuery.of(context).size.width / 2;
+    num batLogoHeight = batLogoWidth * 0.6;
     final user = Provider.of<User>(context);
     return StreamProvider<QuerySnapshot>.value(
         value: DatabaseService().gamblers,
@@ -48,21 +68,20 @@ class Home extends StatelessWidget {
               ),
               child: Center(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'Home Screen',
-                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
-                  ),
-                  Text(
-                    'Batman',
-                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
-                  ),
-                  Text(
-                    'Batman',
-                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
-                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 12.0, bottom: 20),
+                      child: Image.asset(
+                        'assets/batman_logos/white.png',
+                        width: batLogoWidth / 1.7,
+                        height: batLogoHeight / 1.7,
+                      )),
+                  Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20)),
+                  Container(
+                      height: 100,
+                      child: ListView(scrollDirection: Axis.horizontal, padding: EdgeInsets.all(12), children: casinos)),
                 ],
               ))),
           drawer: MainDrawer(),

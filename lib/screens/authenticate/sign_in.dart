@@ -118,7 +118,12 @@ class _SignInState extends State<SignIn> {
                 ),
                 SizedBox(height: 20),
                 isLoading
-                    ? Padding(padding: EdgeInsets.only(top: 6), child: Loading())
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 6),
+                        child: Loading(
+                          bgColor: Colors.black,
+                          dotColor: Colors.white,
+                        ))
                     : RaisedButton(
                         color: BatmanColors.black,
                         textColor: Colors.white,

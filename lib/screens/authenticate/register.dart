@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> {
             appBar: AppBar(
               backgroundColor: BatmanColors.darkGrey,
               elevation: 6.0,
-              title: Text('Sign up'),
+              title: Text('Sign Up'),
             ),
             body: Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
@@ -120,7 +120,12 @@ class _RegisterState extends State<Register> {
                       ),
                       SizedBox(height: 20),
                       isLoading
-                          ? Padding(padding: EdgeInsets.only(top: 6), child: Loading())
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Loading(
+                                bgColor: Colors.black,
+                                dotColor: BatmanColors.yellow,
+                              ))
                           : RaisedButton(
                               color: BatmanColors.black,
                               textColor: BatmanColors.yellow,
