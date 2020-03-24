@@ -56,6 +56,7 @@ class _RegisterState extends State<Register> {
                           padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
                       TextFormField(
+                        style: GoogleFonts.oxanium(color: BatmanColors.yellow),
                         onChanged: (val) {
                           setState(() {
                             email = val;
@@ -81,12 +82,13 @@ class _RegisterState extends State<Register> {
                             borderSide: BorderSide(color: Colors.orangeAccent),
                           ),
                           labelText: 'Email',
-                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
                           errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
                         ),
                       ),
                       SizedBox(height: 20),
                       TextFormField(
+                        style: GoogleFonts.oxanium(color: BatmanColors.yellow),
                         obscureText: true,
                         onChanged: (val) {
                           setState(() {
@@ -112,30 +114,37 @@ class _RegisterState extends State<Register> {
                             borderSide: BorderSide(color: Colors.orangeAccent),
                           ),
                           labelText: 'Password',
-                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
                           errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
                         ),
                       ),
                       SizedBox(height: 20),
-                      RaisedButton(
-                        color: BatmanColors.black,
-                        textColor: BatmanColors.yellow,
-                        child: Text('Sign up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600)),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                errorText = 'Try again';
-                                isLoading = false;
-                              });
-                            }
-                          }
-                        },
-                      ),
+                      isLoading
+                          ? Padding(padding: EdgeInsets.only(top: 6), child: Loading())
+                          : RaisedButton(
+                              color: BatmanColors.black,
+                              textColor: BatmanColors.yellow,
+                              child: Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text('Sign up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  side: BorderSide(color: BatmanColors.black)),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                                  if (result == null) {
+                                    setState(() {
+                                      errorText = 'Try again';
+                                      isLoading = false;
+                                    });
+                                  }
+                                }
+                              },
+                            ),
                       SizedBox(height: 12),
                       Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
                       Padding(

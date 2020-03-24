@@ -39,15 +39,32 @@ class Home extends StatelessWidget {
               )
             ],
           ),
-          body: Column(
-            children: <Widget>[
-              Text(
-                'Home screen',
-                style: GoogleFonts.oxanium(),
+          body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/wallpapers/bg1.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
-              Image.asset('assets/batman_logos/white_bg.png', height: 90, width: 90)
-            ],
-          ),
+              child: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Home Screen',
+                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                  ),
+                  Text(
+                    'Batman',
+                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                  ),
+                  Text(
+                    'Batman',
+                    style: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                  ),
+                ],
+              ))),
           drawer: MainDrawer(),
         ));
   }
