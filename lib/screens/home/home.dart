@@ -1,3 +1,4 @@
+import 'package:blacktom/models/casino_slide.dart';
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
@@ -12,6 +13,12 @@ class Home extends StatelessWidget {
   final AuthService _auth = new AuthService();
 
   List<Widget> casinos = [
+    CasinoSlide(
+      villainDealer: 'Bane',
+      villainImage: 'assets/batmen/adam_west.png',
+      location: 'Arkham Asylum',
+      locationImage: 'assets/wallpapers/arkham_asylum.jpg',
+    ),
     Padding(
         padding: EdgeInsets.all(10),
         child:
@@ -80,7 +87,7 @@ class Home extends StatelessWidget {
                       )),
                   Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20)),
                   Container(
-                      height: 100,
+                      height: 300,
                       child: ListView(scrollDirection: Axis.horizontal, padding: EdgeInsets.all(12), children: casinos)),
                 ],
               ))),
