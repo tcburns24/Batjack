@@ -15,9 +15,11 @@ class Home extends StatelessWidget {
   List<Widget> casinos = [
     CasinoSlide(
       villainDealer: 'Bane',
-      villainImage: 'assets/batmen/adam_west.png',
+      villainImage: 'assets/dealers/bane.jpg',
       location: 'Arkham Asylum',
       locationImage: 'assets/wallpapers/arkham_asylum.jpg',
+      tableMin: 15,
+      villainColor: BatmanColors.black,
     ),
     Padding(
         padding: EdgeInsets.all(10),
@@ -86,9 +88,7 @@ class Home extends StatelessWidget {
                         height: batLogoHeight / 1.7,
                       )),
                   Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20)),
-                  Container(
-                      height: 300,
-                      child: ListView(scrollDirection: Axis.horizontal, padding: EdgeInsets.all(12), children: casinos)),
+                  Container(height: 225, child: ListView(scrollDirection: Axis.horizontal, children: casinos)),
                 ],
               ))),
           drawer: MainDrawer(),
