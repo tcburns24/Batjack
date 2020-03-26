@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CasinoSlide extends StatelessWidget {
-  CasinoSlide({this.tableMin, this.villainDealer, this.villainColor, this.villainImage, this.location, this.locationImage});
+  CasinoSlide({this.tableMin, this.dealer, this.villainColor, this.dealerImage, this.location, this.locationImage});
   final int tableMin;
-  final String villainDealer;
-  final String villainImage;
+  final String dealer;
+  final String dealerImage;
   final String location;
   final String locationImage;
   final Color villainColor;
@@ -56,7 +56,7 @@ class CasinoSlide extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        '\$$tableMin Minimum',
+                        dealer,
                         style: GoogleFonts.oxanium(color: BatmanColors.lightGrey, fontSize: 14),
                         textAlign: TextAlign.center,
                       ),
@@ -74,7 +74,7 @@ class CasinoSlide extends StatelessWidget {
                     ),
                     child: CircleAvatar(
                       radius: 28,
-                      backgroundImage: AssetImage(villainImage),
+                      backgroundImage: AssetImage(dealerImage),
                     ),
                   ))
             ],

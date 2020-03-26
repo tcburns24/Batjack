@@ -31,7 +31,8 @@ flutter:
     - assets/batman_logos/white.png
     - assets/batman_logos/white_bg.png
     - assets/batman_logos/yellow_bg.png
-    - assets/wallpapers/bg1.jpg
+    - assets/wallpapers/home.jpg
     - assets/batmen/
-    - assets/wallpapers/arkham_asylum.jpg
+    - assets/wallpapers/
     - assets/dealers/
+    - assets/casino_slides/
