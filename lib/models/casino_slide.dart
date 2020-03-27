@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CasinoSlide extends StatelessWidget {
-  CasinoSlide({this.tableMin, this.dealer, this.villainColor, this.dealerImage, this.location, this.locationImage});
+  CasinoSlide(
+      {this.tableMin, this.dealer, this.villainColor, this.dealerImage, this.location, this.locationImage, this.bgGradient});
   final int tableMin;
   final String dealer;
   final String dealerImage;
   final String location;
   final String locationImage;
   final Color villainColor;
+  final LinearGradient bgGradient;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class CasinoSlide extends StatelessWidget {
                 builder: (context) => Casino(
                       dealerImage: dealerImage,
                       casinoName: location,
+                      bgGradient: bgGradient,
                     ))),
             child: Container(
               height: 200,

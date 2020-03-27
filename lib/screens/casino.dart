@@ -36,7 +36,7 @@ class _CasinoState extends State<Casino> {
                 children: <Widget>[
                   Container(
                       child: CircleAvatar(
-                    radius: 50,
+                    radius: MediaQuery.of(context).size.width / 6,
                     backgroundImage: AssetImage(widget.dealerImage),
                   )),
                   Container(),

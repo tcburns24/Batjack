@@ -10,7 +10,8 @@ List<Map<String, dynamic>> casinos = [
     'dealer': 'Commissioner Gordon',
     'villainColor': Colors.blue[900],
     'tableMin': 10,
-    'bgGradient': LinearGradient(colors: [Colors.blue[900], Colors.blueGrey[600]])
+    'bgGradient':
+        LinearGradient(colors: [Colors.blue[100], Colors.blueGrey[600]], begin: Alignment.topCenter, end: Alignment.bottomCenter)
   },
   {
     'location': 'The Batcave',
@@ -19,7 +20,8 @@ List<Map<String, dynamic>> casinos = [
     'dealerImage': 'assets/dealers/bane.jpg',
     'villainColor': Colors.brown[700],
     'tableMin': 25,
-    'bgGradient': LinearGradient(colors: [Colors.brown[900], Colors.brown[600]]),
+    'bgGradient':
+        LinearGradient(colors: [Colors.brown[400], Colors.brown[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
   },
   {
     'location': 'Arkham Asylum',
@@ -28,7 +30,8 @@ List<Map<String, dynamic>> casinos = [
     'dealer': 'Scarecrow',
     'villainColor': Colors.brown[300],
     'tableMin': 15,
-    'bgGradient': LinearGradient(colors: [Colors.brown[400], Colors.grey[600]]),
+    'bgGradient':
+        LinearGradient(colors: [Colors.brown[400], Colors.grey[600]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
   },
   {
     'location': 'Iceberg Lounge',
@@ -37,7 +40,8 @@ List<Map<String, dynamic>> casinos = [
     'dealer': 'Penguin',
     'villainColor': Colors.lightBlue[200],
     'tableMin': 50,
-    'bgGradient': LinearGradient(colors: [Colors.lightBlue[600], Colors.lightBlue[300]]),
+    'bgGradient': LinearGradient(
+        colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
   },
   {
     'location': 'Ace Chemicals',
@@ -46,7 +50,8 @@ List<Map<String, dynamic>> casinos = [
     'dealerImage': 'assets/dealers/joker.jpg',
     'villainColor': BatmanColors.jokerGreen,
     'tableMin': 100,
-    'bgGradient': LinearGradient(colors: [BatmanColors.jokerGreen, BatmanColors.jokerPurple]),
+    'bgGradient': LinearGradient(
+        colors: [BatmanColors.jokerGreen, BatmanColors.jokerPurple], begin: Alignment.topLeft, end: Alignment.centerRight),
   }
 ];
 
@@ -60,6 +65,7 @@ List<Widget> allCasinos() {
       dealerImage: casinos[i]['dealerImage'],
       villainColor: casinos[i]['villainColor'],
       tableMin: casinos[i]['tableMin'],
+      bgGradient: casinos[i]['bgGradient'],
     ));
   }
   return allCasinos;
