@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
     num batLogoWidth = MediaQuery.of(context).size.width / 2;
     num batLogoHeight = batLogoWidth * 0.6;
     return isLoading
-        ? Loading()
+        ? Loading(bgColor: Colors.black, dotColor: BatmanColors.yellow)
         : Scaffold(
             backgroundColor: BatmanColors.lightGrey,
             appBar: AppBar(
