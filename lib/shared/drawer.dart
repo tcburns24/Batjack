@@ -27,7 +27,7 @@ class MainDrawer extends StatelessWidget {
               children: <Widget>[
                 Container(
                     padding: EdgeInsets.symmetric(vertical: statusBar, horizontal: 16),
-                    color: BatmanColors.jokerPurple,
+                    color: BatmanColors.darkGrey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

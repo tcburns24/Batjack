@@ -23,7 +23,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMin': 25,
     'bgGradient':
         LinearGradient(colors: [Colors.brown[400], Colors.brown[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-    'unlockAt': 125,
+    'unlockAt': 200,
   },
   {
     'location': 'Arkham Asylum',
@@ -34,7 +34,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMin': 15,
     'bgGradient':
         LinearGradient(colors: [Colors.brown[300], Colors.grey[500]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-    'unlockAt': 160,
+    'unlockAt': 300,
   },
   {
     'location': 'Iceberg Lounge',
@@ -45,7 +45,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMin': 50,
     'bgGradient': LinearGradient(
         colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-    'unlockAt': 200,
+    'unlockAt': 400,
   },
   {
     'location': 'Ace Chemicals',
@@ -56,7 +56,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMin': 100,
     'bgGradient': LinearGradient(
         colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
-    'unlockAt': 300,
+    'unlockAt': 500,
   }
 ];
 

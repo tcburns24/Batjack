@@ -29,6 +29,24 @@ class CasinoSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final batSnackBar = SnackBar(
+      content: Row(
+        children: <Widget>[
+          Icon(Icons.lock, color: BatmanColors.darkGrey),
+          Padding(
+              padding: EdgeInsets.only(left: 6.0),
+              child: Text(
+                '$unlockAt chips required to unlock $location',
+                style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
+                textAlign: TextAlign.center,
+              ))
+        ],
+      ),
+      duration: Duration(seconds: 4),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.white,
+    );
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {
@@ -37,13 +55,15 @@ class CasinoSlide extends StatelessWidget {
             return Padding(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Casino(
-                              dealerImage: dealerImage,
-                              casinoName: location,
-                              bgGradient: bgGradient,
-                              appBarColor: villainColor,
-                            ))),
+                    onTap: userData.chips < unlockAt
+                        ? () => Scaffold.of(context).showSnackBar(batSnackBar)
+                        : () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Casino(
+                                  dealerImage: dealerImage,
+                                  casinoName: location,
+                                  bgGradient: bgGradient,
+                                  appBarColor: villainColor,
+                                ))),
                     child: Container(
                       height: 200,
                       width: 200,
@@ -106,10 +126,10 @@ class CasinoSlide extends StatelessWidget {
                                 ),
                               )),
                           Positioned.fill(
-                              child: userData.chips > unlockAt
+                              child: userData.chips >= unlockAt
                                   ? Container()
                                   : Container(
-                                      color: Colors.black.withOpacity(0.6),
+                                      color: Colors.black.withOpacity(0.7),
                                       child: Icon(
                                         Icons.lock_outline,
                                         color: Colors.grey,
