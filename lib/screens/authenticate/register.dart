@@ -131,7 +131,7 @@ class _RegisterState extends State<Register> {
                               textColor: BatmanColors.yellow,
                               child: Padding(
                                   padding: EdgeInsets.all(10.0),
-                                  child: Text('Sign up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
+                                  child: Text('Sign Up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(50)),
                                   side: BorderSide(color: BatmanColors.black)),

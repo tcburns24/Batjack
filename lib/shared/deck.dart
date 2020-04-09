@@ -1,0 +1,263 @@
+List<Map<String, dynamic>> deck = [
+  {
+    'card': '2Hearts',
+    'value': 2,
+    'type': '2',
+  },
+  {
+    'card': '3Hearts',
+    'value': 3,
+    'type': '3',
+  },
+  {
+    'card': '4Hearts',
+    'value': 4,
+    'type': '4',
+  },
+  {
+    'card': '5Hearts',
+    'value': 5,
+    'type': '5',
+  },
+  {
+    'card': '6Hearts',
+    'value': 6,
+    'type': '6',
+  },
+  {
+    'card': '7Hearts',
+    'value': 7,
+    'type': '7',
+  },
+  {
+    'card': '8Hearts',
+    'value': 8,
+    'type': '8',
+  },
+  {
+    'card': '9Hearts',
+    'value': 9,
+    'type': '9',
+  },
+  {
+    'card': '10Hearts',
+    'value': 10,
+    'type': '10',
+    'isTen': true,
+  },
+  {
+    'card': 'JHearts',
+    'value': 10,
+    'type': 'j',
+    'isTen': true,
+  },
+  {
+    'card': 'QHearts',
+    'value': 10,
+    'type': 'q',
+    'isTen': true,
+  },
+  {
+    'card': 'KHearts',
+    'value': 10,
+    'type': 'k',
+    'isTen': true,
+  },
+  {'card': 'AHearts', 'value': 11, 'type': 'a', 'isAce': true},
+  {
+    'card': '2Diamond',
+    'value': 2,
+    'type': '2',
+  },
+  {
+    'card': '3Diamond',
+    'value': 3,
+    'type': '3',
+  },
+  {
+    'card': '4Diamond',
+    'value': 4,
+    'type': '4',
+  },
+  {
+    'card': '5Diamond',
+    'value': 5,
+    'type': '5',
+  },
+  {
+    'card': '6Diamond',
+    'value': 6,
+    'type': '6',
+  },
+  {
+    'card': '7Diamond',
+    'value': 7,
+    'type': '7',
+  },
+  {
+    'card': '8Diamond',
+    'value': 8,
+    'type': '8',
+  },
+  {
+    'card': '9Diamond',
+    'value': 9,
+    'type': '9',
+  },
+  {
+    'card': '10Diamond',
+    'value': 10,
+    'type': '10',
+    'isTen': true,
+  },
+  {
+    'card': 'JDiamond',
+    ''
+        'value': 10,
+    'type': 'j',
+    'isTen': true,
+  },
+  {
+    'card': 'QDiamond',
+    'value': 10,
+    'type': 'q',
+    'isTen': true,
+  },
+  {
+    'card': 'KDiamond',
+    'value': 10,
+    'type': 'k',
+    'isTen': true,
+  },
+  {'card': 'ADiamond', 'value': 11, 'type': 'a', 'isAce': true},
+  {
+    'card': '2Club',
+    'value': 2,
+    'type': '2',
+  },
+  {
+    'card': '3Club',
+    'value': 3,
+    'type': '3',
+  },
+  {
+    'card': '4Club',
+    'value': 4,
+    'type': '4',
+  },
+  {
+    'card': '5Club',
+    'value': 5,
+    'type': '5',
+  },
+  {
+    'card': '6Club',
+    'value': 6,
+    'type': '6',
+  },
+  {
+    'card': '7Club',
+    'value': 7,
+    'type': '7',
+  },
+  {
+    'card': '8Club',
+    'value': 8,
+    'type': '8',
+  },
+  {
+    'card': '9Club',
+    'value': 9,
+    'type': '9',
+  },
+  {
+    'card': '10Club',
+    'value': 10,
+    'type': '10',
+    'isTen': true,
+  },
+  {
+    'card': 'JClub',
+    'value': 10,
+    'type': 'j',
+    'isTen': true,
+  },
+  {
+    'card': 'QClub',
+    'value': 10,
+    'type': 'q',
+    'isTen': true,
+  },
+  {
+    'card': 'KClub',
+    'value': 10,
+    'type': 'k',
+    'isTen': true,
+  },
+  {'card': 'AClub', 'value': 11, 'type': 'a', 'isAce': true},
+  {
+    'card': '2Spade',
+    'value': 2,
+    'type': '2',
+  },
+  {
+    'card': '3Spade',
+    'value': 3,
+    'type': '3',
+  },
+  {
+    'card': '4Spade',
+    'value': 4,
+    'type': '4',
+  },
+  {
+    'card': '5Spade',
+    'value': 5,
+    'type': '5',
+  },
+  {
+    'card': '6Spade',
+    'value': 6,
+    'type': '6',
+  },
+  {
+    'card': '7Spade',
+    'value': 7,
+    'type': '7',
+  },
+  {
+    'card': '8Spade',
+    'value': 8,
+    'type': '8',
+  },
+  {
+    'card': '9Spade',
+    'value': 9,
+    'type': '9',
+  },
+  {
+    'card': '10Spade',
+    'value': 10,
+    'type': '10',
+    'isTen': true,
+  },
+  {
+    'card': 'JSpade',
+    'value': 10,
+    'type': 'j',
+    'isTen': true,
+  },
+  {
+    'card': 'QSpade',
+    'value': 10,
+    'type': 'q',
+    'isTen': true,
+  },
+  {
+    'card': 'KSpade',
+    'value': 10,
+    'type': 'k',
+    'isTen': true,
+  },
+  {'card': 'ASpade', 'value': 11, 'type': 'a', 'isAce': true},
+];

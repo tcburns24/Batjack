@@ -64,7 +64,10 @@ class MainDrawer extends StatelessWidget {
               ],
             ));
           } else {
-            return Loading();
+            return Loading(
+              bgColor: BatmanColors.black,
+              dotColor: BatmanColors.blueGrey,
+            );
           }
         });
   }

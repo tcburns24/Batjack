@@ -132,7 +132,7 @@ class CasinoSlide extends StatelessWidget {
                                       color: Colors.black.withOpacity(0.7),
                                       child: Icon(
                                         Icons.lock_outline,
-                                        color: Colors.grey,
+                                        color: BatmanColors.blueGrey,
                                         size: 100,
                                       ),
                                     ))
