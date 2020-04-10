@@ -1,5 +1,6 @@
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/database.dart';
+import 'package:blacktom/shared/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,24 @@ class _CasinoState extends State<Casino> {
                           .updateUserData(userData.username, userData.chips + 100, userData.level);
                     },
                   )),
-                  Container()
+                  Container(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      height: 100,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          PlayingCard(
+                            suit: 'hearts',
+                            value: 7,
+                            number: '7',
+                          ),
+                          PlayingCard(
+                            suit: 'spades',
+                            value: 10,
+                            number: 'J',
+                          ),
+                        ],
+                      ))
                 ],
               )),
         );
