@@ -31,6 +31,7 @@ class _CasinoState extends State<Casino> {
   @override
   void initState() {
     _playerHands.add(Hand());
+    _playerHands.add(Hand());
     super.initState();
   }
 
@@ -67,16 +68,11 @@ class _CasinoState extends State<Casino> {
                     },
                   )),
                   Container(
-                      padding: EdgeInsets.only(left: 8, right: 8),
+                      padding: EdgeInsets.only(left: 4, right: 4),
                       height: 100,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
+                      child: Row(
                         children: _playerHands,
                       )),
-                  RaisedButton(
-                    child: Text('Hit', style: GoogleFonts.hanalei(color: Colors.white)),
-                    onPressed: _hit(),
-                  )
                 ],
               )),
         );

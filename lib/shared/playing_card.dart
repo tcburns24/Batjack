@@ -11,10 +11,9 @@ class PlayingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    num eighthScreen = MediaQuery.of(context).size.height / 8;
     return Container(
-      height: eighthScreen,
-      width: eighthScreen * 0.71,
+      height: 100,
+      width: 71,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           border: Border.all(color: Colors.black, width: 2.0),

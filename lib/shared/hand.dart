@@ -13,7 +13,7 @@ class Hand extends StatefulWidget {
 
   addCard() {
     print('🍷🍷 _addThenSet() called');
-    handstate._addThenSet();
+    handstate._addCard();
   }
 }
 
@@ -22,7 +22,7 @@ class _HandState extends State<Hand> {
   List<Widget> _cards = [
     Positioned(
       left: 0.0,
-      child: deck[11],
+      child: deck[19],
     ),
   ];
   int _result = 0;
@@ -42,24 +42,28 @@ class _HandState extends State<Hand> {
     ));
   }
 
-  _addThenSet() {
-    _addCard();
-    _nextCardPos += 30;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 120,
-      width: MediaQuery.of(context).size.width,
-      child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _addCard();
-              _nextCardPos += 30.0;
-            });
-          },
-          child: Stack(children: _cards)),
-    );
+    return Expanded(
+        child: ListView(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        GestureDetector(
+            onTap: () {
+              setState(() {
+                _addCard();
+                _nextCardPos += 30.0;
+              });
+            },
+            child: Container(
+              width: 600,
+              padding: EdgeInsets.only(left: 4, right: 4),
+              child: Stack(
+                children: _cards,
+              ),
+            ))
+      ],
+    ));
   }
 }
