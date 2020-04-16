@@ -1,10 +1,10 @@
-import 'package:blacktom/shared/playing_card.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Hand extends StatefulWidget {
   Hand({this.cards});
 
-  List<PlayingCard> cards;
+  List<dynamic> cards;
 
   @override
   _HandState createState() => _HandState();
@@ -21,7 +21,16 @@ class _HandState extends State<Hand> {
     for (int i = 0; i < widget.cards.length; i++) {
       cardStack.add(Positioned(
         left: _nextCardPos * i,
-        child: widget.cards[i],
+        child: Column(
+          children: <Widget>[
+            widget.cards[i],
+            Container(
+                child: Text(
+              '${_value[0]}',
+              style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20),
+            ))
+          ],
+        ),
       ));
     }
     return cardStack;

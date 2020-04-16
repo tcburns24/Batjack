@@ -4,7 +4,6 @@ import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/deck.dart';
 import 'package:blacktom/shared/hand.dart';
-import 'package:blacktom/shared/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -25,20 +24,35 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   int curr = 0;
-  List<List<PlayingCard>> _player = [[]];
+  List<Map<dynamic, dynamic>> _player = [
+    {
+      'cards': [],
+      'value': [0],
+      'result': 0
+    }
+  ];
 
   // 2) Methods
   int randomCard() {
     return Random().nextInt(deck.length);
   }
 
+  void updateValue() {
+    int total = 0;
+    for (int i = 0; i < _player[curr]['cards'].length; i++) {
+      total += _player[curr]['cards'][i].value;
+    }
+    _player[curr]['value'].forEach((val) => val += total);
+    print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}');
+  }
+
   void _hit() {
-    _player[curr].add(deck[randomCard()]);
+    _player[curr]['cards'].add(deck[randomCard()]);
   }
 
   // 3) Widgets
   List<Hand> _hands() {
-    return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]));
+    return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]['cards']));
   }
 
   @override
@@ -75,7 +89,7 @@ class _CasinoState extends State<Casino> {
                   )),
                   Container(
                       padding: EdgeInsets.only(left: 4, right: 4),
-                      height: 100,
+                      height: 130,
                       child: Row(
                         children: _hands(),
                       )),
