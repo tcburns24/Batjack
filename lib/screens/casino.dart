@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/database.dart';
+import 'package:blacktom/shared/deck.dart';
 import 'package:blacktom/shared/hand.dart';
+import 'package:blacktom/shared/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -19,20 +23,22 @@ class Casino extends StatefulWidget {
 }
 
 class _CasinoState extends State<Casino> {
-  List<Hand> _playerHands = [];
-
+  // 1) State
   int curr = 0;
+  List<List<PlayingCard>> _player = [[]];
 
-  _hit() {
-    print('🍷🍷🍷_hit() called');
-    _playerHands[curr].addCard();
+  // 2) Methods
+  int randomCard() {
+    return Random().nextInt(deck.length);
   }
 
-  @override
-  void initState() {
-    _playerHands.add(Hand());
-    _playerHands.add(Hand());
-    super.initState();
+  void _hit() {
+    _player[curr].add(deck[randomCard()]);
+  }
+
+  // 3) Widgets
+  List<Hand> _hands() {
+    return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]));
   }
 
   @override
@@ -71,8 +77,15 @@ class _CasinoState extends State<Casino> {
                       padding: EdgeInsets.only(left: 4, right: 4),
                       height: 100,
                       child: Row(
-                        children: _playerHands,
+                        children: _hands(),
                       )),
+                  RaisedButton(
+                      child: Text('Hit', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                      color: Colors.black54,
+                      onPressed: () {
+                        _hit();
+                        setState(() {});
+                      })
                 ],
               )),
         );
