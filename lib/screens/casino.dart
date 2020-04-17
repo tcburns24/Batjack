@@ -25,7 +25,7 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   int curr = 0;
-  int _bet;
+  int _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
     {
       'cards': [],
@@ -90,6 +90,7 @@ class _CasinoState extends State<Casino> {
 
   void _hit() {
     PlayingCard card = deck[randomCard()];
+    print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
     _player[curr]['cards'].add(card);
     for (int i = 0; i < _player[curr]['value'].length; i++) {
       _player[curr]['value'][i] += card.value;
@@ -107,11 +108,13 @@ class _CasinoState extends State<Casino> {
         }
       }
     }
-    print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}');
+    print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}\n-------');
   }
 
+  void _stand() {}
+
   void dealDealer() {
-    while (_dealer.length > 0 && _dealer[0] < 17) {
+    while (_dealer.length > 0 && _dealer['value'][0] < 17) {
       PlayingCard card = deck[randomCard()];
       _dealer['cards'].add(card);
       for (int i = 0; i < _dealer['value'].length; i++) {
@@ -168,19 +171,44 @@ class _CasinoState extends State<Casino> {
                           .updateUserData(userData.username, userData.chips + 100, userData.level);
                     },
                   )),
-                  Container(
-                      padding: EdgeInsets.only(left: 4, right: 4),
-                      height: 130,
-                      child: Row(
-                        children: _hands(),
-                      )),
-                  RaisedButton(
-                      child: Text('Hit', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                      color: Colors.black54,
-                      onPressed: () {
-                        _hit();
-                        setState(() {});
-                      })
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.only(left: 4, right: 4),
+                          height: 100,
+                          child: Row(
+                            children: _hands(),
+                          )),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+                        Container(
+                          child: Text(
+                            '${_player[curr]['value'][0]}',
+                            style: GoogleFonts.ultra(color: Colors.white, fontSize: 24),
+                          ),
+                        ),
+                      ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          RaisedButton(
+                              child: Text('Hit', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                              color: Colors.black54,
+                              onPressed: () {
+                                _hit();
+                                setState(() {});
+                              }),
+                          RaisedButton(
+                              child: Text('Stand', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                              color: Colors.black54,
+                              onPressed: () {
+                                _stand();
+                                setState(() {});
+                              })
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               )),
         );
