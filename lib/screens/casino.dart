@@ -24,6 +24,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
+  bool _gameInSession = false;
   int curr = 0;
   int _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -51,6 +52,7 @@ class _CasinoState extends State<Casino> {
 //  }
 
   void _reset() {
+    print('🦒🦒_reset() called.');
     curr = 0;
     _player = [
       {
@@ -67,11 +69,14 @@ class _CasinoState extends State<Casino> {
   }
 
   void _evaluate() {
+    print('🐉🐲 _evaluate() called.');
     for (int i = 0; i < _player.length; i++) {
       if (_player[i]['result'] == 0) {
         if (_player[i]['value'][0] > _dealer['value'][0]) {
+          print('🤑 _player (${_player[i]['value'][0]}) > _dealer (${_dealer['value'][0]}). Player wins.');
           _player[i]['result'] = 1;
         } else if (_player[i]['value'][0] < _dealer['value'][0]) {
+          print('🤑 _player (${_player[i]['value'][0]}) < _dealer (${_dealer['value'][0]}). Dealer wins.');
           _player[i]['result'] = -1;
         }
       }
@@ -79,13 +84,16 @@ class _CasinoState extends State<Casino> {
     for (int i = 0; i < _player.length; i++) {
       if (_player[i]['result'] == -1) {
         _player[i]['netCash'] -= _bet;
+        print('🤑 _player loses ${_player[i]['netCash']}');
       } else if (_player[i]['result'] == 1) {
+        print('🤑 _player wins ${_player[i]['netCash']}');
         _player[i]['netCash'] += _bet;
       } else if (_player[i]['result'] == 2) {
         _player[i]['netCash'] += (_bet * 1.5);
       }
     }
-    _reset();
+    _gameInSession = false;
+//    _reset();
   }
 
   void _hit() {
@@ -101,21 +109,40 @@ class _CasinoState extends State<Casino> {
     if (_player[curr]['value'][0] > 21) {
       _player[curr]['value'] = _player[curr]['value'].sublist(1);
       if (_player[curr]['value'].length < 1) {
+        print('️♥️ player busted (curr = $curr');
         _player[curr]['result'] = -1;
         curr += 1;
         if (curr == _player.length) {
           dealDealer();
         }
       }
+    } else {
+      print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}\n-------');
     }
-    print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}\n-------');
   }
 
-  void _stand() {}
+  void _beginPlay() {
+    _gameInSession = true;
+    _hit();
+    _hit();
+    if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
+        (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
+      _player[curr]['result'] = 2;
+    }
+  }
+
+  void _stand() {
+    curr += 1;
+    if (curr == _player.length) {
+      dealDealer();
+    }
+    print('❇️ after _stand(), curr = $curr');
+  }
 
   void dealDealer() {
     while (_dealer.length > 0 && _dealer['value'][0] < 17) {
       PlayingCard card = deck[randomCard()];
+      print('🦌🦌 Dealer: card = ${card.suit} ${card.number}');
       _dealer['cards'].add(card);
       for (int i = 0; i < _dealer['value'].length; i++) {
         _dealer['value'][i] += card.value;
@@ -123,6 +150,7 @@ class _CasinoState extends State<Casino> {
       if (_dealer['value'][0] > 21) {
         _dealer['value'] = _dealer['value'].sublist(1);
         if (_dealer['value'].length < 1) {
+          print('️️🍑️ dealer busted');
           for (int i = 0; i < _player.length; i++) {
             if (_player[i]['result'] == 0) {
               _player[i]['result'] = 1;
@@ -137,6 +165,10 @@ class _CasinoState extends State<Casino> {
   // 3) Widgets
   List<Hand> _hands() {
     return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]['cards']));
+  }
+
+  List<Hand> _dealerHands() {
+    return new List<Hand>.generate(1, (int index) => Hand(cards: _dealer['cards']));
   }
 
   @override
@@ -157,12 +189,19 @@ class _CasinoState extends State<Casino> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
                       child: CircleAvatar(
                     radius: MediaQuery.of(context).size.width / 6,
                     backgroundImage: AssetImage(widget.dealerImage),
                   )),
+                  Container(
+                      padding: EdgeInsets.only(left: 4, right: 4),
+                      height: 100,
+                      child: Row(
+                        children: _dealerHands(),
+                      )),
                   Container(
                       child: FlatButton(
                     child: Text('+100 chips', style: GoogleFonts.fenix(color: Colors.white)),
@@ -183,8 +222,12 @@ class _CasinoState extends State<Casino> {
                       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                         Container(
                           child: Text(
-                            '${_player[curr]['value'][0]}',
-                            style: GoogleFonts.ultra(color: Colors.white, fontSize: 24),
+                            curr < _player.length ? '${_player[curr]['value'][0]}' : '\$${_player[curr - 1]['netCash']}',
+                            style: GoogleFonts.ultra(
+                                fontSize: 24,
+                                color: curr < _player.length
+                                    ? Colors.white
+                                    : _player[curr - 1]['netCash'] < 0 ? Colors.red : Colors.green),
                           ),
                         ),
                       ]),
@@ -192,10 +235,11 @@ class _CasinoState extends State<Casino> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           RaisedButton(
-                              child: Text('Hit', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                              child: Text(_gameInSession ? 'Hit' : 'Deal',
+                                  style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
                               color: Colors.black54,
                               onPressed: () {
-                                _hit();
+                                _gameInSession ? _hit() : _beginPlay();
                                 setState(() {});
                               }),
                           RaisedButton(

@@ -9,6 +9,34 @@ class PlayingCard extends StatelessWidget {
   final bool isTen;
   final bool isAce;
 
+  String _suitIcon(String suit) {
+    switch (suit) {
+      case 'spades':
+        {
+          return '♠️';
+        }
+        break;
+
+      case 'clubs':
+        {
+          return '♣️';
+        }
+        break;
+
+      case 'hearts':
+        {
+          return '♥️';
+        }
+        break;
+
+      default:
+        {
+          return '♦️';
+        }
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,16 +49,21 @@ class PlayingCard extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 5,
-            left: 5,
-            child: Text(
-              number.toUpperCase(),
-              style: GoogleFonts.oxanium(
-                  color: suit == 'hearts' || suit == 'diamonds' ? Colors.red : Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 22),
-            ),
-          )
+              top: 5,
+              left: 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    number.toUpperCase(),
+                    style: GoogleFonts.oxanium(
+                        color: suit == 'hearts' || suit == 'diamonds' ? Colors.red : Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22),
+                  ),
+                  Text(_suitIcon(suit), style: TextStyle(fontSize: 20))
+                ],
+              ))
         ],
       ),
     );
