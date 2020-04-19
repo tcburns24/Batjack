@@ -122,6 +122,7 @@ class _CasinoState extends State<Casino> {
   }
 
   void _beginPlay() {
+    _reset();
     _gameInSession = true;
     _hit();
     _hit();
@@ -140,7 +141,7 @@ class _CasinoState extends State<Casino> {
   }
 
   void dealDealer() {
-    while (_dealer.length > 0 && _dealer['value'][0] < 17) {
+    while (_dealer['value'].length > 0 && _dealer['value'][0] < 17) {
       PlayingCard card = deck[randomCard()];
       print('🦌🦌 Dealer: card = ${card.suit} ${card.number}');
       _dealer['cards'].add(card);
@@ -196,9 +197,18 @@ class _CasinoState extends State<Casino> {
                     radius: MediaQuery.of(context).size.width / 6,
                     backgroundImage: AssetImage(widget.dealerImage),
                   )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Dealer Bust!',
+                        style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
+                      )
+                    ],
+                  ),
                   Container(
                       padding: EdgeInsets.only(left: 4, right: 4),
-                      height: 100,
+                      height: 130,
                       child: Row(
                         children: _dealerHands(),
                       )),
