@@ -25,6 +25,7 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   bool _gameInSession = false;
+  bool _standBtnDisabled = true;
   int curr = 0;
   int _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -45,6 +46,8 @@ class _CasinoState extends State<Casino> {
   int randomCard() {
     return Random().nextInt(deck.length);
   }
+
+  Map<int, String> _handResults = {-1: 'You Lose, Batman', 0: 'Push', 1: 'You Win, Batman', 2: 'Batjack!'};
 
 //  void _bank() async {
 //    var user = Provider.of<User>(context);
@@ -124,12 +127,18 @@ class _CasinoState extends State<Casino> {
   void _beginPlay() {
     _reset();
     _gameInSession = true;
+    PlayingCard card = deck[randomCard()];
+    _dealer['cards'].add(card);
+    for (int i = 0; i < _dealer['value'].length; i++) {
+      _dealer['value'][i] += card.value;
+    }
     _hit();
     _hit();
     if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
     }
+    _standBtnDisabled = false;
   }
 
   void _stand() {
@@ -137,6 +146,7 @@ class _CasinoState extends State<Casino> {
     if (curr == _player.length) {
       dealDealer();
     }
+    _standBtnDisabled = true;
     print('❇️ after _stand(), curr = $curr');
   }
 
@@ -201,7 +211,7 @@ class _CasinoState extends State<Casino> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Dealer Bust!',
+                        _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
                         style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
                       )
                     ],
@@ -210,6 +220,7 @@ class _CasinoState extends State<Casino> {
                       padding: EdgeInsets.only(left: 4, right: 4),
                       height: 130,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: _dealerHands(),
                       )),
                   Container(
@@ -232,7 +243,9 @@ class _CasinoState extends State<Casino> {
                       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                         Container(
                           child: Text(
-                            curr < _player.length ? '${_player[curr]['value'][0]}' : '\$${_player[curr - 1]['netCash']}',
+                            curr < _player.length
+                                ? '${_player[curr]['value'][0]}'
+                                : _player[curr - 1]['netCash'] == 0 ? 'Push' : '\$${_player[curr - 1]['netCash']}',
                             style: GoogleFonts.ultra(
                                 fontSize: 24,
                                 color: curr < _player.length
@@ -256,8 +269,11 @@ class _CasinoState extends State<Casino> {
                               child: Text('Stand', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
                               color: Colors.black54,
                               onPressed: () {
-                                _stand();
-                                setState(() {});
+                                !_standBtnDisabled
+                                    ? setState(() {
+                                        _stand();
+                                      })
+                                    : null;
                               })
                         ],
                       )
