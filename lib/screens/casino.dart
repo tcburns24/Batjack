@@ -96,7 +96,11 @@ class _CasinoState extends State<Casino> {
       }
     }
     _gameInSession = false;
-//    _reset();
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _reset();
+      });
+    });
   }
 
   void _hit() {
@@ -125,7 +129,6 @@ class _CasinoState extends State<Casino> {
   }
 
   void _beginPlay() {
-    _reset();
     _gameInSession = true;
     PlayingCard card = deck[randomCard()];
     _dealer['cards'].add(card);
@@ -204,7 +207,7 @@ class _CasinoState extends State<Casino> {
                 children: <Widget>[
                   Container(
                       child: CircleAvatar(
-                    radius: MediaQuery.of(context).size.width / 6,
+                    radius: MediaQuery.of(context).size.width / 7,
                     backgroundImage: AssetImage(widget.dealerImage),
                   )),
                   Row(
