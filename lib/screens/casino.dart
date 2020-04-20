@@ -26,6 +26,7 @@ class _CasinoState extends State<Casino> {
   // 1) State
   bool _gameInSession = false;
   bool _standBtnDisabled = true;
+  bool _canSplit = true;
   int curr = 0;
   int _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -149,8 +150,10 @@ class _CasinoState extends State<Casino> {
     if (curr == _player.length) {
       dealDealer();
     }
-    _standBtnDisabled = true;
-    print('❇️ after _stand(), curr = $curr');
+    if (curr == _player.length) {
+      _standBtnDisabled = true;
+    }
+    print('❇️ after _stand(), curr = $curr, _standBtnDisabled == $_standBtnDisabled');
   }
 
   void dealDealer() {
@@ -176,9 +179,35 @@ class _CasinoState extends State<Casino> {
     _evaluate();
   }
 
+  void _split() {
+    PlayingCard splitCard = _player[0]['cards'][1];
+    for (int i = 0; i < _player[0]['value'].length; i++) {
+      _player[0]['value'][i] -= splitCard.value;
+    }
+    _player.add({
+      'cards': [splitCard],
+      'value': [splitCard.value],
+      'result': 0,
+      'netCash': 0
+    });
+    _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
+  }
+
   // 3) Widgets
   List<Hand> _hands() {
     return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]['cards']));
+  }
+
+  List<Widget> _handScore() {
+    return new List<Widget>.generate(
+        _player.length,
+        (int index) => Container(
+              child: Text('${_player[index]['value'][0]}',
+                  style: GoogleFonts.ultra(
+                      fontSize: 24,
+                      color:
+                          curr < _player.length ? Colors.white : _player[curr - 1]['netCash'] < 0 ? Colors.red : Colors.green)),
+            ));
   }
 
   List<Hand> _dealerHands() {
@@ -243,20 +272,7 @@ class _CasinoState extends State<Casino> {
                           child: Row(
                             children: _hands(),
                           )),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-                        Container(
-                          child: Text(
-                            curr < _player.length
-                                ? '${_player[curr]['value'][0]}'
-                                : _player[curr - 1]['netCash'] == 0 ? 'Push' : '\$${_player[curr - 1]['netCash']}',
-                            style: GoogleFonts.ultra(
-                                fontSize: 24,
-                                color: curr < _player.length
-                                    ? Colors.white
-                                    : _player[curr - 1]['netCash'] < 0 ? Colors.red : Colors.green),
-                          ),
-                        ),
-                      ]),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: _handScore()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -275,6 +291,16 @@ class _CasinoState extends State<Casino> {
                                 !_standBtnDisabled
                                     ? setState(() {
                                         _stand();
+                                      })
+                                    : null;
+                              }),
+                          RaisedButton(
+                              child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                              color: Colors.black54,
+                              onPressed: () {
+                                _canSplit
+                                    ? setState(() {
+                                        _split();
                                       })
                                     : null;
                               })
