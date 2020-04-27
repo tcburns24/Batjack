@@ -202,7 +202,7 @@ class _CasinoState extends State<Casino> {
     return new List<Widget>.generate(
         _player.length,
         (int index) => Container(
-              child: Text('${_player[index]['value'][0]}',
+              child: Text(_player[index]['value'].length > 0 ? '${_player[index]['value'][0]}' : 'Bust',
                   style: GoogleFonts.ultra(
                       fontSize: 24,
                       color:

@@ -19,7 +19,7 @@ class _PlayingCardState extends State<PlayingCard> with SingleTickerProviderStat
 
   initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 700), vsync: this);
+    controller = AnimationController(duration: const Duration(milliseconds: 400), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
 //    animation.addStatusListener((status) {
