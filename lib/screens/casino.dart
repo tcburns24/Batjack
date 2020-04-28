@@ -27,7 +27,7 @@ class _CasinoState extends State<Casino> {
   // 1) State
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = true;
+  bool _canSplit = false;
   int curr = 0;
   int _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -50,9 +50,9 @@ class _CasinoState extends State<Casino> {
   }
 
   Map<int, Map<String, dynamic>> _handResults = {
-    -1: {'text': 'You Lose, Batman', 'color': BatmanColors.red},
+    -1: {'text': 'Lose', 'color': BatmanColors.red},
     0: {'text': '0', 'color': Colors.white},
-    1: {'text': 'You Win, Batman', 'color': BatmanColors.green},
+    1: {'text': 'Win,', 'color': BatmanColors.green},
     2: {'text': 'Batjack!', 'color': BatmanColors.green},
     3: {'text': 'Push', 'color': BatmanColors.lightGrey}
   };
@@ -145,10 +145,18 @@ class _CasinoState extends State<Casino> {
     }
     _hit();
     _hit();
+
+    // Check if gambler was dealt a blackjack
     if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
+      _hitBtnEnabled = false;
       _gameInSession = false;
+    }
+
+    // Check if gambler can split()
+    if (_player[curr]['cards'][0].value == _player[curr]['cards'][1].value) {
+      _canSplit = true;
     }
   }
 
@@ -198,6 +206,7 @@ class _CasinoState extends State<Casino> {
       'netCash': 0
     });
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
+    _canSplit = false;
   }
 
   // 3) Widgets
@@ -213,9 +222,9 @@ class _CasinoState extends State<Casino> {
 //                  _player[index]['value'].length > 0
                 _gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
                 style: GoogleFonts.ultra(
-                  fontSize: 24,
-                  color: _handResults[_player[index]['result']]['color'],
-                ))));
+                    fontSize: 24,
+                    color: _handResults[_player[index]['result']]['color'],
+                    decoration: index == curr ? TextDecoration.underline : TextDecoration.none))));
   }
 
   List<Hand> _dealerHands() {
@@ -281,7 +290,7 @@ class _CasinoState extends State<Casino> {
                           child: Row(
                             children: _hands(),
                           )),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: _handScore()),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
