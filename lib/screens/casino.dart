@@ -97,11 +97,7 @@ class _CasinoState extends State<Casino> {
       }
     }
     _gameInSession = false;
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _reset();
-      });
-    });
+    print('🌝🌚_gameInsession = $_gameInSession');
   }
 
   void _hit() {
@@ -141,8 +137,8 @@ class _CasinoState extends State<Casino> {
     if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
+      _gameInSession = false;
     }
-    _standBtnDisabled = false;
   }
 
   void _stand() {
@@ -151,9 +147,8 @@ class _CasinoState extends State<Casino> {
       dealDealer();
     }
     if (curr == _player.length) {
-      _standBtnDisabled = true;
+      _gameInSession = false;
     }
-    print('❇️ after _stand(), curr = $curr, _standBtnDisabled == $_standBtnDisabled');
   }
 
   void dealDealer() {
@@ -285,14 +280,13 @@ class _CasinoState extends State<Casino> {
                                 setState(() {});
                               }),
                           RaisedButton(
-                              child: Text('Stand', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                              child: Text(_gameInSession ? 'Stand' : 'Play Again',
+                                  style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
                               color: Colors.black54,
                               onPressed: () {
-                                !_standBtnDisabled
-                                    ? setState(() {
-                                        _stand();
-                                      })
-                                    : null;
+                                setState(() {
+                                  _gameInSession ? _stand() : _reset();
+                                });
                               }),
                           RaisedButton(
                               child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
