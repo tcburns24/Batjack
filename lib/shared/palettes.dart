@@ -8,4 +8,6 @@ class BatmanColors {
   static const Color yellow = Color(0xfffdff00);
   static const Color jokerPurple = Color(0xff674099);
   static const Color jokerGreen = Color(0xff7AAE3D);
+  static const Color red = Color(0xffb85656);
+  static const Color green = Color(0xff5fd488);
 }

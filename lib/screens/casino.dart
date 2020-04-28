@@ -4,6 +4,7 @@ import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/deck.dart';
 import 'package:blacktom/shared/hand.dart';
+import 'package:blacktom/shared/palettes.dart';
 import 'package:blacktom/shared/playing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,7 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   bool _gameInSession = false;
-  bool _standBtnDisabled = true;
+  bool _hitBtnEnabled = true;
   bool _canSplit = true;
   int curr = 0;
   int _bet = 25;
@@ -48,7 +49,13 @@ class _CasinoState extends State<Casino> {
     return Random().nextInt(deck.length);
   }
 
-  Map<int, String> _handResults = {-1: 'You Lose, Batman', 0: 'Push', 1: 'You Win, Batman', 2: 'Batjack!'};
+  Map<int, Map<String, dynamic>> _handResults = {
+    -1: {'text': 'You Lose, Batman', 'color': BatmanColors.red},
+    0: {'text': '0', 'color': Colors.white},
+    1: {'text': 'You Win, Batman', 'color': BatmanColors.green},
+    2: {'text': 'Batjack!', 'color': BatmanColors.green},
+    3: {'text': 'Push', 'color': BatmanColors.lightGrey}
+  };
 
 //  void _bank() async {
 //    var user = Provider.of<User>(context);
@@ -57,6 +64,7 @@ class _CasinoState extends State<Casino> {
 
   void _reset() {
     print('🦒🦒_reset() called.');
+    _hitBtnEnabled = true;
     curr = 0;
     _player = [
       {
@@ -82,6 +90,8 @@ class _CasinoState extends State<Casino> {
         } else if (_player[i]['value'][0] < _dealer['value'][0]) {
           print('🤑 _player (${_player[i]['value'][0]}) < _dealer (${_dealer['value'][0]}). Dealer wins.');
           _player[i]['result'] = -1;
+        } else {
+          _player[i]['result'] = 3;
         }
       }
     }
@@ -117,6 +127,7 @@ class _CasinoState extends State<Casino> {
         _player[curr]['result'] = -1;
         curr += 1;
         if (curr == _player.length) {
+          _hitBtnEnabled = false;
           dealDealer();
         }
       }
@@ -147,6 +158,7 @@ class _CasinoState extends State<Casino> {
       dealDealer();
     }
     if (curr == _player.length) {
+      _hitBtnEnabled = false;
       _gameInSession = false;
     }
   }
@@ -197,12 +209,13 @@ class _CasinoState extends State<Casino> {
     return new List<Widget>.generate(
         _player.length,
         (int index) => Container(
-              child: Text(_player[index]['value'].length > 0 ? '${_player[index]['value'][0]}' : 'Bust',
-                  style: GoogleFonts.ultra(
-                      fontSize: 24,
-                      color:
-                          curr < _player.length ? Colors.white : _player[curr - 1]['netCash'] < 0 ? Colors.red : Colors.green)),
-            ));
+            child: Text(
+//                  _player[index]['value'].length > 0
+                _gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
+                style: GoogleFonts.ultra(
+                  fontSize: 24,
+                  color: _handResults[_player[index]['result']]['color'],
+                ))));
   }
 
   List<Hand> _dealerHands() {
@@ -261,6 +274,7 @@ class _CasinoState extends State<Casino> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      Row(/* Maybe hand result text */),
                       Container(
                           padding: EdgeInsets.only(left: 4, right: 4),
                           height: 100,
@@ -276,7 +290,7 @@ class _CasinoState extends State<Casino> {
                                   style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
                               color: Colors.black54,
                               onPressed: () {
-                                _gameInSession ? _hit() : _beginPlay();
+                                _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
                                 setState(() {});
                               }),
                           RaisedButton(
