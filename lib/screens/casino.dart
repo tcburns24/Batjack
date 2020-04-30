@@ -58,15 +58,6 @@ class _CasinoState extends State<Casino> {
     3: {'text': 'Push', 'color': BatmanColors.lightGrey}
   };
 
-  Future _bank(BuildContext context, int netCash) async {
-    var user = Provider.of<User>(context, listen: false);
-    int currentCash;
-    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
-    print('💎💎 currentCash + netCash = ${currentCash + netCash}');
-    currentCash += netCash;
-    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': currentCash});
-  }
-
   void _reset() {
     print('🦒🦒_reset() called.');
     _hitBtnEnabled = true;
@@ -83,6 +74,43 @@ class _CasinoState extends State<Casino> {
       'cards': [],
       'value': [0],
     };
+  }
+
+  Future _bank(BuildContext context) async {
+    var user = Provider.of<User>(context, listen: false);
+    int currentCash;
+    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
+    print('💎💎 currentCash starts as ${currentCash}');
+
+    print('🐉🐲🐉 _bank called.');
+    for (int i = 0; i < _player.length; i++) {
+      if (_player[i]['result'] == 0) {
+        if (_player[i]['value'][0] > _dealer['value'][0]) {
+          print('🤑 _player (${_player[i]['value'][0]}) > _dealer (${_dealer['value'][0]}). Player wins.');
+          _player[i]['result'] = 1;
+        } else if (_player[i]['value'][0] < _dealer['value'][0]) {
+          print('🤑 _player (${_player[i]['value'][0]}) < _dealer (${_dealer['value'][0]}). Dealer wins.');
+          _player[i]['result'] = -1;
+        } else {
+          _player[i]['result'] = 3;
+        }
+      }
+    }
+    for (int i = 0; i < _player.length; i++) {
+      print('🐉 i = $i');
+      if (_player[i]['result'] == -1) {
+        currentCash -= _bet;
+        print('🤑 _player loses ${_player[i]['netCash']}');
+      } else if (_player[i]['result'] == 1) {
+        print('🤑 _player wins ${_player[i]['netCash']}');
+        currentCash += _bet;
+      } else if (_player[i]['result'] == 2) {
+        currentCash += (_bet * 2);
+      }
+      print('🌝🌚 now currentCash = ${currentCash}');
+    }
+    _gameInSession = false;
+    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': currentCash});
   }
 
   void _evaluate() {
@@ -113,7 +141,6 @@ class _CasinoState extends State<Casino> {
         _player[i]['netCash'] += (_bet * 1.5);
       }
       print('🌝🌚_banking ${_player[i]['netCash']}');
-      _bank(context, _player[i]['netCash']);
     }
     _gameInSession = false;
   }
@@ -199,7 +226,7 @@ class _CasinoState extends State<Casino> {
         }
       }
     }
-    _evaluate();
+    _bank(context);
   }
 
   void _split() {
