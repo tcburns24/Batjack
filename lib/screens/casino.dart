@@ -6,6 +6,7 @@ import 'package:blacktom/shared/deck.dart';
 import 'package:blacktom/shared/hand.dart';
 import 'package:blacktom/shared/palettes.dart';
 import 'package:blacktom/shared/playing_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -52,15 +53,19 @@ class _CasinoState extends State<Casino> {
   Map<int, Map<String, dynamic>> _handResults = {
     -1: {'text': 'Lose', 'color': BatmanColors.red},
     0: {'text': '0', 'color': Colors.white},
-    1: {'text': 'Win,', 'color': BatmanColors.green},
+    1: {'text': 'Win', 'color': BatmanColors.green},
     2: {'text': 'Batjack!', 'color': BatmanColors.green},
     3: {'text': 'Push', 'color': BatmanColors.lightGrey}
   };
 
-//  void _bank() async {
-//    var user = Provider.of<User>(context);
-//    await DatabaseService(uid: user.uid).updateUserData(userData.username, userData.chips + 100, userData.level);
-//  }
+  Future _bank(BuildContext context, int netCash) async {
+    var user = Provider.of<User>(context, listen: false);
+    int currentCash;
+    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
+    print('💎💎 currentCash + netCash = ${currentCash + netCash}');
+    currentCash += netCash;
+    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': currentCash});
+  }
 
   void _reset() {
     print('🦒🦒_reset() called.');
@@ -95,7 +100,9 @@ class _CasinoState extends State<Casino> {
         }
       }
     }
+
     for (int i = 0; i < _player.length; i++) {
+      print('🐉🐲 i = $i');
       if (_player[i]['result'] == -1) {
         _player[i]['netCash'] -= _bet;
         print('🤑 _player loses ${_player[i]['netCash']}');
@@ -105,9 +112,10 @@ class _CasinoState extends State<Casino> {
       } else if (_player[i]['result'] == 2) {
         _player[i]['netCash'] += (_bet * 1.5);
       }
+      print('🌝🌚_banking ${_player[i]['netCash']}');
+      _bank(context, _player[i]['netCash']);
     }
     _gameInSession = false;
-    print('🌝🌚_gameInsession = $_gameInSession');
   }
 
   void _hit() {
@@ -218,9 +226,7 @@ class _CasinoState extends State<Casino> {
     return new List<Widget>.generate(
         _player.length,
         (int index) => Container(
-            child: Text(
-//                  _player[index]['value'].length > 0
-                _gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
+            child: Text(_gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
                 style: GoogleFonts.ultra(
                     fontSize: 24,
                     color: _handResults[_player[index]['result']]['color'],
@@ -244,6 +250,7 @@ class _CasinoState extends State<Casino> {
             backgroundColor: widget.appBarColor,
           ),
           body: Container(
+              padding: EdgeInsets.only(bottom: 14),
               decoration: BoxDecoration(
                 gradient: widget.bgGradient,
               ),
