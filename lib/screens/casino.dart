@@ -26,6 +26,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
+  final _formKey = GlobalKey<FormState>();
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
@@ -285,20 +286,44 @@ class _CasinoState extends State<Casino> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            RaisedButton(
-                child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  _canSplit
-                      ? setState(() {
-                          _split();
-                        })
-                      : null;
-                }),
-            RaisedButton(
-                child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {})
+            Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: RaisedButton(
+                  child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                  color: Colors.black54,
+                  onPressed: () {
+                    _canSplit
+                        ? setState(() {
+                            _split();
+                          })
+                        : null;
+                  }),
+            ),
+            Container(
+              width: 125,
+              height: 45,
+//                padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: '\$$_bet',
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: BatmanColors.yellow)),
+                  ),
+                  style: GoogleFonts.geo(color: Colors.white, fontSize: 20),
+                  textAlign: TextAlign.center,
+                  showCursor: false,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: RaisedButton(
+                  child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                  color: Colors.black54,
+                  onPressed: () {}),
+            )
           ],
         ),
         Row(
