@@ -253,6 +253,7 @@ class _CasinoState extends State<Casino> {
     return new List<Widget>.generate(
         _player.length,
         (int index) => Container(
+            padding: EdgeInsets.only(bottom: 16),
             child: Text(_gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
                 style: GoogleFonts.ultra(
                     fontSize: 24,
@@ -262,6 +263,59 @@ class _CasinoState extends State<Casino> {
 
   List<Hand> _dealerHands() {
     return new List<Hand>.generate(1, (int index) => Hand(cards: _dealer['cards']));
+  }
+
+  Widget _playerCommand() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+                child: Text(_gameInSession ? 'Hit' : 'Deal', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {
+                  _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
+                  setState(() {});
+                })
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+                child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {
+                  _canSplit
+                      ? setState(() {
+                          _split();
+                        })
+                      : null;
+                }),
+            RaisedButton(
+                child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {})
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+                child: Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {
+                  setState(() {
+                    _gameInSession ? _stand() : _reset();
+                  });
+                })
+          ],
+        ),
+      ],
+    );
   }
 
   @override
@@ -285,78 +339,45 @@ class _CasinoState extends State<Casino> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                      child: CircleAvatar(
-                    radius: MediaQuery.of(context).size.width / 7,
-                    backgroundImage: AssetImage(widget.dealerImage),
-                  )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
-                        style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
-                      )
+                      Container(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: CircleAvatar(
+                            radius: MediaQuery.of(context).size.width / 7,
+                            backgroundImage: AssetImage(widget.dealerImage),
+                          )),
+                      Container(
+                          padding: EdgeInsets.only(left: 4, right: 4),
+                          height: 120,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: _dealerHands(),
+                          )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
+                            style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
+                          )
+                        ],
+                      ),
                     ],
                   ),
-                  Container(
-                      padding: EdgeInsets.only(left: 4, right: 4),
-                      height: 130,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: _dealerHands(),
-                      )),
-                  Container(
-                      child: FlatButton(
-                    child: Text('+100 chips', style: GoogleFonts.fenix(color: Colors.white)),
-                    onPressed: () async {
-                      await DatabaseService(uid: user.uid)
-                          .updateUserData(userData.username, userData.chips + 100, userData.level);
-                    },
-                  )),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Row(/* Maybe hand result text */),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
                       Container(
                           padding: EdgeInsets.only(left: 4, right: 4),
-                          height: 100,
+                          height: 120,
                           child: Row(
                             children: _hands(),
                           )),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          RaisedButton(
-                              child: Text(_gameInSession ? 'Hit' : 'Deal',
-                                  style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                              color: Colors.black54,
-                              onPressed: () {
-                                _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
-                                setState(() {});
-                              }),
-                          RaisedButton(
-                              child: Text(_gameInSession ? 'Stand' : 'Play Again',
-                                  style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                              color: Colors.black54,
-                              onPressed: () {
-                                setState(() {
-                                  _gameInSession ? _stand() : _reset();
-                                });
-                              }),
-                          RaisedButton(
-                              child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                              color: Colors.black54,
-                              onPressed: () {
-                                _canSplit
-                                    ? setState(() {
-                                        _split();
-                                      })
-                                    : null;
-                              })
-                        ],
-                      )
+                      _playerCommand()
                     ],
                   ),
                 ],
