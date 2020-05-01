@@ -26,7 +26,8 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
-  final _formKey = GlobalKey<FormState>();
+  TextEditingController _tff = new TextEditingController();
+  bool _tffEnabled = true;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
@@ -303,18 +304,17 @@ class _CasinoState extends State<Casino> {
               width: 125,
               height: 45,
 //                padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
-              child: Form(
-                key: _formKey,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: '\$$_bet',
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: BatmanColors.yellow)),
-                  ),
-                  style: GoogleFonts.geo(color: Colors.white, fontSize: 20),
-                  textAlign: TextAlign.center,
-                  showCursor: false,
+              child: TextFormField(
+                enabled: !_gameInSession,
+                keyboardType: TextInputType.numberWithOptions(),
+                decoration: InputDecoration(
+                  hintText: '\$$_bet',
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: BatmanColors.yellow)),
                 ),
+                style: GoogleFonts.geo(color: Colors.white, fontSize: 20),
+                textAlign: TextAlign.center,
+                showCursor: false,
               ),
             ),
             Padding(
@@ -355,58 +355,61 @@ class _CasinoState extends State<Casino> {
             title: Text(widget.casinoName),
             backgroundColor: widget.appBarColor,
           ),
-          body: Container(
-              padding: EdgeInsets.only(bottom: 14),
-              decoration: BoxDecoration(
-                gradient: widget.bgGradient,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: CircleAvatar(
-                            radius: MediaQuery.of(context).size.width / 7,
-                            backgroundImage: AssetImage(widget.dealerImage),
-                          )),
-                      Container(
-                          padding: EdgeInsets.only(left: 4, right: 4),
-                          height: 120,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: _dealerHands(),
-                          )),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
-                            style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
-                      Container(
-                          padding: EdgeInsets.only(left: 4, right: 4),
-                          height: 120,
-                          child: Row(
-                            children: _hands(),
-                          )),
-                      _playerCommand()
-                    ],
-                  ),
-                ],
-              )),
+          body: SingleChildScrollView(
+            child: Container(
+                height: MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + 56),
+                padding: EdgeInsets.only(bottom: 14),
+                decoration: BoxDecoration(
+                  gradient: widget.bgGradient,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(bottom: 16),
+                            child: CircleAvatar(
+                              radius: MediaQuery.of(context).size.width / 7,
+                              backgroundImage: AssetImage(widget.dealerImage),
+                            )),
+                        Container(
+                            padding: EdgeInsets.only(left: 4, right: 4),
+                            height: 120,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: _dealerHands(),
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
+                              style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
+                        Container(
+                            padding: EdgeInsets.only(left: 4, right: 4),
+                            height: 120,
+                            child: Row(
+                              children: _hands(),
+                            )),
+                        _playerCommand()
+                      ],
+                    ),
+                  ],
+                )),
+          ),
         );
       },
     );
