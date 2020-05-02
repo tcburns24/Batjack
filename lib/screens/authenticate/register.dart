@@ -46,120 +46,122 @@ class _RegisterState extends State<Register> {
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 8, bottom: 12),
-                        child: Image.asset('assets/batman_logos/yellow_bg.png', height: batLogoHeight, width: batLogoWidth),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 12, bottom: 12),
-                          child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
-                      TextFormField(
-                        style: GoogleFonts.oxanium(color: BatmanColors.yellow),
-                        onChanged: (val) {
-                          setState(() {
-                            email = val;
-                          });
-                        },
-                        validator: (val) =>
-                            !_isValidEmail(val) ? 'You underestimate Batcave security. Enter a real email.' : null,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: BatmanColors.black),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: BatmanColors.black),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orangeAccent),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orangeAccent),
-                          ),
-                          labelText: 'Email',
-                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
-                          errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 8, bottom: 12),
+                          child: Image.asset('assets/batman_logos/yellow_bg.png', height: batLogoHeight, width: batLogoWidth),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        style: GoogleFonts.oxanium(color: BatmanColors.yellow),
-                        obscureText: true,
-                        onChanged: (val) {
-                          setState(() {
-                            password = val;
-                          });
-                        },
-                        validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: BatmanColors.black),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: BatmanColors.black),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orangeAccent),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide(color: Colors.orangeAccent),
-                          ),
-                          labelText: 'Password',
-                          labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
-                          errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      isLoading
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 6),
-                              child: Loading(
-                                bgColor: Colors.black,
-                                dotColor: BatmanColors.yellow,
-                              ))
-                          : RaisedButton(
-                              color: BatmanColors.black,
-                              textColor: BatmanColors.yellow,
-                              child: Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text('Sign Up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                                  side: BorderSide(color: BatmanColors.black)),
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                                  if (result == null) {
-                                    setState(() {
-                                      errorText = 'Try again';
-                                      isLoading = false;
-                                    });
-                                  }
-                                }
-                              },
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
+                        TextFormField(
+                          style: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          onChanged: (val) {
+                            setState(() {
+                              email = val;
+                            });
+                          },
+                          validator: (val) =>
+                              !_isValidEmail(val) ? 'You underestimate Batcave security. Enter a real email.' : null,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: BatmanColors.black),
                             ),
-                      SizedBox(height: 12),
-                      Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
-                      Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Container(
-                              child: GestureDetector(
-                            child: Text('Already signed up? Log in here.', style: GoogleFonts.oxanium(color: Colors.white)),
-                            onTap: () => widget.toggleView(),
-                          )))
-                    ],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: BatmanColors.black),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: Colors.orangeAccent),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: Colors.orangeAccent),
+                            ),
+                            labelText: 'Email',
+                            labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
+                            errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          style: GoogleFonts.oxanium(color: BatmanColors.yellow),
+                          obscureText: true,
+                          onChanged: (val) {
+                            setState(() {
+                              password = val;
+                            });
+                          },
+                          validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: BatmanColors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: BatmanColors.black),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: Colors.orangeAccent),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              borderSide: BorderSide(color: Colors.orangeAccent),
+                            ),
+                            labelText: 'Password',
+                            labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
+                            errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        isLoading
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 6),
+                                child: Loading(
+                                  bgColor: Colors.black,
+                                  dotColor: BatmanColors.yellow,
+                                ))
+                            : RaisedButton(
+                                color: BatmanColors.black,
+                                textColor: BatmanColors.yellow,
+                                child: Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text('Sign Up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                                    side: BorderSide(color: BatmanColors.black)),
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                                    if (result == null) {
+                                      setState(() {
+                                        errorText = 'Try again';
+                                        isLoading = false;
+                                      });
+                                    }
+                                  }
+                                },
+                              ),
+                        SizedBox(height: 12),
+                        Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
+                        Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: Container(
+                                child: GestureDetector(
+                              child: Text('Already signed up? Log in here.', style: GoogleFonts.oxanium(color: Colors.white)),
+                              onTap: () => widget.toggleView(),
+                            )))
+                      ],
+                    ),
                   ),
                 )),
           );

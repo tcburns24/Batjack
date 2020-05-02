@@ -8,6 +8,7 @@ import 'package:blacktom/shared/palettes.dart';
 import 'package:blacktom/shared/playing_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ class _CasinoState extends State<Casino> {
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
   int curr = 0;
-  int _bet = 25;
+  double _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
     {
       'cards': [],
@@ -80,7 +81,7 @@ class _CasinoState extends State<Casino> {
 
   Future _bank(BuildContext context) async {
     var user = Provider.of<User>(context, listen: false);
-    int currentCash;
+    double currentCash;
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
     print('💎💎 currentCash starts as ${currentCash}');
 
@@ -273,6 +274,46 @@ class _CasinoState extends State<Casino> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Icon(Icons.monetization_on, color: BatmanColors.darkGrey, size: 18),
+            ),
+            Expanded(
+                child: SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                  activeTrackColor: Colors.red[700],
+                  inactiveTrackColor: Colors.red[100],
+                  trackShape: RoundedRectSliderTrackShape(),
+                  trackHeight: 4.0,
+                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
+                  thumbColor: Colors.redAccent,
+                  overlayColor: Colors.red.withAlpha(32),
+                  overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
+                  tickMarkShape: RoundSliderTickMarkShape(),
+                  activeTickMarkColor: Colors.red[700],
+                  inactiveTickMarkColor: Colors.red[100],
+                  valueIndicatorShape: PaddleSliderValueIndicatorShape(),
+                  valueIndicatorColor: Colors.redAccent,
+                  valueIndicatorTextStyle: TextStyle(
+                    color: Colors.white,
+                  )),
+              child: Slider.adaptive(
+                  value: _bet,
+                  onChanged: (newBet) {
+                    setState(() {
+                      _bet = newBet;
+                    });
+                  },
+                  divisions: ((200 - 25) / 5).floor(),
+                  label: '$_bet',
+                  min: 25,
+                  max: 200),
+            ))
+          ],
+        ),
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
@@ -308,7 +349,11 @@ class _CasinoState extends State<Casino> {
                 enabled: !_gameInSession,
                 keyboardType: TextInputType.numberWithOptions(),
                 decoration: InputDecoration(
-                  hintText: '\$$_bet',
+                  prefixIcon: Icon(
+                    Icons.attach_money,
+                    color: BatmanColors.darkGrey,
+                  ),
+                  hintText: '${_bet.floor()}',
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: BatmanColors.yellow)),
                 ),
@@ -343,6 +388,51 @@ class _CasinoState extends State<Casino> {
     );
   }
 
+  Widget _dealerSection() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height / 4,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 6,
+                right: 8,
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width / 8,
+                  backgroundImage: AssetImage(widget.dealerImage),
+                ),
+              ),
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  height: 110,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _dealerHands(),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
+              style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -355,61 +445,33 @@ class _CasinoState extends State<Casino> {
             title: Text(widget.casinoName),
             backgroundColor: widget.appBarColor,
           ),
-          body: SingleChildScrollView(
-            child: Container(
-                height: MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + 56),
-                padding: EdgeInsets.only(bottom: 14),
-                decoration: BoxDecoration(
-                  gradient: widget.bgGradient,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            padding: EdgeInsets.only(bottom: 16),
-                            child: CircleAvatar(
-                              radius: MediaQuery.of(context).size.width / 7,
-                              backgroundImage: AssetImage(widget.dealerImage),
-                            )),
-                        Container(
-                            padding: EdgeInsets.only(left: 4, right: 4),
-                            height: 120,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _dealerHands(),
-                            )),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              _dealer['value'].length > 0 ? '${_dealer['value'][0]}' : 'Bust',
-                              style: GoogleFonts.ultra(fontSize: 24, color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
-                        Container(
-                            padding: EdgeInsets.only(left: 4, right: 4),
-                            height: 120,
-                            child: Row(
-                              children: _hands(),
-                            )),
-                        _playerCommand()
-                      ],
-                    ),
-                  ],
-                )),
-          ),
+          body: Container(
+              padding: EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                gradient: widget.bgGradient,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: _dealerSection(),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
+                      Container(
+                          padding: EdgeInsets.only(left: 4, right: 4),
+                          height: 120,
+                          child: Row(
+                            children: _hands(),
+                          )),
+                      _playerCommand()
+                    ],
+                  ),
+                ],
+              )),
         );
       },
     );

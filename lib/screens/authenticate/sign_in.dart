@@ -44,119 +44,121 @@ class _SignInState extends State<SignIn> {
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 8, bottom: 12),
-                  child: Image.asset('assets/batman_logos/white.png', height: batLogoHeight, width: batLogoWidth),
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 12),
-                    child: Container(
-                        child: Text('Sign in to Batjack', style: GoogleFonts.oxanium(fontSize: 20, color: Colors.white)))),
-                TextFormField(
-                  onChanged: (val) {
-                    setState(() {
-                      email = val;
-                    });
-                  },
-                  style: GoogleFonts.oxanium(color: Colors.white),
-                  validator: (val) => !_isValidEmail(val) ? 'You sure about that? 👆🏼' : null,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: BatmanColors.black),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: BatmanColors.black),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: Colors.orangeAccent),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: Colors.orangeAccent),
-                    ),
-                    labelText: 'Email',
-                    labelStyle: GoogleFonts.oxanium(color: BatmanColors.lightGrey),
-                    errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 8, bottom: 12),
+                    child: Image.asset('assets/batman_logos/white.png', height: batLogoHeight, width: batLogoWidth),
                   ),
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  style: GoogleFonts.oxanium(color: Colors.white),
-                  obscureText: true,
-                  onChanged: (val) {
-                    setState(() {
-                      password = val;
-                    });
-                  },
-                  validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: BatmanColors.black),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: BatmanColors.black),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: Colors.orangeAccent),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      borderSide: BorderSide(color: Colors.orangeAccent),
-                    ),
-                    labelText: 'Password',
-                    labelStyle: GoogleFonts.oxanium(color: BatmanColors.lightGrey),
-                    errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
-                  ),
-                ),
-                SizedBox(height: 20),
-                isLoading
-                    ? Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child: Loading(
-                          bgColor: Colors.black,
-                          dotColor: Colors.white,
-                        ))
-                    : RaisedButton(
-                        color: BatmanColors.black,
-                        textColor: Colors.white,
-                        child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text('Sign In', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                errorText = 'That\'s not your password. Hopefully Alfred wrote it on a post-it note.';
-                                isLoading = false;
-                              });
-                            }
-                          }
-                        },
+                  Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                      child: Container(
+                          child: Text('Sign in to Batjack', style: GoogleFonts.oxanium(fontSize: 20, color: Colors.white)))),
+                  TextFormField(
+                    onChanged: (val) {
+                      setState(() {
+                        email = val;
+                      });
+                    },
+                    style: GoogleFonts.oxanium(color: Colors.white),
+                    validator: (val) => !_isValidEmail(val) ? 'You sure about that? 👆🏼' : null,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: BatmanColors.black),
                       ),
-                SizedBox(height: 12),
-                Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
-                Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: Container(
-                        child: GestureDetector(
-                      child: Text('New to Batjack? Sign up here.', style: GoogleFonts.oxanium(color: Colors.white)),
-                      onTap: () => widget.toggleView(),
-                    )))
-              ],
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: BatmanColors.black),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: Colors.orangeAccent),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: Colors.orangeAccent),
+                      ),
+                      labelText: 'Email',
+                      labelStyle: GoogleFonts.oxanium(color: BatmanColors.lightGrey),
+                      errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    style: GoogleFonts.oxanium(color: Colors.white),
+                    obscureText: true,
+                    onChanged: (val) {
+                      setState(() {
+                        password = val;
+                      });
+                    },
+                    validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: BatmanColors.black),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: BatmanColors.black),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: Colors.orangeAccent),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(color: Colors.orangeAccent),
+                      ),
+                      labelText: 'Password',
+                      labelStyle: GoogleFonts.oxanium(color: BatmanColors.lightGrey),
+                      errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  isLoading
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: Loading(
+                            bgColor: Colors.black,
+                            dotColor: Colors.white,
+                          ))
+                      : RaisedButton(
+                          color: BatmanColors.black,
+                          textColor: Colors.white,
+                          child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text('Sign In', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                              if (result == null) {
+                                setState(() {
+                                  errorText = 'That\'s not your password. Hopefully Alfred wrote it on a post-it note.';
+                                  isLoading = false;
+                                });
+                              }
+                            }
+                          },
+                        ),
+                  SizedBox(height: 12),
+                  Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
+                  Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: Container(
+                          child: GestureDetector(
+                        child: Text('New to Batjack? Sign up here.', style: GoogleFonts.oxanium(color: Colors.white)),
+                        onTap: () => widget.toggleView(),
+                      )))
+                ],
+              ),
             ),
           )),
     );
