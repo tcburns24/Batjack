@@ -394,14 +394,14 @@ class _CasinoState extends State<Casino> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height / 4,
+          height: 115,
           child: Stack(
             children: <Widget>[
               Positioned(
                 top: 6,
                 right: 8,
                 child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width / 8,
+                  radius: 48,
                   backgroundImage: AssetImage(widget.dealerImage),
                 ),
               ),
@@ -433,6 +433,21 @@ class _CasinoState extends State<Casino> {
     );
   }
 
+  Widget _playerSection() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            padding: EdgeInsets.only(left: 4, right: 4),
+            height: 120,
+            child: Row(
+              children: _hands(),
+            )),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -457,19 +472,25 @@ class _CasinoState extends State<Casino> {
                   Expanded(
                     child: _dealerSection(),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
-                      Container(
-                          padding: EdgeInsets.only(left: 4, right: 4),
-                          height: 120,
-                          child: Row(
-                            children: _hands(),
-                          )),
-                      _playerCommand()
-                    ],
+                  Expanded(
+                    child: _playerSection(),
                   ),
+                  Expanded(
+                    child: _playerCommand(),
+                  )
+//                  Column(
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
+//                      Container(
+//                          padding: EdgeInsets.only(left: 4, right: 4),
+//                          height: 120,
+//                          child: Row(
+//                            children: _hands(),
+//                          )),
+//                      _playerCommand()
+//                    ],
+//                  ),
                 ],
               )),
         );
