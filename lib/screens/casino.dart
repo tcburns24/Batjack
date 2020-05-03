@@ -166,6 +166,7 @@ class _CasinoState extends State<Casino> {
         curr += 1;
         if (curr == _player.length) {
           _hitBtnEnabled = false;
+          _gameInSession = false;
           dealDealer();
         }
       }
