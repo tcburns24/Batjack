@@ -270,9 +270,81 @@ class _CasinoState extends State<Casino> {
   }
 
   Widget _playerCommand() {
-    return Column(
+    Widget avatar = Container(
+        child: CircleAvatar(
+      radius: 32,
+      backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+    ));
+    Widget buttons = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+                child: Text(_gameInSession ? 'Hit' : 'Deal', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {
+                  _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
+                  setState(() {});
+                })
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 6),
+                child: RaisedButton(
+                    child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                    color: Colors.black54,
+                    onPressed: () {
+                      _canSplit
+                          ? setState(() {
+                              _split();
+                            })
+                          : null;
+                    }),
+              ),
+            ),
+            Expanded(
+                child: Container(
+                    child: Text(
+              '\$${_bet.floor()}',
+              style: GoogleFonts.vastShadow(color: Colors.white, fontSize: 20),
+              textAlign: TextAlign.center,
+            ))),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 6),
+                child: RaisedButton(
+                    child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                    color: Colors.black54,
+                    onPressed: () {}),
+              ),
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+                child: Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                color: Colors.black54,
+                onPressed: () {
+                  setState(() {
+                    _gameInSession ? _stand() : _reset();
+                  });
+                })
+          ],
+        ),
+      ],
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -315,76 +387,10 @@ class _CasinoState extends State<Casino> {
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-                child: Text(_gameInSession ? 'Hit' : 'Deal', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
-                  setState(() {});
-                })
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: RaisedButton(
-                  child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                  color: Colors.black54,
-                  onPressed: () {
-                    _canSplit
-                        ? setState(() {
-                            _split();
-                          })
-                        : null;
-                  }),
-            ),
-            Container(
-              width: 125,
-              height: 45,
-//                padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
-              child: TextFormField(
-                enabled: !_gameInSession,
-                keyboardType: TextInputType.numberWithOptions(),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.attach_money,
-                    color: BatmanColors.darkGrey,
-                  ),
-                  hintText: '${_bet.floor()}',
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: BatmanColors.yellow)),
-                ),
-                style: GoogleFonts.geo(color: Colors.white, fontSize: 20),
-                textAlign: TextAlign.center,
-                showCursor: false,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: RaisedButton(
-                  child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                  color: Colors.black54,
-                  onPressed: () {}),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-                child: Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  setState(() {
-                    _gameInSession ? _stand() : _reset();
-                  });
-                })
-          ],
-        ),
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[avatar, Expanded(child: buttons)],
+        )
       ],
     );
   }
