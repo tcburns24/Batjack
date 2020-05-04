@@ -1,12 +1,12 @@
 import 'package:blacktom/shared/palettes.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BatButton extends StatelessWidget {
-  BatButton({this.enabledBool, this.tapFunc, this.text, this.textStyle});
+  BatButton({this.enabledBool, this.tapFunc, this.text});
   final bool enabledBool;
   final Function tapFunc;
   final String text;
-  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class BatButton extends StatelessWidget {
           side: BorderSide(color: enabledBool == true ? BatmanColors.yellow : BatmanColors.darkGrey, width: 2.0)),
       color: BatmanColors.black,
       textColor: enabledBool == true ? BatmanColors.yellow : BatmanColors.lightGrey,
-      child: Text(text, style: textStyle),
-      onPressed: tapFunc,
+      child: Text(text, style: GoogleFonts.oxanium(fontSize: 16)),
+      onPressed: enabledBool == true ? tapFunc : () {},
     );
   }
 }

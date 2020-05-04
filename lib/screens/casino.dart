@@ -284,12 +284,11 @@ class _CasinoState extends State<Casino> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-                child: Text(_gameInSession ? 'Hit' : 'Deal', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
-                  setState(() {});
+            BatButton(
+                enabledBool: _hitBtnEnabled,
+                text: _gameInSession ? 'Hit' : 'Deal',
+                tapFunc: () {
+                  (_gameInSession ? _hit() : _beginPlay());
                 })
           ],
         ),
@@ -298,24 +297,22 @@ class _CasinoState extends State<Casino> {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 6),
-                child: RaisedButton(
-                    child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                    color: Colors.black54,
-                    onPressed: () {
-                      _canSplit
-                          ? setState(() {
-                              _split();
-                            })
-                          : null;
-                    }),
-              ),
+                  padding: EdgeInsets.only(left: 6),
+                  child: BatButton(
+                    enabledBool: _canSplit,
+                    text: 'Split',
+                    tapFunc: () {
+                      setState(() {
+                        _split();
+                      });
+                    },
+                  )),
             ),
             Expanded(
                 child: Container(
                     child: Text(
               '\$${_bet.floor()}',
-              style: GoogleFonts.vastShadow(color: Colors.white, fontSize: 20),
+              style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20),
               textAlign: TextAlign.center,
             ))),
             Expanded(
@@ -323,7 +320,6 @@ class _CasinoState extends State<Casino> {
                 padding: EdgeInsets.only(right: 6),
                 child: BatButton(
                   text: 'Double',
-                  textStyle: GoogleFonts.risque(fontSize: 14),
                   tapFunc: () {},
                 ),
               ),
@@ -333,15 +329,24 @@ class _CasinoState extends State<Casino> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-                child:
-                    Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.roboto(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  setState(() {
-                    _gameInSession ? _stand() : _reset();
-                  });
-                })
+            BatButton(
+              enabledBool: _gameInSession,
+              text: _gameInSession ? 'Stand' : 'Play Again',
+              tapFunc: () {
+                setState(() {
+                  _gameInSession ? _stand() : _reset();
+                });
+              },
+            )
+//            RaisedButton(
+//                child:
+//                    Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.roboto(color: Colors.white, fontSize: 16)),
+//                color: Colors.black54,
+//                onPressed: () {
+//                  setState(() {
+//                    _gameInSession ? _stand() : _reset();
+//                  });
+//                })
           ],
         ),
       ],
