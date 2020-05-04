@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:blacktom/models/bat_button.dart';
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/deck.dart';
@@ -320,10 +321,11 @@ class _CasinoState extends State<Casino> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: 6),
-                child: RaisedButton(
-                    child: Text('Double', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                    color: Colors.black54,
-                    onPressed: () {}),
+                child: BatButton(
+                  text: 'Double',
+                  textStyle: GoogleFonts.risque(fontSize: 14),
+                  tapFunc: () {},
+                ),
               ),
             )
           ],
@@ -332,7 +334,8 @@ class _CasinoState extends State<Casino> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
-                child: Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
+                child:
+                    Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.roboto(color: Colors.white, fontSize: 16)),
                 color: Colors.black54,
                 onPressed: () {
                   setState(() {
