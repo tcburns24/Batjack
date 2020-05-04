@@ -271,10 +271,11 @@ class _CasinoState extends State<Casino> {
 
   Widget _playerCommand() {
     Widget avatar = Container(
+        padding: EdgeInsets.only(left: 6),
         child: CircleAvatar(
-      radius: 32,
-      backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
-    ));
+          radius: 32,
+          backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+        ));
     Widget buttons = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
