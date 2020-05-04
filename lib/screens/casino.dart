@@ -28,8 +28,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
-  TextEditingController _tff = new TextEditingController();
-  bool _tffEnabled = true;
+  bool _canDouble = false;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
@@ -284,13 +283,14 @@ class _CasinoState extends State<Casino> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-                child: Text(_gameInSession ? 'Hit' : 'Deal', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : null;
-                  setState(() {});
-                })
+            BatButton(
+              text: _gameInSession ? 'Hit' : 'Deal',
+              enabledBool: _hitBtnEnabled,
+              tapFunc: () {
+                _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {};
+                setState(() {});
+              },
+            )
           ],
         ),
         Row(
@@ -298,18 +298,18 @@ class _CasinoState extends State<Casino> {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 6),
-                child: RaisedButton(
-                    child: Text('Split', style: GoogleFonts.kreon(color: Colors.white, fontSize: 16)),
-                    color: Colors.black54,
-                    onPressed: () {
+                  padding: EdgeInsets.only(left: 6),
+                  child: BatButton(
+                    text: 'Split',
+                    enabledBool: _canSplit,
+                    tapFunc: () {
                       _canSplit
                           ? setState(() {
                               _split();
                             })
-                          : null;
-                    }),
-              ),
+                          : () {};
+                    },
+                  )),
             ),
             Expanded(
                 child: Container(
@@ -322,8 +322,8 @@ class _CasinoState extends State<Casino> {
               child: Padding(
                 padding: EdgeInsets.only(right: 6),
                 child: BatButton(
+                  enabledBool: _canDouble,
                   text: 'Double',
-                  textStyle: GoogleFonts.risque(fontSize: 14),
                   tapFunc: () {},
                 ),
               ),
@@ -333,15 +333,15 @@ class _CasinoState extends State<Casino> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-                child:
-                    Text(_gameInSession ? 'Stand' : 'Play Again', style: GoogleFonts.roboto(color: Colors.white, fontSize: 16)),
-                color: Colors.black54,
-                onPressed: () {
-                  setState(() {
-                    _gameInSession ? _stand() : _reset();
-                  });
-                })
+            BatButton(
+              text: _gameInSession ? 'Stand' : 'Play Again',
+              enabledBool: 2 > 1,
+              tapFunc: () {
+                setState(() {
+                  _gameInSession ? _stand() : _reset();
+                });
+              },
+            )
           ],
         ),
       ],
