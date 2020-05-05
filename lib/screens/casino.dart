@@ -28,6 +28,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
+  int _playerCash;
   bool _canDouble = false;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
@@ -61,6 +62,18 @@ class _CasinoState extends State<Casino> {
     3: {'text': 'Push', 'color': BatmanColors.lightGrey}
   };
 
+  void _getUserChips() async {
+    var user = Provider.of<User>(context, listen: false);
+    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => _playerCash = doc.data['chips']);
+    print('❎❎🥃_playerCAsh = $_playerCash');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserChips();
+  }
+
   void _reset() {
     print('🦒🦒_reset() called.');
     _hitBtnEnabled = true;
@@ -81,7 +94,7 @@ class _CasinoState extends State<Casino> {
 
   Future _bank(BuildContext context) async {
     var user = Provider.of<User>(context, listen: false);
-    double currentCash;
+    int currentCash;
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
     print('💎💎 currentCash starts as ${currentCash}');
 
@@ -102,13 +115,16 @@ class _CasinoState extends State<Casino> {
     for (int i = 0; i < _player.length; i++) {
       print('🐉 i = $i');
       if (_player[i]['result'] == -1) {
-        currentCash -= _bet;
+        currentCash -= _bet.floor();
+        _playerCash -= _bet.floor();
         print('🤑 _player loses ${_player[i]['netCash']}');
       } else if (_player[i]['result'] == 1) {
         print('🤑 _player wins ${_player[i]['netCash']}');
-        currentCash += _bet;
+        currentCash += _bet.floor();
+        _playerCash += _bet.floor();
       } else if (_player[i]['result'] == 2) {
-        currentCash += (_bet * 2);
+        currentCash += (_bet * 2).floor();
+        _playerCash += (_bet * 2).floor();
       }
       print('🌝🌚 now currentCash = ${currentCash}');
     }
@@ -272,12 +288,19 @@ class _CasinoState extends State<Casino> {
   Widget _playerCommand() {
     Widget avatar = Container(
         padding: EdgeInsets.only(left: 6),
-        child: CircleAvatar(
-          radius: 32,
-          backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CircleAvatar(
+              radius: 32,
+              backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+            ),
+            Text('$_playerCash')
+          ],
         ));
     Widget buttons = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Row(
