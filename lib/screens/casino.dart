@@ -289,14 +289,21 @@ class _CasinoState extends State<Casino> {
     Widget avatar = Container(
         padding: EdgeInsets.only(left: 6),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             CircleAvatar(
               radius: 32,
               backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
             ),
-            Text('$_playerCash')
+            Container(
+              padding: EdgeInsets.only(top: 6),
+              child: Text(
+                '\$$_playerCash',
+                style: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
+                textAlign: TextAlign.center,
+              ),
+            )
           ],
         ));
     Widget buttons = Column(
@@ -401,11 +408,13 @@ class _CasinoState extends State<Casino> {
                   )),
               child: Slider.adaptive(
                   value: _bet,
-                  onChanged: (newBet) {
-                    setState(() {
-                      _bet = newBet;
-                    });
-                  },
+                  onChanged: !_gameInSession
+                      ? (newBet) {
+                          setState(() {
+                            _bet = newBet;
+                          });
+                        }
+                      : null,
                   divisions: ((200 - 25) / 5).floor(),
                   label: '$_bet',
                   min: 25,
