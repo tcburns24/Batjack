@@ -32,7 +32,7 @@ class _CasinoState extends State<Casino> {
   bool _canDouble = false;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = false;
+  bool _canSplit = true;
   int curr = 0;
   double _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -114,22 +114,22 @@ class _CasinoState extends State<Casino> {
     }
     for (int i = 0; i < _player.length; i++) {
       print('🐉 i = $i');
-      if (_player[i]['result'] == -1) {
-        currentCash -= _bet.floor();
-        _playerCash -= _bet.floor();
+      if (_player[i]['result'] == 3) {
+        currentCash += _bet.floor();
+        _playerCash += _bet.floor();
         print('🤑 _player loses ${_player[i]['netCash']}');
       } else if (_player[i]['result'] == 1) {
         print('🤑 _player wins ${_player[i]['netCash']}');
-        currentCash += _bet.floor();
-        _playerCash += _bet.floor();
-      } else if (_player[i]['result'] == 2) {
         currentCash += (_bet * 2).floor();
         _playerCash += (_bet * 2).floor();
+      } else if (_player[i]['result'] == 2) {
+        currentCash += (_bet * 3).floor();
+        _playerCash += (_bet * 3).floor();
       }
       print('🌝🌚 now currentCash = ${currentCash}');
     }
     _gameInSession = false;
-    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': currentCash});
+    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
   }
 
   void _evaluate() {
@@ -193,6 +193,7 @@ class _CasinoState extends State<Casino> {
 
   void _beginPlay() {
     _gameInSession = true;
+    _playerCash -= _bet.floor();
     PlayingCard card = deck[randomCard()];
     _dealer['cards'].add(card);
     for (int i = 0; i < _dealer['value'].length; i++) {
@@ -250,6 +251,7 @@ class _CasinoState extends State<Casino> {
   }
 
   void _split() {
+    _playerCash -= _bet.floor();
     PlayingCard splitCard = _player[0]['cards'][1];
     for (int i = 0; i < _player[0]['value'].length; i++) {
       _player[0]['value'][i] -= splitCard.value;
@@ -521,19 +523,6 @@ class _CasinoState extends State<Casino> {
                   Expanded(
                     child: _playerCommand(),
                   )
-//                  Column(
-//                    mainAxisAlignment: MainAxisAlignment.start,
-//                    children: <Widget>[
-//                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
-//                      Container(
-//                          padding: EdgeInsets.only(left: 4, right: 4),
-//                          height: 120,
-//                          child: Row(
-//                            children: _hands(),
-//                          )),
-//                      _playerCommand()
-//                    ],
-//                  ),
                 ],
               )),
         );
