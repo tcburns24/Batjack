@@ -133,6 +133,7 @@ class _CasinoState extends State<Casino> {
   }
 
   void _hit() {
+    _canDouble = false;
     PlayingCard card = deck[randomCard()];
     print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
     _player[curr]['cards'].add(card);
@@ -175,6 +176,7 @@ class _CasinoState extends State<Casino> {
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
       _hitBtnEnabled = false;
+      _canDouble = false;
       _bank(context);
     }
 
@@ -182,6 +184,7 @@ class _CasinoState extends State<Casino> {
     if (_player[curr]['cards'][0].value == _player[curr]['cards'][1].value) {
       _canSplit = true;
     }
+    _canDouble = true;
   }
 
   void _stand() {
@@ -232,6 +235,13 @@ class _CasinoState extends State<Casino> {
     });
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
     _canSplit = false;
+  }
+
+  void _double() {
+    _playerCash -= _bet.floor();
+    _hit();
+    _stand();
+    _canDouble = false;
   }
 
   // 3) Widgets
@@ -325,10 +335,15 @@ class _CasinoState extends State<Casino> {
               child: Padding(
                 padding: EdgeInsets.only(right: 6),
                 child: BatButton(
-                  enabledBool: _canDouble,
-                  text: 'Double',
-                  tapFunc: () {},
-                ),
+                    enabledBool: _canDouble,
+                    text: 'Double',
+                    tapFunc: () {
+                      _canDouble
+                          ? setState(() {
+                              _double();
+                            })
+                          : () {};
+                    }),
               ),
             )
           ],
