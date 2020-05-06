@@ -32,7 +32,7 @@ class _CasinoState extends State<Casino> {
   bool _canDouble = false;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = true;
+  bool _canSplit = false;
   int curr = 0;
   double _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -132,38 +132,6 @@ class _CasinoState extends State<Casino> {
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
   }
 
-  void _evaluate() {
-    print('🐉🐲 _evaluate() called.');
-    for (int i = 0; i < _player.length; i++) {
-      if (_player[i]['result'] == 0) {
-        if (_player[i]['value'][0] > _dealer['value'][0]) {
-          print('🤑 _player (${_player[i]['value'][0]}) > _dealer (${_dealer['value'][0]}). Player wins.');
-          _player[i]['result'] = 1;
-        } else if (_player[i]['value'][0] < _dealer['value'][0]) {
-          print('🤑 _player (${_player[i]['value'][0]}) < _dealer (${_dealer['value'][0]}). Dealer wins.');
-          _player[i]['result'] = -1;
-        } else {
-          _player[i]['result'] = 3;
-        }
-      }
-    }
-
-    for (int i = 0; i < _player.length; i++) {
-      print('🐉🐲 i = $i');
-      if (_player[i]['result'] == -1) {
-        _player[i]['netCash'] -= _bet;
-        print('🤑 _player loses ${_player[i]['netCash']}');
-      } else if (_player[i]['result'] == 1) {
-        print('🤑 _player wins ${_player[i]['netCash']}');
-        _player[i]['netCash'] += _bet;
-      } else if (_player[i]['result'] == 2) {
-        _player[i]['netCash'] += (_bet * 1.5);
-      }
-      print('🌝🌚_banking ${_player[i]['netCash']}');
-    }
-    _gameInSession = false;
-  }
-
   void _hit() {
     PlayingCard card = deck[randomCard()];
     print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
@@ -177,7 +145,7 @@ class _CasinoState extends State<Casino> {
     if (_player[curr]['value'][0] > 21) {
       _player[curr]['value'] = _player[curr]['value'].sublist(1);
       if (_player[curr]['value'].length < 1) {
-        print('️♥️ player busted (curr = $curr');
+        print('️♥️ player busted (curr = $curr)');
         _player[curr]['result'] = -1;
         curr += 1;
         if (curr == _player.length) {
@@ -207,7 +175,7 @@ class _CasinoState extends State<Casino> {
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
       _hitBtnEnabled = false;
-      _gameInSession = false;
+      _bank(context);
     }
 
     // Check if gambler can split()
@@ -254,7 +222,7 @@ class _CasinoState extends State<Casino> {
     _playerCash -= _bet.floor();
     PlayingCard splitCard = _player[0]['cards'][1];
     for (int i = 0; i < _player[0]['value'].length; i++) {
-      _player[0]['value'][i] -= splitCard.value;
+      _player[0]['value'][i] -= (splitCard.isAce ? 1 : splitCard.value);
     }
     _player.add({
       'cards': [splitCard],
@@ -276,7 +244,10 @@ class _CasinoState extends State<Casino> {
         _player.length,
         (int index) => Container(
             padding: EdgeInsets.only(bottom: 16),
-            child: Text(_gameInSession ? '${_player[index]['value'][0]}' : '${_handResults[_player[index]['result']]['text']}',
+            child: Text(
+                _gameInSession
+                    ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}'
+                    : '${_handResults[_player[index]['result']]['text']}',
                 style: GoogleFonts.ultra(
                     fontSize: 24,
                     color: _handResults[_player[index]['result']]['color'],
