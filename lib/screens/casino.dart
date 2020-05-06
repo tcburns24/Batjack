@@ -479,6 +479,40 @@ class _CasinoState extends State<Casino> {
     );
   }
 
+  Future<bool> _confirmLeave() async {
+    _gameInSession
+        ? await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text('Sure you want to leave?'),
+              content: Text('If you do, you\'ll lose your bet'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('No I\'ll Stay'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                  child: Text('Yes Leave'),
+                  onPressed: () async {
+                    var user = Provider.of<User>(context, listen: false);
+                    for (int i = 0; i < _player.length; i++) {
+                      _player[i]['result'] = -1;
+                      _playerCash -= _bet.floor();
+                      _gameInSession = false;
+                      await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
+                    }
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+              elevation: 16.0,
+            ),
+            barrierDismissible: false,
+          )
+        : Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -486,31 +520,34 @@ class _CasinoState extends State<Casino> {
       stream: DatabaseService(uid: user.uid).gamblerData,
       builder: (context, snapshot) {
         UserData userData = snapshot.data;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.casinoName),
-            backgroundColor: widget.appBarColor,
+        return WillPopScope(
+          onWillPop: _confirmLeave,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(widget.casinoName),
+              backgroundColor: widget.appBarColor,
+            ),
+            body: Container(
+                padding: EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  gradient: widget.bgGradient,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: _dealerSection(),
+                    ),
+                    Expanded(
+                      child: _playerSection(),
+                    ),
+                    Expanded(
+                      child: _playerCommand(),
+                    )
+                  ],
+                )),
           ),
-          body: Container(
-              padding: EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-                gradient: widget.bgGradient,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                    child: _dealerSection(),
-                  ),
-                  Expanded(
-                    child: _playerSection(),
-                  ),
-                  Expanded(
-                    child: _playerCommand(),
-                  )
-                ],
-              )),
         );
       },
     );
