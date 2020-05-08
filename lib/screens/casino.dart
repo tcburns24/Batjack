@@ -29,7 +29,6 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   int _playerCash;
-  bool _canDouble = false;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
@@ -40,7 +39,8 @@ class _CasinoState extends State<Casino> {
       'cards': [],
       'value': [0],
       'result': 0,
-      'netCash': 0
+      'handBet': 0,
+      'canDouble': true,
     }
   ];
 
@@ -83,7 +83,7 @@ class _CasinoState extends State<Casino> {
         'cards': [],
         'value': [0],
         'result': 0,
-        'netCash': 0
+        'handBet': 0
       }
     ];
     _dealer = {
@@ -94,9 +94,6 @@ class _CasinoState extends State<Casino> {
 
   Future _bank(BuildContext context) async {
     var user = Provider.of<User>(context, listen: false);
-    int currentCash;
-    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => currentCash = doc.data['chips']);
-    print('💎💎 currentCash starts as ${currentCash}');
 
     print('🐉🐲🐉 _bank called.');
     for (int i = 0; i < _player.length; i++) {
@@ -114,26 +111,23 @@ class _CasinoState extends State<Casino> {
     }
     for (int i = 0; i < _player.length; i++) {
       print('🐉 i = $i');
+      // if push, give player their $ back.
       if (_player[i]['result'] == 3) {
-        currentCash += _bet.floor();
-        _playerCash += _bet.floor();
-        print('🤑 _player loses ${_player[i]['netCash']}');
+        _playerCash += _player[i]['handBet'];
+        // if player wins, give them their $ plus $.
       } else if (_player[i]['result'] == 1) {
-        print('🤑 _player wins ${_player[i]['netCash']}');
-        currentCash += (_bet * 2).floor();
-        _playerCash += (_bet * 2).floor();
+        _playerCash += _player[i]['handBet'] * 2;
+        // if player gets batjack, give them their money back plus $ x 2.
       } else if (_player[i]['result'] == 2) {
-        currentCash += (_bet * 3).floor();
-        _playerCash += (_bet * 3).floor();
+        _playerCash += _player[i]['handBet'] * 3;
       }
-      print('🌝🌚 now currentCash = ${currentCash}');
     }
     _gameInSession = false;
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
   }
 
   void _hit() {
-    _canDouble = false;
+    _player[curr]['canDouble'] = false;
     PlayingCard card = deck[randomCard()];
     print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
     _player[curr]['cards'].add(card);
@@ -168,6 +162,7 @@ class _CasinoState extends State<Casino> {
     for (int i = 0; i < _dealer['value'].length; i++) {
       _dealer['value'][i] += card.value;
     }
+    _player[curr]['handBet'] = _bet.floor();
     _hit();
     _hit();
 
@@ -176,7 +171,6 @@ class _CasinoState extends State<Casino> {
         (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
       _hitBtnEnabled = false;
-      _canDouble = false;
       _bank(context);
     }
 
@@ -184,7 +178,7 @@ class _CasinoState extends State<Casino> {
     if (_player[curr]['cards'][0].value == _player[curr]['cards'][1].value) {
       _canSplit = true;
     }
-    _canDouble = true;
+    _player[curr]['canDouble'] = true;
   }
 
   void _stand() {
@@ -231,7 +225,8 @@ class _CasinoState extends State<Casino> {
       'cards': [splitCard],
       'value': [splitCard.value],
       'result': 0,
-      'netCash': 0
+      'handBet': _bet,
+      'canDouble': true,
     });
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
     _canSplit = false;
@@ -239,9 +234,9 @@ class _CasinoState extends State<Casino> {
 
   void _double() {
     _playerCash -= _bet.floor();
+    _player[curr]['handBet'] += _bet.floor();
     _hit();
     _stand();
-    _canDouble = false;
   }
 
   // 3) Widgets
@@ -335,10 +330,10 @@ class _CasinoState extends State<Casino> {
               child: Padding(
                 padding: EdgeInsets.only(right: 6),
                 child: BatButton(
-                    enabledBool: _canDouble,
+                    enabledBool: (_gameInSession && _player[curr]['canDouble']),
                     text: 'Double',
                     tapFunc: () {
-                      _canDouble
+                      _player[curr]['canDouble']
                           ? setState(() {
                               _double();
                             })
