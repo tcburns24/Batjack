@@ -259,14 +259,26 @@ class _CasinoState extends State<Casino> {
         _player.length,
         (int index) => Container(
             padding: EdgeInsets.only(bottom: 16),
-            child: Text(
-                _gameInSession
-                    ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}'
-                    : '${_handResults[_player[index]['result']]['text']}',
-                style: GoogleFonts.ultra(
-                    fontSize: 24,
-                    color: _handResults[_player[index]['result']]['color'],
-                    decoration: index == curr ? TextDecoration.underline : TextDecoration.none))));
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                      _gameInSession
+                          ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}'
+                          : '${_handResults[_player[index]['result']]['text']}',
+                      style: GoogleFonts.ultra(
+                          fontSize: 24,
+                          color: _handResults[_player[index]['result']]['color'],
+                          decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
+                  Text('\$${_player[index]['handBet'].floor()}',
+                      style: GoogleFonts.ultra(
+                        fontSize: 18,
+                        color: _player[index]['result'] != 0
+                            ? _handResults[_player[index]['result']]['color']
+                            : BatmanColors.lightGrey,
+                      ))
+                ])));
   }
 
   List<Hand> _dealerHands() {
