@@ -31,7 +31,7 @@ class _CasinoState extends State<Casino> {
   int _playerCash;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = false;
+  bool _canSplit = true;
   int curr = 0;
   double _bet = 25;
   List<Map<dynamic, dynamic>> _player = [
@@ -230,13 +230,23 @@ class _CasinoState extends State<Casino> {
     });
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
     _canSplit = false;
+    _hit();
+    // Check if gambler was dealt a blackjack
+    if ((_player[0]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
+        (_player[0]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
+      _player[0]['result'] = 2;
+      _hitBtnEnabled = false;
+    }
+    _player[0]['canDouble'] = true;
   }
 
   void _double() {
-    _playerCash -= _bet.floor();
-    _player[curr]['handBet'] += _bet.floor();
-    _hit();
-    _stand();
+    if (_player[curr]['canDouble']) {
+      _playerCash -= _bet.floor();
+      _player[curr]['handBet'] += _bet.floor();
+      _hit();
+      _stand();
+    }
   }
 
   // 3) Widgets
@@ -309,7 +319,7 @@ class _CasinoState extends State<Casino> {
                   padding: EdgeInsets.only(left: 6),
                   child: BatButton(
                     text: 'Split',
-                    enabledBool: _canSplit,
+                    enabledBool: (_canSplit && _gameInSession),
                     tapFunc: () {
                       _canSplit
                           ? setState(() {
