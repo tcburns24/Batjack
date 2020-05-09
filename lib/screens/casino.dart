@@ -110,7 +110,8 @@ class _CasinoState extends State<Casino> {
       }
     }
     for (int i = 0; i < _player.length; i++) {
-      print('🐉 i = $i');
+      print(
+          '\n🐉🐉 i = $i\n🐉 _player[$i][result] == ${_player[i]['result']}\n🐉 _player[$i][handBet] == ${_player[i]['handBet']}');
       // if push, give player their $ back.
       if (_player[i]['result'] == 3) {
         _playerCash += _player[i]['handBet'];
@@ -124,6 +125,7 @@ class _CasinoState extends State<Casino> {
     }
     _gameInSession = false;
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
+    print('🐲🐉🐲 _bank done.');
   }
 
   void _hit() {
@@ -225,7 +227,7 @@ class _CasinoState extends State<Casino> {
       'cards': [splitCard],
       'value': [splitCard.value],
       'result': 0,
-      'handBet': _bet,
+      'handBet': _bet.floor(),
       'canDouble': true,
     });
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
