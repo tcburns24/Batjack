@@ -10,6 +10,7 @@ import 'package:blacktom/shared/playing_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -129,6 +130,7 @@ class _CasinoState extends State<Casino> {
   }
 
   void _hit() {
+    HapticFeedback.vibrate();
     _player[curr]['canDouble'] = false;
     PlayingCard card = deck[randomCard()];
     print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
