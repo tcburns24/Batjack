@@ -29,17 +29,19 @@ class CasinoSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    final batSnackBar = SnackBar(
+    final lockedSnackbar = SnackBar(
       content: Row(
         children: <Widget>[
-          Icon(Icons.lock, color: BatmanColors.darkGrey),
-          Padding(
-              padding: EdgeInsets.only(left: 6.0),
-              child: Text(
-                '$unlockAt chips required to unlock $location',
-                style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
-                textAlign: TextAlign.center,
-              ))
+          Icon(Icons.lock, color: BatmanColors.darkGrey, size: 44),
+          Flexible(
+            child: Padding(
+                padding: EdgeInsets.only(left: 6.0),
+                child: Text(
+                  '$unlockAt chips required to unlock $location. Earn more chips at a previous casino or exchange Batpoints for chips.',
+                  style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
+                  textAlign: TextAlign.left,
+                )),
+          )
         ],
       ),
       duration: Duration(seconds: 4),
@@ -56,7 +58,7 @@ class CasinoSlide extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: GestureDetector(
                     onTap: userData.chips < unlockAt
-                        ? () => Scaffold.of(context).showSnackBar(batSnackBar)
+                        ? () => Scaffold.of(context).showSnackBar(lockedSnackbar)
                         : () => Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Casino(
                                   dealerImage: dealerImage,
