@@ -15,12 +15,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Casino extends StatefulWidget {
-  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.appBarColor});
+  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor});
 
   final LinearGradient bgGradient;
   final String dealerImage;
   final String casinoName;
   final int tableMin;
+  final int tableMax;
   final Color appBarColor;
 
   @override
@@ -34,7 +35,7 @@ class _CasinoState extends State<Casino> {
   bool _hitBtnEnabled = true;
   bool _canSplit = true;
   int curr = 0;
-  double _bet = 25;
+  double _bet = 25.0;
   List<Map<dynamic, dynamic>> _player = [
     {
       'cards': [],
@@ -72,6 +73,7 @@ class _CasinoState extends State<Casino> {
   @override
   void initState() {
     super.initState();
+    _bet = widget.tableMin.toDouble();
     _getUserChips();
   }
 
@@ -289,6 +291,28 @@ class _CasinoState extends State<Casino> {
     return new List<Hand>.generate(1, (int index) => Hand(cards: _dealer['cards']));
   }
 
+  // wrap in function w/ buildcontext so you can use $widget.tableMin
+  final cashSnackbar = SnackBar(
+    content: Row(
+      children: <Widget>[
+        Icon(Icons.lock, color: BatmanColors.darkGrey, size: 44),
+        Flexible(
+          child: Padding(
+              padding: EdgeInsets.only(left: 6.0),
+              child: Text(
+                '\$tableMin required to gamble here',
+                style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
+                textAlign: TextAlign.left,
+              )),
+        )
+      ],
+    ),
+    duration: Duration(seconds: 6),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.white,
+  );
+
   Widget _playerCommand() {
     Widget avatar = Container(
         padding: EdgeInsets.only(left: 6),
@@ -321,7 +345,7 @@ class _CasinoState extends State<Casino> {
               text: _gameInSession ? 'Hit' : 'Deal',
               enabledBool: _hitBtnEnabled,
               tapFunc: () {
-                _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {};
+                _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : null;
                 setState(() {});
               },
             )
@@ -416,7 +440,7 @@ class _CasinoState extends State<Casino> {
                     color: Colors.white,
                   )),
               child: Slider.adaptive(
-                  value: _bet,
+                  value: _playerCash >= widget.tableMin ? _bet.toDouble() : 0.0,
                   onChanged: !_gameInSession
                       ? (newBet) {
                           setState(() {
@@ -424,10 +448,9 @@ class _CasinoState extends State<Casino> {
                           });
                         }
                       : null,
-                  divisions: ((200 - 25) / 5).floor(),
                   label: '$_bet',
-                  min: 25,
-                  max: 200),
+                  min: _playerCash >= widget.tableMin ? widget.tableMin.toDouble() : 0.0,
+                  max: _playerCash >= widget.tableMin ? [widget.tableMax.toDouble(), _playerCash.toDouble()].reduce(min) : 1.0),
             ))
           ],
         ),

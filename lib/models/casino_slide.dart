@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class CasinoSlide extends StatelessWidget {
   CasinoSlide(
       {this.tableMin,
+      this.tableMax,
       this.dealer,
       this.villainColor,
       this.dealerImage,
@@ -18,6 +19,7 @@ class CasinoSlide extends StatelessWidget {
       this.bgGradient,
       this.unlockAt});
   final int tableMin;
+  final int tableMax;
   final String dealer;
   final String dealerImage;
   final String location;
@@ -37,14 +39,14 @@ class CasinoSlide extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.only(left: 6.0),
                 child: Text(
-                  '$unlockAt chips required to unlock $location. Earn more chips at a previous casino or exchange Batpoints for chips.',
+                  '$unlockAt chips required to unlock $location.\nEarn more chips at a previous casino or exchange Batpoints for chips.',
                   style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
                   textAlign: TextAlign.left,
                 )),
           )
         ],
       ),
-      duration: Duration(seconds: 4),
+      duration: Duration(seconds: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.white,
@@ -63,6 +65,8 @@ class CasinoSlide extends StatelessWidget {
                             builder: (context) => Casino(
                                   dealerImage: dealerImage,
                                   casinoName: location,
+                                  tableMin: tableMin,
+                                  tableMax: tableMax,
                                   bgGradient: bgGradient,
                                   appBarColor: villainColor,
                                 ))),
