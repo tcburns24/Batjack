@@ -345,7 +345,9 @@ class _CasinoState extends State<Casino> {
               text: _gameInSession ? 'Hit' : 'Deal',
               enabledBool: _hitBtnEnabled,
               tapFunc: () {
-                _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : null;
+                _playerCash >= widget.tableMin
+                    ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {}
+                    : _notEnoughCash();
                 setState(() {});
               },
             )
@@ -536,7 +538,7 @@ class _CasinoState extends State<Casino> {
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 FlatButton(
-                  child: Text('Yes Leave'),
+                  child: Text('Gotham needs me'),
                   onPressed: () async {
                     var user = Provider.of<User>(context, listen: false);
                     for (int i = 0; i < _player.length; i++) {
@@ -555,6 +557,24 @@ class _CasinoState extends State<Casino> {
             barrierDismissible: false,
           )
         : Navigator.of(context).pop();
+  }
+
+  Future<bool> _notEnoughCash() async {
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('You Need More Chips'),
+        content: Text('The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}.'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('To the Batmobile'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+        elevation: 16.0,
+      ),
+      barrierDismissible: true,
+    );
   }
 
   @override
