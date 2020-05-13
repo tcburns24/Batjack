@@ -563,11 +563,16 @@ class _CasinoState extends State<Casino> {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('You Need More Chips'),
-        content: Text('The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}.'),
+        backgroundColor: BatmanColors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title:
+            Text('You Need More Chips', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey, fontWeight: FontWeight.w800)),
+        content: Text(
+            'The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}. Exchange Batpoints for chips in the Batcave.',
+            style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
         actions: <Widget>[
           FlatButton(
-            child: Text('To the Batmobile'),
+            child: Text('Gas up the Batmobile'),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
