@@ -11,7 +11,7 @@ class Loading extends StatelessWidget {
     return Container(
         height: 36,
         width: 88,
-        decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.all(Radius.circular(2))),
+        decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.all(Radius.circular(50))),
         child: Center(
           child: SpinKitThreeBounce(
             color: dotColor,

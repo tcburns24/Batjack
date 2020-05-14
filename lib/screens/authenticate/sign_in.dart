@@ -53,8 +53,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: 12, bottom: 12),
-                      child: Container(
-                          child: Text('Sign in to Batjack', style: GoogleFonts.oxanium(fontSize: 20, color: Colors.white)))),
+                      child: Container(child: Text('Sign in to Batjack', style: GoogleFonts.oxanium(fontSize: 20, color: Colors.white)))),
                   TextFormField(
                     onChanged: (val) {
                       setState(() {
@@ -128,11 +127,8 @@ class _SignInState extends State<SignIn> {
                       : RaisedButton(
                           color: BatmanColors.black,
                           textColor: Colors.white,
-                          child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text('Sign In', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
+                          child: Padding(padding: EdgeInsets.all(10.0), child: Text('Sign In', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               setState(() {
