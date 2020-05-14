@@ -33,7 +33,7 @@ class _CasinoState extends State<Casino> {
   int _playerCash;
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = true;
+  bool _canSplit = false;
   int curr = 0;
   double _bet = 25.0;
   List<Map<dynamic, dynamic>> _player = [
@@ -113,8 +113,7 @@ class _CasinoState extends State<Casino> {
       }
     }
     for (int i = 0; i < _player.length; i++) {
-      print(
-          '\n🐉🐉 i = $i\n🐉 _player[$i][result] == ${_player[i]['result']}\n🐉 _player[$i][handBet] == ${_player[i]['handBet']}');
+      print('\n🐉🐉 i = $i\n🐉 _player[$i][result] == ${_player[i]['result']}\n🐉 _player[$i][handBet] == ${_player[i]['handBet']}');
       // if push, give player their $ back.
       if (_player[i]['result'] == 3) {
         _playerCash += _player[i]['handBet'];
@@ -173,8 +172,7 @@ class _CasinoState extends State<Casino> {
     _hit();
 
     // Check if gambler was dealt a blackjack
-    if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
-        (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
+    if ((_player[curr]['cards'][0].isAce && _player[curr]['cards'][1].isTen) || (_player[curr]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[curr]['result'] = 2;
       _hitBtnEnabled = false;
       _bank(context);
@@ -238,8 +236,7 @@ class _CasinoState extends State<Casino> {
     _canSplit = false;
     _hit();
     // Check if gambler was dealt a blackjack
-    if ((_player[0]['cards'][0].isAce && _player[curr]['cards'][1].isTen) ||
-        (_player[0]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
+    if ((_player[0]['cards'][0].isAce && _player[curr]['cards'][1].isTen) || (_player[0]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[0]['result'] = 2;
       _hitBtnEnabled = false;
     }
@@ -265,26 +262,16 @@ class _CasinoState extends State<Casino> {
         _player.length,
         (int index) => Container(
             padding: EdgeInsets.only(bottom: 16),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                      _gameInSession
-                          ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}'
-                          : '${_handResults[_player[index]['result']]['text']}',
-                      style: GoogleFonts.ultra(
-                          fontSize: 24,
-                          color: _handResults[_player[index]['result']]['color'],
-                          decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
-                  Text('\$${_player[index]['handBet'].floor()}',
-                      style: GoogleFonts.ultra(
-                        fontSize: 18,
-                        color: _player[index]['result'] != 0
-                            ? _handResults[_player[index]['result']]['color']
-                            : BatmanColors.lightGrey,
-                      ))
-                ])));
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+              Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]['text']}',
+                  style: GoogleFonts.ultra(
+                      fontSize: 24, color: _handResults[_player[index]['result']]['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
+              Text('\$${_player[index]['handBet'].floor()}',
+                  style: GoogleFonts.ultra(
+                    fontSize: 18,
+                    color: _player[index]['result'] != 0 ? _handResults[_player[index]['result']]['color'] : BatmanColors.lightGrey,
+                  ))
+            ])));
   }
 
   List<Hand> _dealerHands() {
@@ -345,9 +332,7 @@ class _CasinoState extends State<Casino> {
               text: _gameInSession ? 'Hit' : 'Deal',
               enabledBool: _hitBtnEnabled,
               tapFunc: () {
-                _playerCash >= widget.tableMin
-                    ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {}
-                    : _notEnoughCash();
+                _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : _notEnoughCash();
                 setState(() {});
               },
             )
@@ -565,10 +550,8 @@ class _CasinoState extends State<Casino> {
       builder: (_) => AlertDialog(
         backgroundColor: BatmanColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-        title:
-            Text('You Need More Chips', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey, fontWeight: FontWeight.w800)),
-        content: Text(
-            'The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}. Exchange Batpoints for chips in the Batcave.',
+        title: Text('You Need More Chips', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey, fontWeight: FontWeight.w800)),
+        content: Text('The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}. Exchange Batpoints for chips in the Batcave.',
             style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
         actions: <Widget>[
           FlatButton(
