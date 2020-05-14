@@ -326,16 +326,20 @@ class _CasinoState extends State<Casino> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            BatButton(
-              text: _gameInSession ? 'Hit' : 'Deal',
-              enabledBool: _hitBtnEnabled,
-              tapFunc: () {
-                _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : _notEnoughCash();
-                setState(() {});
-              },
-            )
+            Expanded(child: Container()),
+            Expanded(
+              child: BatButton(
+                text: _gameInSession ? 'Hit' : 'Deal',
+                enabledBool: _hitBtnEnabled,
+                tapFunc: () {
+                  _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : _notEnoughCash();
+                  setState(() {});
+                },
+              ),
+            ),
+            Expanded(child: Container())
           ],
         ),
         Row(
@@ -391,7 +395,7 @@ class _CasinoState extends State<Casino> {
                   _gameInSession ? _stand() : _reset();
                 });
               },
-            )
+            ),
           ],
         ),
       ],
