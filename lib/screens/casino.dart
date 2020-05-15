@@ -304,18 +304,32 @@ class _CasinoState extends State<Casino> {
     Widget avatar = Container(
         padding: EdgeInsets.only(left: 6),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            CircleAvatar(
-              radius: 32,
-              backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+            Padding(
+              padding: EdgeInsets.only(top: 24),
+              child: Container(
+                height: 64,
+                width: 64,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black,
+                ),
+                child: Center(
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: BatmanColors.lightGrey,
+                    backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+                  ),
+                ),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(top: 6),
               child: Text(
                 '\$$_playerCash',
-                style: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
+                style: GoogleFonts.oxanium(color: BatmanColors.darkGrey, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             )
