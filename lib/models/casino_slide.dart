@@ -8,16 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CasinoSlide extends StatelessWidget {
-  CasinoSlide(
-      {this.tableMin,
-      this.tableMax,
-      this.dealer,
-      this.villainColor,
-      this.dealerImage,
-      this.location,
-      this.locationImage,
-      this.bgGradient,
-      this.unlockAt});
+  CasinoSlide({this.tableMin, this.tableMax, this.dealer, this.villainColor, this.dealerImage, this.location, this.locationImage, this.bgGradient, this.unlockAt});
   final int tableMin;
   final int tableMax;
   final String dealer;
@@ -73,18 +64,19 @@ class CasinoSlide extends StatelessWidget {
                     child: Container(
                       height: 200,
                       width: 200,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                          border: Border.all(color: villainColor, width: 4.0)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12.0)), border: Border.all(color: villainColor, width: 6.0)),
                       child: Stack(
                         children: <Widget>[
                           // 1st, the image background
                           Container(
                             height: 200,
                             width: 200,
-                            child: FittedBox(
-                              child: Image.asset(locationImage),
-                              fit: BoxFit.fill,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                              child: FittedBox(
+                                child: Image.asset(locationImage),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           // 2nd, the color gradient
@@ -92,6 +84,7 @@ class CasinoSlide extends StatelessWidget {
                             height: 200,
                             width: 200,
                             decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
                                 color: Colors.white,
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
