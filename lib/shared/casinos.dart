@@ -11,20 +11,18 @@ List<Map<String, dynamic>> casinos = [
     'villainColor': Colors.blue[900],
     'tableMin': 15,
     'tableMax': 200,
-    'bgGradient':
-        LinearGradient(colors: [Colors.blue[100], Colors.blueGrey[600]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'bgGradient': LinearGradient(colors: [Colors.blue[100], Colors.blueGrey[600]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 0,
   },
   {
-    'location': 'The Batcave',
-    'locationImage': 'assets/casino_slides/batcave.png',
+    'location': 'Blackgate Penitentiary',
+    'locationImage': 'assets/casino_slides/blackgate.jpg',
     'dealer': 'Bane',
     'dealerImage': 'assets/dealers/bane.jpg',
     'villainColor': Colors.brown[700],
     'tableMin': 25,
     'tableMax': 350,
-    'bgGradient':
-        LinearGradient(colors: [Colors.brown[400], Colors.brown[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'bgGradient': LinearGradient(colors: [Colors.brown[400], Colors.brown[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 200,
   },
   {
@@ -35,8 +33,7 @@ List<Map<String, dynamic>> casinos = [
     'villainColor': Color(0xffa6997e),
     'tableMin': 35,
     'tableMax': 500,
-    'bgGradient':
-        LinearGradient(colors: [Colors.brown[300], Colors.grey[500]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'bgGradient': LinearGradient(colors: [Colors.brown[300], Colors.grey[500]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 300,
   },
   {
@@ -47,8 +44,7 @@ List<Map<String, dynamic>> casinos = [
     'villainColor': Colors.lightBlue[900],
     'tableMin': 50,
     'tableMax': 750,
-    'bgGradient': LinearGradient(
-        colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 400,
   },
   {
@@ -59,8 +55,7 @@ List<Map<String, dynamic>> casinos = [
     'villainColor': BatmanColors.jokerGreen,
     'tableMin': 75,
     'tableMax': 1000,
-    'bgGradient': LinearGradient(
-        colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
+    'bgGradient': LinearGradient(colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
     'unlockAt': 500,
   }
 ];

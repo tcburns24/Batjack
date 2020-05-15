@@ -94,12 +94,13 @@ class CasinoSlide extends StatelessWidget {
                           ),
                           Positioned(
                               bottom: 5,
-                              width: 200,
+                              width: 188,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     location,
-                                    style: GoogleFonts.adamina(color: Colors.white, fontSize: 18),
+                                    style: GoogleFonts.adamina(color: Colors.white, fontSize: 16),
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(

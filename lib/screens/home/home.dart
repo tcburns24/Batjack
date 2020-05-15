@@ -25,22 +25,6 @@ class Home extends StatelessWidget {
             backgroundColor: BatmanColors.blueGrey,
             title: Text('Batjack'),
             elevation: 0.8,
-            actions: <Widget>[
-              FlatButton.icon(
-                onPressed: () async {
-                  await _auth.signOut();
-                },
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                label: Text(
-                  'sign out',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              )
-            ],
           ),
           body: Container(
               decoration: BoxDecoration(
@@ -61,9 +45,7 @@ class Home extends StatelessWidget {
                         width: batLogoWidth / 1.7,
                         height: batLogoHeight / 1.7,
                       )),
-                  Padding(
-                      padding: EdgeInsets.only(bottom: 16),
-                      child: Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20))),
+                  Padding(padding: EdgeInsets.only(bottom: 16), child: Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20))),
                   Container(height: 200, child: ListView(scrollDirection: Axis.horizontal, children: allCasinos())),
                 ],
               ))),
