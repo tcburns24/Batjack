@@ -15,21 +15,23 @@ class MainDrawer extends StatelessWidget {
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
     'assets/batmen/michael_keaton.jpg',
-    'assets/batmen/val_kilmer.jpg',
-    'assets/batmen/george_clooney.jpg',
+    'assets/batmen/val_kilmer.png',
+    'assets/batmen/george_clooney.png',
     'assets/batmen/christian_bale.png',
-    'assets/batmen/ben_affleck.jpg',
-    'assets/batmen/arkham_knight.jpg',
+    'assets/batmen/ben_affleck.png',
+    'assets/batmen/arkham_knight.png',
+    'assets/batmen/lego.png'
   ];
 
-  List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox'];
+  List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
 
   // return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]['cards']));
 
   Widget _batvatarSelection() {
     return Container(
-        padding: EdgeInsets.fromLTRB(4, 8, 4, 8),
-        child: ListView(
+        padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+        child: Container(
+            child: ListView(
           scrollDirection: Axis.horizontal,
           children: List<Widget>.generate(
               _batvatars.length,
@@ -39,24 +41,24 @@ class MainDrawer extends StatelessWidget {
                       GestureDetector(
                         onTap: () {/* Update Firebase batvatar w/ this image */},
                         child: Container(
-                          height: 53,
-                          width: 53,
+                          height: 73,
+                          width: 73,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
                           ),
                           child: Center(
                               child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: BatmanColors.darkGrey,
+                            radius: 35,
+                            backgroundColor: BatmanColors.lightGrey,
                             backgroundImage: AssetImage(_batvatars[index]),
                           )),
                         ),
                       ),
-                      Container(child: Text('${_actors[index]}', style: GoogleFonts.oxanium(color: Colors.black, fontSize: 12)))
+                      Container(child: Text('${_actors[index]}', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 14)))
                     ]),
                   )),
-        ));
+        )));
   }
 
   @override
@@ -74,9 +76,10 @@ class MainDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                    padding: EdgeInsets.symmetric(vertical: statusBar, horizontal: 16),
-                    color: BatmanColors.darkGrey,
+                    padding: EdgeInsets.fromLTRB(8, statusBar, 4, 4),
+                    color: BatmanColors.blueGrey,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
@@ -93,10 +96,14 @@ class MainDrawer extends StatelessWidget {
                                 ),
                                 Text(' Chips: ${userData.chips}  |   Level: ${userData.level}', style: TextStyle(fontSize: 14, fontFamily: 'Avenir', color: Colors.white)),
                               ],
-                            ))
+                            )),
+                        Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(4, 4, 0, 0), child: Text('Choose your Batvatar', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)))),
+                        Container(height: 115, child: _batvatarSelection()),
                       ],
                     )),
-                Expanded(child: _batvatarSelection()),
                 GestureDetector(
                   child: ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
                   onTap: () {
