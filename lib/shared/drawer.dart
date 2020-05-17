@@ -2,6 +2,7 @@ import 'package:blacktom/models/user.dart';
 import 'package:blacktom/screens/home/leaderboard.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
+import 'package:blacktom/shared/batvatar.dart';
 import 'package:blacktom/shared/palettes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +10,15 @@ import 'package:provider/provider.dart';
 
 import 'loading.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
   AuthService _auth = new AuthService();
+
+  int _selectedBatvatar;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -25,7 +33,16 @@ class MainDrawer extends StatelessWidget {
 
   List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
 
-  // return new List<Hand>.generate(_player.length, (int index) => Hand(cards: _player[index]['cards']));
+  void updateSelectedBatvatar(int idx) {
+    setState(() {
+      _selectedBatvatar = idx;
+    });
+  }
+
+//  void _updateBatvatar() async {
+//    var user = Provider.of<User>(context, listen: false);
+//    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatar});
+//  }
 
   Widget _batvatarSelection() {
     return Container(
@@ -39,22 +56,16 @@ class MainDrawer extends StatelessWidget {
                     padding: EdgeInsets.only(left: 8, right: 8),
                     child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
                       GestureDetector(
-                        onTap: () {/* Update Firebase batvatar w/ this image */},
-                        child: Container(
-                          height: 73,
-                          width: 73,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black,
-                          ),
-                          child: Center(
-                              child: CircleAvatar(
+                          onTap: () {
+                            updateSelectedBatvatar(index);
+                          },
+                          child: Batvatar(
                             radius: 35,
-                            backgroundColor: BatmanColors.lightGrey,
-                            backgroundImage: AssetImage(_batvatars[index]),
+                            borderWidth: 3,
+                            bgColor: BatmanColors.lightGrey,
+                            avatarImage: _batvatars[index],
+                            isSelected: _selectedBatvatar == index,
                           )),
-                        ),
-                      ),
                       Container(child: Text('${_actors[index]}', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 14)))
                     ]),
                   )),
@@ -94,7 +105,7 @@ class MainDrawer extends StatelessWidget {
                                   Icons.monetization_on,
                                   color: Colors.white,
                                 ),
-                                Text(' Chips: ${userData.chips}  |   Level: ${userData.level}', style: TextStyle(fontSize: 14, fontFamily: 'Avenir', color: Colors.white)),
+                                Text(' Chips: ${userData.chips}', style: TextStyle(fontSize: 14, fontFamily: 'Avenir', color: Colors.white)),
                               ],
                             )),
                         Padding(
