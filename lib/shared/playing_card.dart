@@ -22,13 +22,6 @@ class _PlayingCardState extends State<PlayingCard> with SingleTickerProviderStat
     controller = AnimationController(duration: const Duration(milliseconds: 400), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
-//    animation.addStatusListener((status) {
-//    if (status == AnimationStatus.completed) {
-//      controller.reverse();
-//    } else if (status == AnimationStatus.dismissed) {
-//      controller.forward();
-//    }
-//  });
 //  this will start the animation
     controller.forward();
   }
@@ -68,10 +61,7 @@ class _PlayingCardState extends State<PlayingCard> with SingleTickerProviderStat
       child: Container(
         height: 100,
         width: 71,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            border: Border.all(color: Colors.black, width: 2.0),
-            color: Colors.white),
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), border: Border.all(color: Colors.black, width: 2.0), color: Colors.white),
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -82,10 +72,7 @@ class _PlayingCardState extends State<PlayingCard> with SingleTickerProviderStat
                   children: <Widget>[
                     Text(
                       widget.number.toUpperCase(),
-                      style: GoogleFonts.oxanium(
-                          color: widget.suit == 'hearts' || widget.suit == 'diamonds' ? Colors.red : Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 22),
+                      style: GoogleFonts.livvic(color: widget.suit == 'hearts' || widget.suit == 'diamonds' ? Colors.red : Colors.black, fontWeight: FontWeight.w600, fontSize: 22),
                     ),
                     Text(_suitIcon(widget.suit), style: TextStyle(fontSize: 20))
                   ],
