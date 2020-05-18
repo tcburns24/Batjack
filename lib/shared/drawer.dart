@@ -97,7 +97,10 @@ class _MainDrawerState extends State<MainDrawer> {
                       children: <Widget>[
                         Container(
                             padding: EdgeInsets.only(top: 16, bottom: 4),
-                            child: Text(userData.username, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'Avenir', color: Colors.white))),
+                            child: Row(children: [
+                              Icon(Icons.person, size: 18, color: Colors.white),
+                              Text(' ${userData.username}', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700))
+                            ])),
                         Container(
                             padding: EdgeInsets.only(top: 12),
                             child: Row(
@@ -105,15 +108,22 @@ class _MainDrawerState extends State<MainDrawer> {
                               children: <Widget>[
                                 Icon(
                                   Icons.monetization_on,
+                                  size: 18,
                                   color: Colors.white,
                                 ),
-                                Text(' Chips: ${userData.chips}', style: TextStyle(fontSize: 14, fontFamily: 'Avenir', color: Colors.white)),
+                                Text(' Chips: ${userData.chips}', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)),
                               ],
                             )),
                         Padding(
                             padding: EdgeInsets.only(top: 20),
-                            child: Container(
-                                padding: EdgeInsets.fromLTRB(4, 4, 0, 0), child: Text('Choose your Batvatar', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)))),
+                            child: Row(children: [
+                              Icon(
+                                Icons.person_pin,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                              Text(' Choose your Batvatar:', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white))
+                            ])),
                         Container(height: 115, child: _batvatarSelection()),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

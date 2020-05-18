@@ -31,6 +31,7 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   int _playerCash;
+  String _playerBatvatar = '';
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
   bool _canSplit = false;
@@ -66,7 +67,10 @@ class _CasinoState extends State<Casino> {
 
   void _getUserChips() async {
     var user = Provider.of<User>(context, listen: false);
-    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) => _playerCash = doc.data['chips']);
+    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
+      _playerCash = doc.data['chips'];
+      _playerBatvatar = doc.data['batvatar'];
+    });
     print('❎❎🥃_playerCAsh = $_playerCash');
   }
 
@@ -320,7 +324,7 @@ class _CasinoState extends State<Casino> {
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: BatmanColors.lightGrey,
-                    backgroundImage: AssetImage('assets/batmen/michael_keaton.jpg'),
+                    backgroundImage: AssetImage(_playerBatvatar ?? 'assets/batmen/adam_west.png'),
                   ),
                 ),
               ),
