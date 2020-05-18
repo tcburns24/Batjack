@@ -14,7 +14,7 @@ class DatabaseService {
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserData(uid: uid, chips: snapshot.data['chips'], username: snapshot.data['username'], level: snapshot.data['level']);
+    return UserData(uid: uid, chips: snapshot.data['chips'], username: snapshot.data['username'], batpoints: snapshot.data['batpoints'], batvatar: snapshot.data['batvatar']);
   }
 
   // 2) Gamblers collection stream

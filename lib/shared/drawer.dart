@@ -114,6 +114,19 @@ class _MainDrawerState extends State<MainDrawer> {
                                 Text(' Chips: ${userData.chips}', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)),
                               ],
                             )),
+                        Container(
+                            padding: EdgeInsets.only(top: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.add_circle,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                                Text(' Batpoints: ${userData.batpoints}', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)),
+                              ],
+                            )),
                         Padding(
                             padding: EdgeInsets.only(top: 20),
                             child: Row(children: [
