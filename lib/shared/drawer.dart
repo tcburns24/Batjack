@@ -1,9 +1,11 @@
+import 'package:blacktom/models/bat_button.dart';
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/screens/home/leaderboard.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/batvatar.dart';
 import 'package:blacktom/shared/palettes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,10 +41,10 @@ class _MainDrawerState extends State<MainDrawer> {
     });
   }
 
-//  void _updateBatvatar() async {
-//    var user = Provider.of<User>(context, listen: false);
-//    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatar});
-//  }
+  void _updateBatvatar() async {
+    var user = Provider.of<User>(context, listen: false);
+    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatars[_selectedBatvatar]});
+  }
 
   Widget _batvatarSelection() {
     return Container(
@@ -113,6 +115,18 @@ class _MainDrawerState extends State<MainDrawer> {
                             child: Container(
                                 padding: EdgeInsets.fromLTRB(4, 4, 0, 0), child: Text('Choose your Batvatar', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white)))),
                         Container(height: 115, child: _batvatarSelection()),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            BatButton(
+                              enabledBool: true,
+                              text: 'Update Batvatar',
+                              textColor: Colors.white,
+                              textSize: 13.0,
+                              tapFunc: () => _updateBatvatar(),
+                            )
+                          ],
+                        )
                       ],
                     )),
                 GestureDetector(

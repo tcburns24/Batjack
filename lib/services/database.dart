@@ -9,8 +9,8 @@ class DatabaseService {
   // 1) Collection reference
   final CollectionReference gamblersCollection = Firestore.instance.collection('gamblers');
 
-  Future updateUserData(String username, int chips, int level) async {
-    return await gamblersCollection.document(uid).setData({'username': username, 'chips': chips, 'level': level});
+  Future updateUserData(String username, int chips, int batpoints, String batvatar) async {
+    return await gamblersCollection.document(uid).setData({'username': username, 'chips': chips, 'batpoints': batpoints, 'batvatar': batvatar});
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {

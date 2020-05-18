@@ -43,7 +43,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser fbUser = result.user;
-      await DatabaseService(uid: fbUser.uid).updateUserData(email, 100, 1);
+      await DatabaseService(uid: fbUser.uid).updateUserData(email, 100, 25, 'assets/batmen/adam_west.png');
       return _userFromFirebase(fbUser);
     } catch (err) {
       print('err = ${err.toString()}');
