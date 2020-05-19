@@ -15,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Casino extends StatefulWidget {
-  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor});
+  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper});
 
   final LinearGradient bgGradient;
   final String dealerImage;
@@ -23,6 +23,7 @@ class Casino extends StatefulWidget {
   final int tableMin;
   final int tableMax;
   final Color appBarColor;
+  final String wallpaper;
 
   @override
   _CasinoState createState() => _CasinoState();
@@ -601,12 +602,20 @@ class _CasinoState extends State<Casino> {
               title: Text(widget.casinoName),
               backgroundColor: widget.appBarColor,
             ),
-            body: Container(
-                padding: EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  gradient: widget.bgGradient,
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: Image.asset(widget.wallpaper, fit: BoxFit.cover),
                 ),
-                child: Column(
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black.withOpacity(0.7),
+                ),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -620,7 +629,9 @@ class _CasinoState extends State<Casino> {
                       child: _playerCommand(),
                     )
                   ],
-                )),
+                )
+              ],
+            ),
           ),
         );
       },

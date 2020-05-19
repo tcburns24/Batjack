@@ -13,6 +13,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 200,
     'bgGradient': LinearGradient(colors: [Colors.blue[100], Colors.blueGrey[600]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 0,
+    'wallpaper': 'assets/wallpapers/commissioner_gordon.jpg',
   },
   {
     'location': 'Blackgate Penitentiary',
@@ -24,6 +25,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 350,
     'bgGradient': LinearGradient(colors: [Colors.brown[400], Colors.brown[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 200,
+    'wallpaper': 'assets/wallpapers/bane.jpg',
   },
   {
     'location': 'Arkham Asylum',
@@ -35,6 +37,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 500,
     'bgGradient': LinearGradient(colors: [Colors.brown[300], Colors.grey[500]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 300,
+    'wallpaper': 'assets/wallpapers/scarecrow.jpg',
   },
   {
     'location': 'Iceberg Lounge',
@@ -46,6 +49,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 750,
     'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 400,
+    'wallpaper': 'assets/wallpapers/penguin.jpg',
   },
   {
     'location': 'Ace Chemicals',
@@ -57,6 +61,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 1000,
     'bgGradient': LinearGradient(colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
     'unlockAt': 500,
+    'wallpaper': 'assets/wallpapers/joker.jpg',
   }
 ];
 
@@ -73,6 +78,7 @@ List<Widget> allCasinos() {
       tableMax: casinos[i]['tableMax'],
       bgGradient: casinos[i]['bgGradient'],
       unlockAt: casinos[i]['unlockAt'],
+      wallpaper: casinos[i]['wallpaper'],
     ));
   }
   return allCasinos;
