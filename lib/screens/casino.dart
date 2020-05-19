@@ -613,7 +613,12 @@ class _CasinoState extends State<Casino> {
                 Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  color: Colors.black.withOpacity(0.7),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black.withOpacity(0.3), Colors.black],
+                  )),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

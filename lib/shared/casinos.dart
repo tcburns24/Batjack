@@ -52,6 +52,18 @@ List<Map<String, dynamic>> casinos = [
     'wallpaper': 'assets/wallpapers/penguin.jpg',
   },
   {
+    'location': 'Gotham Courthouse',
+    'locationImage': 'assets/wallpapers/twoface_courthouse.png',
+    'dealerImage': 'assets/dealers/twoface.png',
+    'dealer': 'Twoface',
+    'villainColor': Color(0xffba3232),
+    'tableMin': 60,
+    'tableMax': 800,
+    'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'unlockAt': 500,
+    'wallpaper': 'assets/wallpapers/twoface_courthouse.png',
+  },
+  {
     'location': 'Ace Chemicals',
     'locationImage': 'assets/casino_slides/ace_chemicals.jpg',
     'dealer': 'Joker',
@@ -60,7 +72,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMin': 75,
     'tableMax': 1000,
     'bgGradient': LinearGradient(colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
-    'unlockAt': 500,
+    'unlockAt': 600,
     'wallpaper': 'assets/wallpapers/joker.jpg',
   }
 ];
