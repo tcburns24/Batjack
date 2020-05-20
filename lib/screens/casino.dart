@@ -319,7 +319,7 @@ class _CasinoState extends State<Casino> {
                 width: 64,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 child: Center(
                   child: CircleAvatar(
@@ -334,7 +334,7 @@ class _CasinoState extends State<Casino> {
               padding: EdgeInsets.only(top: 6),
               child: Text(
                 '\$$_playerCash',
-                style: GoogleFonts.oxanium(color: BatmanColors.darkGrey, fontSize: 18),
+                style: GoogleFonts.oxanium(color: Colors.white, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             )
@@ -617,7 +617,7 @@ class _CasinoState extends State<Casino> {
                       gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withOpacity(0.3), Colors.black],
+                    colors: [widget.appBarColor.withOpacity(0.1), Colors.black],
                   )),
                 ),
                 Column(

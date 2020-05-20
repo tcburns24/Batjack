@@ -32,7 +32,7 @@ List<Map<String, dynamic>> casinos = [
     'locationImage': 'assets/casino_slides/arkham_asylum.jpg',
     'dealerImage': 'assets/dealers/scarecrow.jpg',
     'dealer': 'Scarecrow',
-    'villainColor': Color(0xffa6997e),
+    'villainColor': Color(0xffab621d),
     'tableMin': 35,
     'tableMax': 500,
     'bgGradient': LinearGradient(colors: [Colors.brown[300], Colors.grey[500]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -44,7 +44,7 @@ List<Map<String, dynamic>> casinos = [
     'locationImage': 'assets/casino_slides/iceberg_lounge.jpg',
     'dealerImage': 'assets/dealers/penguin.png',
     'dealer': 'Penguin',
-    'villainColor': Colors.lightBlue[900],
+    'villainColor': Colors.lightBlue[400],
     'tableMin': 50,
     'tableMax': 750,
     'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -56,7 +56,7 @@ List<Map<String, dynamic>> casinos = [
     'locationImage': 'assets/wallpapers/twoface_courthouse.png',
     'dealerImage': 'assets/dealers/twoface.png',
     'dealer': 'Twoface',
-    'villainColor': Color(0xffba3232),
+    'villainColor': Color(0xff9e1313),
     'tableMin': 60,
     'tableMax': 800,
     'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -74,7 +74,8 @@ List<Map<String, dynamic>> casinos = [
     'bgGradient': LinearGradient(colors: [BatmanColors.jokerPurple, BatmanColors.jokerGreen], begin: Alignment.topLeft, end: Alignment.bottomRight),
     'unlockAt': 600,
     'wallpaper': 'assets/wallpapers/joker.jpg',
-  }
+  },
+//  {'location': 'Gotham Cemetary', 'locationImage': 'assets/casino_slides/gotham_cemetary.jpg', 'dealer': 'Mystery Villain', 'dealerImage'}
 ];
 
 List<Widget> allCasinos() {
