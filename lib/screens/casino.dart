@@ -615,10 +615,10 @@ class _CasinoState extends State<Casino> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [widget.appBarColor.withOpacity(0.1), Colors.black],
-                  )),
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black.withOpacity(0.1), widget.appBarColor.withOpacity(0.2), Colors.black],
+                          stops: [0.0, 0.3, 0.9])),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

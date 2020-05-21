@@ -61,7 +61,7 @@ List<Map<String, dynamic>> casinos = [
     'tableMax': 800,
     'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 500,
-    'wallpaper': 'assets/wallpapers/twoface_courthouse.png',
+    'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
   },
   {
     'location': 'Ace Chemicals',
