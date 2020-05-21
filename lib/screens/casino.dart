@@ -305,6 +305,26 @@ class _CasinoState extends State<Casino> {
     backgroundColor: Colors.white,
   );
 
+  void _hitFunc() {
+    if (_playerCash < widget.tableMin) {
+      if (!_gameInSession) {
+        _notEnoughCash();
+      } else {
+        _hit();
+      }
+    }
+    if (_playerCash >= widget.tableMin) {
+      if (_hitBtnEnabled) {
+        if (_gameInSession) {
+          _hit();
+        } else {
+          _beginPlay();
+        }
+      }
+    }
+    setState(() {});
+  }
+
   Widget _playerCommand() {
     Widget avatar = Container(
         padding: EdgeInsets.only(left: 6),
@@ -352,10 +372,7 @@ class _CasinoState extends State<Casino> {
               child: BatButton(
                 text: _gameInSession ? 'Hit' : 'Deal',
                 enabledBool: _hitBtnEnabled,
-                tapFunc: () {
-                  _playerCash >= widget.tableMin ? _hitBtnEnabled ? (_gameInSession ? _hit() : _beginPlay()) : () {} : _notEnoughCash();
-                  setState(() {});
-                },
+                tapFunc: () => _hitFunc(),
               ),
             ),
             Expanded(child: Container())

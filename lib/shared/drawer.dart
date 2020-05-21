@@ -21,6 +21,8 @@ class _MainDrawerState extends State<MainDrawer> {
   AuthService _auth = new AuthService();
 
   int _selectedBatvatar;
+  double _playerCash;
+  double _playerBatpoints = 1.0;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -35,6 +37,20 @@ class _MainDrawerState extends State<MainDrawer> {
 
   List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
 
+  void _getUserChips() async {
+    var user = Provider.of<User>(context, listen: false);
+    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
+      _playerCash = doc.data['chips'];
+      _playerBatpoints = doc.data['batpoints'];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserChips();
+  }
+
   void updateSelectedBatvatar(int idx) {
     setState(() {
       _selectedBatvatar = idx;
@@ -44,6 +60,11 @@ class _MainDrawerState extends State<MainDrawer> {
   void _updateBatvatar() async {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatars[_selectedBatvatar]});
+  }
+
+  void _updateBatpoints() async {
+    var user = Provider.of<User>(context, listen: false);
+    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batpoints': _playerBatpoints});
   }
 
   Widget _batvatarSelection() {
@@ -72,6 +93,36 @@ class _MainDrawerState extends State<MainDrawer> {
                     ]),
                   )),
         )));
+  }
+
+  Widget _batpointExchange() {
+    return Container(
+      padding: EdgeInsets.only(top: 2.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('Exchange Batpoints for Chips', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16)),
+          Slider.adaptive(
+            value: _playerBatpoints,
+            onChanged: (exchangedBatpoints) {
+              setState(() {
+                _playerBatpoints -= exchangedBatpoints;
+              });
+            },
+            label: '$_playerBatpoints',
+            min: 0,
+            max: _playerBatpoints,
+          ),
+          BatButton(
+            enabledBool: true,
+            textColor: Colors.white,
+            text: 'Exchange for Chips',
+            tapFunc: () => _updateBatpoints(),
+          )
+        ],
+      ),
+    );
   }
 
   @override

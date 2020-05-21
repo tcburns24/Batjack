@@ -46,7 +46,12 @@ class Home extends StatelessWidget {
                         height: batLogoHeight / 1.7,
                       )),
                   Padding(padding: EdgeInsets.only(bottom: 16), child: Text('Choose a casino', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 20))),
-                  Container(height: 200, child: ListView(scrollDirection: Axis.horizontal, children: allCasinos())),
+                  Container(
+                      height: 200,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: allCasinos(),
+                      )),
                 ],
               ))),
           drawer: MainDrawer(),
