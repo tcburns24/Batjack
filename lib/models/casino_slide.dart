@@ -31,7 +31,7 @@ class CasinoSlide extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.only(left: 6.0),
                 child: Text(
-                  '$unlockAt chips required to unlock $location.\nEarn more chips at a previous casino or exchange Batpoints for chips.',
+                  '$unlockAt chips required to unlock $location. Earn more chips at a previous casino or exchange Batpoints for chips.',
                   style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
                   textAlign: TextAlign.left,
                 )),

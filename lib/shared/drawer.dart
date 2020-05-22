@@ -8,6 +8,7 @@ import 'package:blacktom/shared/palettes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 
 import 'loading.dart';
@@ -22,7 +23,8 @@ class _MainDrawerState extends State<MainDrawer> {
 
   int _selectedBatvatar;
   double _playerCash;
-  double _playerBatpoints = 1.0;
+  double _playerBatpoints = 40.0;
+  int _wageredBatpoints = 0;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -203,6 +205,36 @@ class _MainDrawerState extends State<MainDrawer> {
                         )
                       ],
                     )),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      'Exchange Batpoints for Chips',
+                      style: GoogleFonts.lacquer(color: BatmanColors.darkGrey),
+                    ),
+                    Container(
+                      height: 50,
+                      child: NumberPicker.integer(
+                          initialValue: _wageredBatpoints,
+                          scrollDirection: Axis.horizontal,
+                          minValue: 0,
+                          maxValue: _playerBatpoints.toInt(),
+                          onChanged: (newVal) {
+                            setState(() {
+                              _wageredBatpoints = newVal;
+                            });
+                          }),
+                    ),
+                    BatButton(
+                      enabledBool: true,
+                      text: 'Exchange for ${_wageredBatpoints * 8} Chips',
+                      tapFunc: () {},
+                      textSize: 14.0,
+                      textColor: Colors.white,
+                    )
+                  ],
+                ),
                 GestureDetector(
                   child: ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
                   onTap: () {
