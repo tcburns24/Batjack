@@ -22,8 +22,8 @@ class _MainDrawerState extends State<MainDrawer> {
   AuthService _auth = new AuthService();
 
   int _selectedBatvatar;
-  double _playerCash;
-  double _playerBatpoints = 40.0;
+  num _playerCash;
+  num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
 
   List<String> _batvatars = [
@@ -43,7 +43,9 @@ class _MainDrawerState extends State<MainDrawer> {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
       _playerCash = doc.data['chips'];
+      print('🔷❎🔷❎_playerCash now = ${_playerCash.toInt()}');
       _playerBatpoints = doc.data['batpoints'];
+      print('💹💙❇️💙_playerBatpoints now = ${_playerBatpoints.toInt()}');
     });
   }
 
@@ -95,36 +97,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     ]),
                   )),
         )));
-  }
-
-  Widget _batpointExchange() {
-    return Container(
-      padding: EdgeInsets.only(top: 2.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text('Exchange Batpoints for Chips', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16)),
-          Slider.adaptive(
-            value: _playerBatpoints,
-            onChanged: (exchangedBatpoints) {
-              setState(() {
-                _playerBatpoints -= exchangedBatpoints;
-              });
-            },
-            label: '$_playerBatpoints',
-            min: 0,
-            max: _playerBatpoints,
-          ),
-          BatButton(
-            enabledBool: true,
-            textColor: Colors.white,
-            text: 'Exchange for Chips',
-            tapFunc: () => _updateBatpoints(),
-          )
-        ],
-      ),
-    );
   }
 
   @override
@@ -229,7 +201,12 @@ class _MainDrawerState extends State<MainDrawer> {
                     BatButton(
                       enabledBool: true,
                       text: 'Exchange for ${_wageredBatpoints * 8} Chips',
-                      tapFunc: () {},
+                      tapFunc: () {
+                        Firestore.instance
+                            .collection('gamblers')
+                            .document(user.uid)
+                            .updateData({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * 8)).floor()});
+                      },
                       textSize: 14.0,
                       textColor: Colors.white,
                     )

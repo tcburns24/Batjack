@@ -25,6 +25,20 @@ class Home extends StatelessWidget {
             backgroundColor: BatmanColors.blueGrey,
             title: Text('Batjack'),
             elevation: 0.8,
+            actions: <Widget>[
+              FlatButton.icon(
+                  onPressed: () async {
+                    await _auth.signOut();
+                  },
+                  icon: Icon(
+                    Icons.flight_takeoff,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'Sign out',
+                    style: GoogleFonts.oxanium(color: Colors.white),
+                  ))
+            ],
           ),
           body: Container(
               decoration: BoxDecoration(
