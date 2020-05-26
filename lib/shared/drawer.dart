@@ -25,6 +25,7 @@ class _MainDrawerState extends State<MainDrawer> {
   num _playerCash;
   num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
+  int _exchangeRate = 15;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -177,40 +178,58 @@ class _MainDrawerState extends State<MainDrawer> {
                         )
                       ],
                     )),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(
-                      'Exchange Batpoints for Chips',
-                      style: GoogleFonts.lacquer(color: BatmanColors.darkGrey),
-                    ),
-                    Container(
-                      height: 50,
-                      child: NumberPicker.integer(
-                          initialValue: _wageredBatpoints,
-                          scrollDirection: Axis.horizontal,
-                          minValue: 0,
-                          maxValue: _playerBatpoints.toInt(),
-                          onChanged: (newVal) {
-                            setState(() {
-                              _wageredBatpoints = newVal;
-                            });
-                          }),
-                    ),
-                    BatButton(
-                      enabledBool: true,
-                      text: 'Exchange for ${_wageredBatpoints * 8} Chips',
-                      tapFunc: () {
-                        Firestore.instance
-                            .collection('gamblers')
-                            .document(user.uid)
-                            .updateData({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * 8)).floor()});
-                      },
-                      textSize: 14.0,
-                      textColor: Colors.white,
-                    )
-                  ],
+                Container(
+                  padding: EdgeInsets.only(left: 8, bottom: 12),
+                  decoration: BoxDecoration(color: BatmanColors.darkGrey),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 12, bottom: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.swap_horizontal_circle, color: Colors.white, size: 18),
+                            Text(
+                              ' Exchange Batpoints for Chips',
+                              style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 50,
+                        child: NumberPicker.integer(
+                            initialValue: _wageredBatpoints,
+                            scrollDirection: Axis.horizontal,
+                            minValue: 0,
+                            maxValue: _playerBatpoints.toInt(),
+                            onChanged: (newVal) {
+                              setState(() {
+                                _wageredBatpoints = newVal;
+                              });
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 30, right: 30),
+                        child: BatButton(
+                          enabledBool: true,
+                          text: 'Exchange for ${_wageredBatpoints * _exchangeRate} Chips',
+                          tapFunc: () {
+                            Firestore.instance
+                                .collection('gamblers')
+                                .document(user.uid)
+                                .updateData({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * _exchangeRate)).floor()});
+                          },
+                          textSize: 14.0,
+                          textColor: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 GestureDetector(
                   child: ListTile(title: Text('Leaderboard'), leading: Icon(Icons.casino)),
