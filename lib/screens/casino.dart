@@ -410,7 +410,7 @@ class _CasinoState extends State<Casino> {
                     enabledBool: (_gameInSession && _player[curr]['canDouble']),
                     text: 'Double',
                     tapFunc: () {
-                      _player[curr]['canDouble']
+                      (_player[curr]['canDouble'] && _gameInSession)
                           ? setState(() {
                               _double();
                             })
