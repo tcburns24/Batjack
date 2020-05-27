@@ -448,24 +448,6 @@ class _CasinoState extends State<Casino> {
               child: Icon(Icons.monetization_on, color: BatmanColors.darkGrey, size: 18),
             ),
             Expanded(
-                child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                  activeTrackColor: Colors.red[700],
-                  inactiveTrackColor: Colors.red[100],
-                  trackShape: RoundedRectSliderTrackShape(),
-                  trackHeight: 4.0,
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-                  thumbColor: Colors.redAccent,
-                  overlayColor: Colors.red.withAlpha(32),
-                  overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-                  tickMarkShape: RoundSliderTickMarkShape(),
-                  activeTickMarkColor: Colors.red[700],
-                  inactiveTickMarkColor: Colors.red[100],
-                  valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-                  valueIndicatorColor: Colors.redAccent,
-                  valueIndicatorTextStyle: TextStyle(
-                    color: Colors.white,
-                  )),
               child: Slider.adaptive(
                   value: _playerCash >= widget.tableMin ? _bet.toDouble() : 0.0,
                   onChanged: !_gameInSession
@@ -478,7 +460,7 @@ class _CasinoState extends State<Casino> {
                   label: '$_bet',
                   min: _playerCash >= widget.tableMin ? widget.tableMin.toDouble() : 0.0,
                   max: _playerCash >= widget.tableMin ? [widget.tableMax.toDouble(), _playerCash.toDouble()].reduce(min) : 1.0),
-            ))
+            )
           ],
         ),
         Row(
