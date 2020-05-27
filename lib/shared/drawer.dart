@@ -104,6 +104,7 @@ class _MainDrawerState extends State<MainDrawer> {
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
     final user = Provider.of<User>(context);
+    final theme = Theme.of(context);
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {
@@ -202,16 +203,19 @@ class _MainDrawerState extends State<MainDrawer> {
                       ),
                       Container(
                         height: 50,
-                        child: NumberPicker.integer(
-                            initialValue: _wageredBatpoints,
-                            scrollDirection: Axis.horizontal,
-                            minValue: 0,
-                            maxValue: _playerBatpoints.toInt(),
-                            onChanged: (newVal) {
-                              setState(() {
-                                _wageredBatpoints = newVal;
-                              });
-                            }),
+                        child: Theme(
+                          data: theme.copyWith(accentColor: BatmanColors.yellow),
+                          child: NumberPicker.integer(
+                              initialValue: _wageredBatpoints,
+                              scrollDirection: Axis.horizontal,
+                              minValue: 0,
+                              maxValue: _playerBatpoints.toInt(),
+                              onChanged: (newVal) {
+                                setState(() {
+                                  _wageredBatpoints = newVal;
+                                });
+                              }),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 30, right: 30),
