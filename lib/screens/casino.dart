@@ -121,13 +121,15 @@ class _CasinoState extends State<Casino> {
       print('\n🐉🐉 i = $i\n🐉 _player[$i][result] == ${_player[i]['result']}\n🐉 _player[$i][handBet] == ${_player[i]['handBet']}');
       // if push, give player their $ back.
       if (_player[i]['result'] == 3) {
-        _playerCash += _player[i]['handBet'];
+        _playerCash += 0;
         // if player wins, give them their $ plus $.
       } else if (_player[i]['result'] == 1) {
-        _playerCash += _player[i]['handBet'] * 2;
+        _playerCash += _player[i]['handBet'];
         // if player gets batjack, give them their money back plus $ x 2.
       } else if (_player[i]['result'] == 2) {
-        _playerCash += _player[i]['handBet'] * 3;
+        _playerCash += _player[i]['handBet'] * 2;
+      } else if (_player[i]['result'] == -1) {
+        _playerCash -= _player[i]['handBet'];
       }
     }
     _gameInSession = false;
@@ -139,7 +141,6 @@ class _CasinoState extends State<Casino> {
     HapticFeedback.vibrate();
     _player[curr]['canDouble'] = false;
     PlayingCard card = deck[randomCard()];
-    print('\n=====\n♦️♥️ card = ${card.number} ${card.suit}');
     _player[curr]['cards'].add(card);
     for (int i = 0; i < _player[curr]['value'].length; i++) {
       _player[curr]['value'][i] += card.value;
@@ -150,7 +151,6 @@ class _CasinoState extends State<Casino> {
     if (_player[curr]['value'][0] > 21) {
       _player[curr]['value'] = _player[curr]['value'].sublist(1);
       if (_player[curr]['value'].length < 1) {
-        print('️♥️ player busted (curr = $curr)');
         _player[curr]['result'] = -1;
         curr += 1;
         if (curr == _player.length) {
@@ -166,7 +166,7 @@ class _CasinoState extends State<Casino> {
 
   void _beginPlay() {
     _gameInSession = true;
-    _playerCash -= _bet.floor();
+//    _playerCash -= _bet.floor();
     PlayingCard card = deck[randomCard()];
     _dealer['cards'].add(card);
     for (int i = 0; i < _dealer['value'].length; i++) {
@@ -353,7 +353,7 @@ class _CasinoState extends State<Casino> {
             Container(
               padding: EdgeInsets.only(top: 6),
               child: Text(
-                '\$$_playerCash',
+                _gameInSession ? '\$${(_playerCash - _bet.floor())}' : '\$${_playerCash.floor()}',
                 style: GoogleFonts.oxanium(color: Colors.white, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -436,6 +436,19 @@ class _CasinoState extends State<Casino> {
         ),
       ],
     );
+
+    double _determineMax() {
+      if (_playerCash >= widget.tableMin) {
+        if (_playerCash >= _bet.toDouble()) {
+          return [widget.tableMax.toDouble(), _playerCash.toDouble()].reduce(min);
+        } else {
+          return _bet.toDouble();
+        }
+      } else {
+        return 1.0;
+      }
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,7 +472,8 @@ class _CasinoState extends State<Casino> {
                       : null,
                   label: '$_bet',
                   min: _playerCash >= widget.tableMin ? widget.tableMin.toDouble() : 0.0,
-                  max: _playerCash >= widget.tableMin ? [widget.tableMax.toDouble(), _playerCash.toDouble()].reduce(min) : 1.0),
+//                  max: _playerCash >= widget.tableMin ? [widget.tableMax.toDouble(), _playerCash.toDouble()].reduce(min) : 1.0),
+                  max: _determineMax()),
             )
           ],
         ),
