@@ -23,7 +23,7 @@ class _BatvatarState extends State<Batvatar> {
       width: (widget.radius * 2) + widget.borderWidth,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: widget.isSelected ? Colors.lightBlue : Colors.black,
+        color: widget.isSelected ? BatmanColors.yellow : Colors.black,
       ),
       child: Center(
           child: CircleAvatar(
