@@ -35,9 +35,11 @@ class _CasinoState extends State<Casino> {
   String _playerBatvatar = '';
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = false;
+  bool _canSplit = true;
   int curr = 0;
   double _bet = 25.0;
+  double _totalWager = 0.0;
+
   List<Map<dynamic, dynamic>> _player = [
     {
       'cards': [],
@@ -98,6 +100,7 @@ class _CasinoState extends State<Casino> {
       'cards': [],
       'value': [0],
     };
+    _totalWager = 0.0;
   }
 
   Future _bank(BuildContext context) async {
@@ -166,13 +169,13 @@ class _CasinoState extends State<Casino> {
 
   void _beginPlay() {
     _gameInSession = true;
-//    _playerCash -= _bet.floor();
     PlayingCard card = deck[randomCard()];
     _dealer['cards'].add(card);
     for (int i = 0; i < _dealer['value'].length; i++) {
       _dealer['value'][i] += card.value;
     }
     _player[curr]['handBet'] = _bet.floor();
+    _totalWager += _bet;
     _hit();
     _hit();
 
@@ -225,7 +228,6 @@ class _CasinoState extends State<Casino> {
   }
 
   void _split() {
-    _playerCash -= _bet.floor();
     PlayingCard splitCard = _player[0]['cards'][1];
     for (int i = 0; i < _player[0]['value'].length; i++) {
       _player[0]['value'][i] -= (splitCard.isAce ? 1 : splitCard.value);
@@ -237,6 +239,7 @@ class _CasinoState extends State<Casino> {
       'handBet': _bet.floor(),
       'canDouble': true,
     });
+    _totalWager += _bet;
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
     _canSplit = false;
     _hit();
@@ -250,8 +253,8 @@ class _CasinoState extends State<Casino> {
 
   void _double() {
     if (_player[curr]['canDouble']) {
-      _playerCash -= _bet.floor();
       _player[curr]['handBet'] += _bet.floor();
+      _totalWager += _bet;
       _hit();
       _stand();
     }
@@ -353,7 +356,7 @@ class _CasinoState extends State<Casino> {
             Container(
               padding: EdgeInsets.only(top: 6),
               child: Text(
-                _gameInSession ? '\$${(_playerCash - _bet.floor())}' : '\$${_playerCash.floor()}',
+                _gameInSession ? '\$${_playerCash - _totalWager.floor()}' : '\$${_playerCash}',
                 style: GoogleFonts.oxanium(color: Colors.white, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
