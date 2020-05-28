@@ -35,7 +35,7 @@ class _CasinoState extends State<Casino> {
   String _playerBatvatar = '';
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
-  bool _canSplit = true;
+  bool _canSplit = false;
   int curr = 0;
   double _bet = 25.0;
   double _totalWager = 0.0;
@@ -274,7 +274,7 @@ class _CasinoState extends State<Casino> {
               Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]['text']}',
                   style: GoogleFonts.ultra(
                       fontSize: 24, color: _handResults[_player[index]['result']]['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
-              Text('\$${_player[index]['handBet'].floor()}',
+              Text('\$${_handResults[_player[index]['result']]['text'] == 'Batjack!' ? (_player[index]['handBet'].floor()) * 2 : _player[index]['handBet'].floor()}',
                   style: GoogleFonts.ultra(
                     fontSize: 18,
                     color: _player[index]['result'] != 0 ? _handResults[_player[index]['result']]['color'] : BatmanColors.lightGrey,
