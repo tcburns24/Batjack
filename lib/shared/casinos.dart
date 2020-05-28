@@ -75,7 +75,18 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 600,
     'wallpaper': 'assets/wallpapers/joker.jpg',
   },
-//  {'location': 'Gotham Cemetary', 'locationImage': 'assets/casino_slides/gotham_cemetary.jpg', 'dealer': 'Mystery Villain', 'dealerImage'}
+  {
+    'location': 'Gotham Cemetary',
+    'locationImage': 'assets/casino_slides/gotham_cemetary.jpg',
+    'dealer': 'Mystery Villain',
+    'dealerImage': 'assets/dealers/phantasm.jpg',
+    'villainColor': Color(0xff1f1f1f),
+    'tableMin': 100,
+    'tableMax': 1000,
+    'bgGradient': LinearGradient(colors: [Colors.black45, Colors.black87], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'unlockAt': 750,
+    'wallpaper': 'assets/wallpapers/phantasm.jpg',
+  }
 ];
 
 List<Widget> allCasinos() {

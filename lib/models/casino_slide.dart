@@ -131,7 +131,10 @@ class CasinoSlide extends StatelessWidget {
                               child: userData.chips >= unlockAt
                                   ? Container()
                                   : Container(
-                                      color: Colors.black.withOpacity(0.7),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                        color: Colors.black.withOpacity(0.7),
+                                      ),
                                       child: Icon(
                                         Icons.lock_outline,
                                         color: BatmanColors.blueGrey,
