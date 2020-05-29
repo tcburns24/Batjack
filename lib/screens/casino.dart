@@ -389,9 +389,9 @@ class _CasinoState extends State<Casino> {
                   padding: EdgeInsets.only(left: 6),
                   child: BatButton(
                     text: 'Split',
-                    enabledBool: (_canSplit && _gameInSession),
+                    enabledBool: (_canSplit && _gameInSession && (_playerCash >= _bet * 2)),
                     tapFunc: () {
-                      _canSplit
+                      _canSplit && _gameInSession && (_playerCash >= _bet * 2)
                           ? setState(() {
                               _split();
                             })
@@ -410,10 +410,10 @@ class _CasinoState extends State<Casino> {
               child: Padding(
                 padding: EdgeInsets.only(right: 6),
                 child: BatButton(
-                    enabledBool: (_gameInSession && _player[curr]['canDouble']),
+                    enabledBool: (_gameInSession && _player[curr]['canDouble'] && (_playerCash >= _bet * 2)),
                     text: 'Double',
                     tapFunc: () {
-                      (_player[curr]['canDouble'] && _gameInSession)
+                      (_player[curr]['canDouble'] && _gameInSession && (_playerCash >= _bet * 2))
                           ? setState(() {
                               _double();
                             })
