@@ -554,15 +554,17 @@ class _CasinoState extends State<Casino> {
         ? await showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: Text('Sure you want to leave?'),
-              content: Text('If you do, you\'ll lose your bet'),
+              backgroundColor: BatmanColors.black,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              title: Text('Sure you want to leave?', style: GoogleFonts.oxanium(color: Colors.white, fontWeight: FontWeight.w800)),
+              content: Text('If you exit, you\'ll lose your bet', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('No I\'ll Stay'),
+                  child: Text('I\'ll Stay', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 FlatButton(
-                  child: Text('Gotham needs me'),
+                  child: Text('Gotham Needs Me', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
                   onPressed: () async {
                     var user = Provider.of<User>(context, listen: false);
                     for (int i = 0; i < _player.length; i++) {
@@ -589,12 +591,12 @@ class _CasinoState extends State<Casino> {
       builder: (_) => AlertDialog(
         backgroundColor: BatmanColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-        title: Text('You Need More Chips', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey, fontWeight: FontWeight.w800)),
+        title: Text('You Need More Chips', style: GoogleFonts.oxanium(color: Colors.white, fontWeight: FontWeight.w800)),
         content: Text('The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}. Exchange Batpoints for chips in the Batcave.',
             style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
         actions: <Widget>[
           FlatButton(
-            child: Text('Gas up the Batmobile'),
+            child: Text('Gas up the Batmobile', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
