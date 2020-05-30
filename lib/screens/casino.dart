@@ -243,10 +243,11 @@ class _CasinoState extends State<Casino> {
     _player[0]['cards'] = _player[0]['cards'].sublist(0, 1);
     _canSplit = false;
     _hit();
+
     // Check if gambler was dealt a blackjack
     if ((_player[0]['cards'][0].isAce && _player[curr]['cards'][1].isTen) || (_player[0]['cards'][1].isAce && _player[curr]['cards'][0].isTen)) {
       _player[0]['result'] = 2;
-      _hitBtnEnabled = false;
+      _stand();
     }
     _player[0]['canDouble'] = true;
   }
@@ -274,7 +275,7 @@ class _CasinoState extends State<Casino> {
               Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]['text']}',
                   style: GoogleFonts.ultra(
                       fontSize: 24, color: _handResults[_player[index]['result']]['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
-              Text('\$${_handResults[_player[index]['result']]['text'] == 'Batjack!' ? (_player[index]['handBet'].floor()) * 2 : _player[index]['handBet'].floor()}',
+              Text('\$${_player[index]['result'] == 2 ? (_player[index]['handBet'].floor()) * 2 : _player[index]['handBet'].floor()}',
                   style: GoogleFonts.ultra(
                     fontSize: 18,
                     color: _player[index]['result'] != 0 ? _handResults[_player[index]['result']]['color'] : BatmanColors.lightGrey,
