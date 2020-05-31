@@ -39,9 +39,11 @@ class _LeaderboardState extends State<Leaderboard> {
                       ),
                     ],
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 12),
-                      child: Text('${arr[index].data['username']}', overflow: TextOverflow.ellipsis, style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16))),
+                  Flexible(
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 12),
+                        child: Text('${arr[index].data['username']}', overflow: TextOverflow.ellipsis, style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16))),
+                  ),
                 ],
               ),
               trailing: Container(
