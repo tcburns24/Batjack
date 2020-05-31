@@ -26,6 +26,7 @@ class _MainDrawerState extends State<MainDrawer> {
   num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
   int _exchangeRate = 15;
+  String _playerBatvatar;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -44,9 +45,8 @@ class _MainDrawerState extends State<MainDrawer> {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
       _playerCash = doc.data['chips'];
-      print('🔷❎🔷❎_playerCash now = ${_playerCash.toInt()}');
       _playerBatpoints = doc.data['batpoints'];
-      print('💹💙❇️💙_playerBatpoints now = ${_playerBatpoints.toInt()}');
+      _playerBatvatar = doc.data['batvatar'];
     });
   }
 
@@ -65,11 +65,7 @@ class _MainDrawerState extends State<MainDrawer> {
   void _updateBatvatar() async {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatars[_selectedBatvatar]});
-  }
-
-  void _updateBatpoints() async {
-    var user = Provider.of<User>(context, listen: false);
-    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batpoints': _playerBatpoints});
+    _playerBatvatar = _batvatars[_selectedBatvatar];
   }
 
   Widget _batvatarSelection() {
@@ -125,7 +121,21 @@ class _MainDrawerState extends State<MainDrawer> {
                         Container(
                             padding: EdgeInsets.only(top: 16, bottom: 4),
                             child: Row(children: [
-                              Icon(Icons.person, size: 18, color: Colors.white),
+                              Container(
+                                height: 24,
+                                width: 24,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: Center(
+                                  child: CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor: BatmanColors.lightGrey,
+                                    backgroundImage: AssetImage(_playerBatvatar ?? 'assets/batmen/adam_west.png'),
+                                  ),
+                                ),
+                              ),
                               Text(' ${userData.username}', style: GoogleFonts.oxanium(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700))
                             ])),
                         Container(
@@ -169,12 +179,13 @@ class _MainDrawerState extends State<MainDrawer> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             BatButton(
-                              enabledBool: true,
-                              text: 'Update Batvatar',
-                              textColor: Colors.white,
-                              textSize: 13.0,
-                              tapFunc: () => _updateBatvatar(),
-                            )
+                                enabledBool: true,
+                                text: 'Update Batvatar',
+                                textColor: Colors.white,
+                                textSize: 13.0,
+                                tapFunc: () => setState(() {
+                                      _updateBatvatar();
+                                    }))
                           ],
                         )
                       ],
