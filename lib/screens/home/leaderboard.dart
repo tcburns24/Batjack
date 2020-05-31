@@ -8,10 +8,10 @@ class Leaderboard extends StatefulWidget {
   _LeaderboardState createState() => _LeaderboardState();
 }
 
-// Text(arr[index].data['username'].toString())
-
 class _LeaderboardState extends State<Leaderboard> {
   ListView _allDocs(List arr) {
+    // sort the arr items by chips (descending)
+    arr.sort((a, b) => b.data['chips'].compareTo(a.data['chips']));
     return ListView.separated(
         separatorBuilder: (context, index) => Divider(
               color: BatmanColors.lightGrey,
