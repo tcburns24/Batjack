@@ -10,6 +10,7 @@ class Rules extends StatelessWidget {
     'Can double only before first hit',
     'Dealer stands on soft 17s',
     'Player cannot double or split without sufficient chips',
+    'Players are grandfathered into a casino if their chip quantity falls below the minimum'
   ];
 
   @override
