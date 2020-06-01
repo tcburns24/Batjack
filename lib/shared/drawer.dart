@@ -1,6 +1,7 @@
 import 'package:blacktom/models/bat_button.dart';
 import 'package:blacktom/models/user.dart';
 import 'package:blacktom/screens/home/leaderboard.dart';
+import 'package:blacktom/screens/home/rules.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:blacktom/services/database.dart';
 import 'package:blacktom/shared/batvatar.dart';
@@ -26,7 +27,6 @@ class _MainDrawerState extends State<MainDrawer> {
   num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
   int _exchangeRate = 15;
-  String _playerBatvatar;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -46,7 +46,6 @@ class _MainDrawerState extends State<MainDrawer> {
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
       _playerCash = doc.data['chips'];
       _playerBatpoints = doc.data['batpoints'];
-      _playerBatvatar = doc.data['batvatar'];
     });
   }
 
@@ -65,7 +64,6 @@ class _MainDrawerState extends State<MainDrawer> {
   void _updateBatvatar() async {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatars[_selectedBatvatar]});
-    _playerBatvatar = _batvatars[_selectedBatvatar];
   }
 
   Widget _batvatarSelection() {
@@ -132,7 +130,7 @@ class _MainDrawerState extends State<MainDrawer> {
                                   child: CircleAvatar(
                                     radius: 10,
                                     backgroundColor: BatmanColors.lightGrey,
-                                    backgroundImage: AssetImage(_playerBatvatar ?? 'assets/batmen/adam_west.png'),
+                                    backgroundImage: AssetImage(userData.batvatar),
                                   ),
                                 ),
                               ),
@@ -183,9 +181,10 @@ class _MainDrawerState extends State<MainDrawer> {
                                 text: 'Update Batvatar',
                                 textColor: Colors.white,
                                 textSize: 13.0,
-                                tapFunc: () => setState(() {
-                                      _updateBatvatar();
-                                    }))
+                                tapFunc: () {
+                                  _updateBatvatar();
+                                  setState(() {});
+                                })
                           ],
                         )
                       ],
@@ -252,6 +251,11 @@ class _MainDrawerState extends State<MainDrawer> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Leaderboard()));
                   },
                 ),
+                GestureDetector(
+                    child: ListTile(title: Text('Rules'), leading: Icon(Icons.description)),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Rules()));
+                    }),
                 GestureDetector(
                   child: ListTile(title: Text('Sign Out'), leading: Icon(Icons.flight_takeoff)),
                   onTap: () => _auth.signOut(),
