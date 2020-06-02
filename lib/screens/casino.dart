@@ -15,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Casino extends StatefulWidget {
-  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper});
+  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper, this.openCasino});
 
   final LinearGradient bgGradient;
   final String dealerImage;
@@ -24,6 +24,7 @@ class Casino extends StatefulWidget {
   final int tableMax;
   final Color appBarColor;
   final String wallpaper;
+  final String openCasino;
 
   @override
   _CasinoState createState() => _CasinoState();
@@ -31,7 +32,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
-  int _playerCash;
+  int _playerCash = 0;
   String _playerBatvatar = '';
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
@@ -68,13 +69,23 @@ class _CasinoState extends State<Casino> {
     3: {'text': 'Push', 'color': BatmanColors.lightGrey}
   };
 
-  void _getUserChips() async {
+  Future<void> _getUserChips() async {
     var user = Provider.of<User>(context, listen: false);
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
       _playerCash = doc.data['chips'];
       _playerBatvatar = doc.data['batvatar'];
     });
-    print('❎❎🥃_playerCAsh = $_playerCash');
+  }
+
+  void _maybeShowWelcomeDialog(BuildContext context) {
+    var user = Provider.of<User>(context, listen: false);
+    Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
+      print('doc.data[openCasinos][${widget.openCasino}] == ${doc.data['openCasinos'][widget.openCasino]}');
+      if (doc.data['openCasinos'][widget.openCasino] == false) {
+        Firestore.instance.collection('gamblers').document(user.uid).updateData({'openCasinos.${widget.openCasino}': true});
+        _welcomeDialog();
+      }
+    });
   }
 
   @override
@@ -82,6 +93,7 @@ class _CasinoState extends State<Casino> {
     super.initState();
     _bet = widget.tableMin.toDouble();
     _getUserChips();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowWelcomeDialog(context));
   }
 
   void _reset() {
@@ -495,31 +507,34 @@ class _CasinoState extends State<Casino> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 115,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: 6,
-                right: 8,
-                child: CircleAvatar(
-                  radius: 48,
-                  backgroundImage: AssetImage(widget.dealerImage),
-                ),
-              ),
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  height: 110,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: _dealerHands(),
+        GestureDetector(
+          onTap: _welcomeDialog,
+          child: Container(
+            height: 115,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 6,
+                  right: 8,
+                  child: CircleAvatar(
+                    radius: 48,
+                    backgroundImage: AssetImage(widget.dealerImage),
                   ),
                 ),
-              )
-            ],
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    height: 110,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _dealerHands(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         Row(
@@ -547,6 +562,26 @@ class _CasinoState extends State<Casino> {
             )),
         Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: _handScore()),
       ],
+    );
+  }
+
+  Future<void> _welcomeDialog() async {
+    print('🍺🍑✴️🆚⭐️_welcomeDialog called!');
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: BatmanColors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        content: Text('Sample welcome dialog text. ', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Deal the cards', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+        elevation: 16.0,
+      ),
+      barrierDismissible: false,
     );
   }
 

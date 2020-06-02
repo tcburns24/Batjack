@@ -8,7 +8,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CasinoSlide extends StatelessWidget {
-  CasinoSlide({this.tableMin, this.tableMax, this.dealer, this.villainColor, this.dealerImage, this.location, this.locationImage, this.bgGradient, this.unlockAt, this.wallpaper});
+  CasinoSlide(
+      {this.tableMin,
+      this.tableMax,
+      this.dealer,
+      this.villainColor,
+      this.dealerImage,
+      this.location,
+      this.locationImage,
+      this.bgGradient,
+      this.unlockAt,
+      this.wallpaper,
+      this.openCasino});
   final int tableMin;
   final int tableMax;
   final String dealer;
@@ -19,6 +30,7 @@ class CasinoSlide extends StatelessWidget {
   final LinearGradient bgGradient;
   final int unlockAt;
   final String wallpaper;
+  final String openCasino;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +74,7 @@ class CasinoSlide extends StatelessWidget {
                                   bgGradient: bgGradient,
                                   appBarColor: villainColor,
                                   wallpaper: wallpaper,
+                                  openCasino: openCasino,
                                 ))),
                     child: Container(
                       height: 200,
