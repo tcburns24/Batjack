@@ -15,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Casino extends StatefulWidget {
-  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper, this.openCasino});
+  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper, this.openCasino, this.welcomeMssg});
 
   final LinearGradient bgGradient;
   final String dealerImage;
@@ -25,6 +25,7 @@ class Casino extends StatefulWidget {
   final Color appBarColor;
   final String wallpaper;
   final String openCasino;
+  final String welcomeMssg;
 
   @override
   _CasinoState createState() => _CasinoState();
@@ -572,7 +573,7 @@ class _CasinoState extends State<Casino> {
       builder: (_) => AlertDialog(
         backgroundColor: BatmanColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-        content: Text('Sample welcome dialog text. ', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
+        content: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white)),
         actions: <Widget>[
           FlatButton(
             child: Text('Deal the cards', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),

@@ -19,7 +19,8 @@ class CasinoSlide extends StatelessWidget {
       this.bgGradient,
       this.unlockAt,
       this.wallpaper,
-      this.openCasino});
+      this.openCasino,
+      this.welcomeMssg});
   final int tableMin;
   final int tableMax;
   final String dealer;
@@ -31,6 +32,7 @@ class CasinoSlide extends StatelessWidget {
   final int unlockAt;
   final String wallpaper;
   final String openCasino;
+  final String welcomeMssg;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class CasinoSlide extends StatelessWidget {
                                   appBarColor: villainColor,
                                   wallpaper: wallpaper,
                                   openCasino: openCasino,
+                                  welcomeMssg: welcomeMssg,
                                 ))),
                     child: Container(
                       height: 200,

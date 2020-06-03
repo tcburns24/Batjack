@@ -15,6 +15,8 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 0,
     'wallpaper': 'assets/wallpapers/commissioner_gordon.jpg',
     'openCasino': 'gcpd',
+    'welcomeMessage':
+        '\"Batman, thank goodness you\’re here. Gotham is riddled with villainry. The city\’s most villainous villains, each more villainous than the last, are running rampant through the streets. The slack-jawed yokels of the GCPD are much too incompetent to catch these wily crooks; we\’ll need your eagle-eyed detective skills to track them down and defeat them. Remember, if you run out of chips you can exchange your batpoints for more. Now…let\’s play blackjack.\"'
   },
   {
     'location': 'Blackgate Penitentiary',
@@ -28,6 +30,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 200,
     'wallpaper': 'assets/wallpapers/bane.jpg',
     'openCasino': 'blackgate',
+    'welcomeMessage': 'xyz',
   },
   {
     'location': 'Arkham Asylum',
@@ -41,6 +44,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 300,
     'wallpaper': 'assets/wallpapers/scarecrow.jpg',
     'openCasino': 'arkham',
+    'welcomeMessage': 'xyz',
   },
   {
     'location': 'Iceberg Lounge',
@@ -54,6 +58,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 400,
     'wallpaper': 'assets/wallpapers/penguin.jpg',
     'openCasino': 'iceberg',
+    'welcomeMessage': 'xyz',
   },
   {
     'location': 'Gotham Courthouse',
@@ -67,6 +72,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 500,
     'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
     'openCasino': 'courthouse',
+    'welcomeMessage': 'xyz',
   },
   {
     'location': 'Ace Chemicals',
@@ -80,6 +86,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 600,
     'wallpaper': 'assets/wallpapers/joker.jpg',
     'openCasino': 'ace',
+    'welcomeMessage': 'xyz',
   },
   {
     'location': 'Gotham Cemetary',
@@ -93,6 +100,7 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 750,
     'wallpaper': 'assets/wallpapers/phantasm.jpg',
     'openCasino': 'cemetary',
+    'welcomeMessage': 'xyz',
   }
 ];
 
@@ -111,6 +119,7 @@ List<Widget> allCasinos() {
       unlockAt: casinos[i]['unlockAt'],
       wallpaper: casinos[i]['wallpaper'],
       openCasino: casinos[i]['openCasino'],
+      welcomeMssg: casinos[i]['welcomeMessage'],
     ));
   }
   return allCasinos;
