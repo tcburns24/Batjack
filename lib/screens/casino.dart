@@ -573,6 +573,22 @@ class _CasinoState extends State<Casino> {
       builder: (_) => AlertDialog(
         backgroundColor: BatmanColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 43,
+              width: 43,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: widget.appBarColor),
+              child: Center(
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage(widget.dealerImage),
+                ),
+              ),
+            )
+          ],
+        ),
         content: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white)),
         actions: <Widget>[
           FlatButton(
