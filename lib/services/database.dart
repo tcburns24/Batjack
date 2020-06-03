@@ -6,11 +6,21 @@ class DatabaseService {
 
   final String uid;
 
+  Map<String, bool> openCasinos = {
+    'gcpd': false,
+    'blackgate': false,
+    'arkham': false,
+    'iceberg': false,
+    'courthouse': false,
+    'ace': false,
+    'cemetary': false,
+  };
+
   // 1) Collection reference
   final CollectionReference gamblersCollection = Firestore.instance.collection('gamblers');
 
   Future updateUserData(String username, int chips, int batpoints, String batvatar) async {
-    return await gamblersCollection.document(uid).setData({'username': username, 'chips': chips, 'batpoints': batpoints, 'batvatar': batvatar});
+    return await gamblersCollection.document(uid).setData({'username': username, 'chips': chips, 'batpoints': batpoints, 'batvatar': batvatar, 'openCasinos': openCasinos});
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
