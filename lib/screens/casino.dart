@@ -589,7 +589,7 @@ class _CasinoState extends State<Casino> {
             )
           ],
         ),
-        content: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white)),
+        content: SingleChildScrollView(child: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white))),
         actions: <Widget>[
           FlatButton(
             child: Text('Deal the cards', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),

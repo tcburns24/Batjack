@@ -45,7 +45,8 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 300,
     'wallpaper': 'assets/wallpapers/scarecrow.jpg',
     'openCasino': 'arkham',
-    'welcomeMessage': 'xyz',
+    'welcomeMessage':
+        '“Look who\’s here—the Batman. I\’m afraid this is where the road ends for you, oh brave one. Beneath your stoic exterior you tremble with the fear that your immeasurable wealth will run dry at the blackjack table. Just as your confidence runs high at the sight of being dealt an ace, I will terrorize you with a 4! Then I will strike fear deep into the hearts of Gothamites everywhere as they watch their savior, the Batman, crumble in horror at the sight of hitting on 16. HahahahahahahahahahahahahahahahaHAHAHAHAHAHAHAHAHA!”',
   },
   {
     'location': 'Iceberg Lounge',
@@ -59,7 +60,8 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 400,
     'wallpaper': 'assets/wallpapers/penguin.jpg',
     'openCasino': 'iceberg',
-    'welcomeMessage': 'xyz',
+    'welcomeMessage':
+        '“Hi Fatman! Welcome to Iceberg Lounge. Unfortunately you do-gooders aren\’t too welcome here. But before you make like a penguin and skeedaddle, why don\’t I ring you dry of your precious chips at the blackjack table. I know your pal Bruce Wayne funds all your operations—did he buy you those tights too? Let\’s see if that Wayne money stands up to my skills at the blackjack table.”',
   },
   {
     'location': 'Gotham Courthouse',
@@ -73,7 +75,8 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 500,
     'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
     'openCasino': 'courthouse',
-    'welcomeMessage': 'xyz',
+    'welcomeMessage':
+        '“Hello Bruce. You\’ve always been a loyal friend. Do you recall that day, here at Gotham Courthouse when a vile of acid scalded the left half of my face? Or perhaps when the left half of my body was doused in gasoline then set ablaze in a fire if you prefer Christopher Nolan\’s take? Whichever storyline you prefer the point is I\’m one of the better batman villains in that we\’re mirror images of each other. We each possess dual personalities, but you are able to control yours and channel them for good. Where as I expect compensation for my losses and channel my anger toward retribution against those who\’ve wronged me. We\’re not too different, Bruce. We\’re opposites yet the same, we\’re Yin and … fuck it, wanna play blackjack?”',
   },
   {
     'location': 'Ace Chemicals',
