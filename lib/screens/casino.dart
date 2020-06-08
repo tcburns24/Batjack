@@ -218,9 +218,13 @@ class _CasinoState extends State<Casino> {
   }
 
   void dealDealer() {
-    while (_dealer['value'].length > 0 && _dealer['value'][0] < 17) {
+    while (_dealer['value'].length > 0 && _dealer['value'][0] < 18) {
+      if (_dealer['value'][0] == 17) {
+        if (_dealer['value'].length == 1) {
+          break;
+        }
+      }
       PlayingCard card = deck[randomCard()];
-      print('🦌🦌 Dealer: card = ${card.suit} ${card.number}');
       _dealer['cards'].add(card);
       for (int i = 0; i < _dealer['value'].length; i++) {
         _dealer['value'][i] += card.value;
@@ -228,7 +232,6 @@ class _CasinoState extends State<Casino> {
       if (_dealer['value'][0] > 21) {
         _dealer['value'] = _dealer['value'].sublist(1);
         if (_dealer['value'].length < 1) {
-          print('️️🍑️ dealer busted');
           for (int i = 0; i < _player.length; i++) {
             if (_player[i]['result'] == 0) {
               _player[i]['result'] = 1;

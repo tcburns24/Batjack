@@ -76,7 +76,7 @@ List<Map<String, dynamic>> casinos = [
     'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
     'openCasino': 'courthouse',
     'welcomeMessage':
-        '“Hello Bruce. You\’ve always been a loyal friend. Do you recall that day, here at Gotham Courthouse when a vile of acid scalded the left half of my face? Or perhaps when the left half of my body was doused in gasoline then set ablaze in a fire if you prefer Christopher Nolan\’s take? Whichever storyline you prefer the point is I\’m one of the better batman villains in that we\’re mirror images of each other. We each possess dual personalities, but you are able to control yours and channel them for good. Where as I expect compensation for my losses and channel my anger toward retribution against those who\’ve wronged me. We\’re not too different, Bruce. We\’re opposites yet the same, we\’re Yin and … fuck it, wanna play blackjack?”',
+        '“Hello Bruce. You\’ve always been a loyal friend. Do you recall that day, here at Gotham Courthouse when a vile of acid scalded the left half of my face? Or perhaps when the left half of my body was doused in gasoline then set ablaze if you prefer the Christopher Nolan take? Whichever storyline you prefer the point is I\’m one of the better batman villains because we\’re mirror images of each other. We each possess dual personalities, but you are able to control yours and channel them for good. Where as I expect compensation for my losses and channel my anger toward retribution against those who\’ve wronged me. We\’re not too different, Bruce. We\’re opposites yet the same, we\’re Yin and … fuck it, wanna play blackjack?”',
   },
   {
     'location': 'Ace Chemicals',

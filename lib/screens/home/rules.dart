@@ -8,7 +8,7 @@ class Rules extends StatelessWidget {
     'Batjack returns 2x bet',
     'Limit 1 split per hand',
     'Can double only before first hit',
-    'Dealer stands on soft 17s',
+    'Dealer hits on soft 17s',
     'Player cannot double or split without sufficient chips',
     'Players are grandfathered into a casino if their chip quantity falls below the minimum'
   ];
