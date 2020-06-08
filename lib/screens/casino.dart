@@ -520,9 +520,13 @@ class _CasinoState extends State<Casino> {
                 Positioned(
                   top: 6,
                   right: 8,
-                  child: CircleAvatar(
-                    radius: 48,
-                    backgroundImage: AssetImage(widget.dealerImage),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, boxShadow: [BoxShadow(color: Color(0xff0f0f0f).withOpacity(0.9), spreadRadius: -5.0, blurRadius: 8.0, offset: Offset(7, 15))]),
+                    child: CircleAvatar(
+                      radius: 48,
+                      backgroundImage: AssetImage(widget.dealerImage),
+                    ),
                   ),
                 ),
                 Positioned(

@@ -31,7 +31,7 @@ List<Map<String, dynamic>> casinos = [
     'wallpaper': 'assets/wallpapers/bane.jpg',
     'openCasino': 'blackgate',
     'welcomeMessage':
-        '“Ah, Mr. Wayne. You come to Blackgate Penitentiary in search of riches, I see. You have betrayed the League of Shadows. For this I will break your spirit and deal you a 6 after you’ve doubled down on a 10. Then I will torture your soul when I get 21 after you\’ve stood on 20. Then Ras Al Ghul’s destiny will be complete. \n\nThen I will break you.”',
+        '“Ah, Mr. Wayne. You come to Blackgate Penitentiary in search of riches, I see. You have betrayed the League of Shadows. For this I will break your spirit and deal you a 6 after you’ve doubled down on a 10. Then I will torture your soul when I reveal my 21 after you\’ve stood on 20. Then Ras Al Ghul’s destiny will be complete. \n\nThen I will break you.”',
   },
   {
     'location': 'Arkham Asylum',
