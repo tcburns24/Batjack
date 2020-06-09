@@ -31,7 +31,7 @@ List<Map<String, dynamic>> casinos = [
     'wallpaper': 'assets/wallpapers/bane.jpg',
     'openCasino': 'blackgate',
     'welcomeMessage':
-        '“Ah, Mr. Wayne. You come to Blackgate Penitentiary in search of riches, I see. You have betrayed the League of Shadows. For this I will break your spirit and deal you a 6 after you’ve doubled down on a 10. Then I will torture your soul when I reveal my 21 after you\’ve stood on 20. Then Ras Al Ghul’s destiny will be complete. \n\nThen I will break you.”',
+        '“Ah, Mr. Wayne. You come to Blackgate Penitentiary in search of riches, I see. You have betrayed the League of Shadows. For this I will break your spirit and deal you a 6 after you’ve doubled down on 10. Then I will torture your soul when I reveal my 21 after you\’ve stood on 20. Then Ras Al Ghul’s destiny will be complete. \n\nThen I will break you.”',
   },
   {
     'location': 'Arkham Asylum',
@@ -76,7 +76,7 @@ List<Map<String, dynamic>> casinos = [
     'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
     'openCasino': 'courthouse',
     'welcomeMessage':
-        '“Hello Bruce. You\’ve always been a loyal friend. Do you recall that day, here at Gotham Courthouse when a vile of acid scalded the left half of my face? Or perhaps when the left half of my body was doused in gasoline then set ablaze if you prefer the Christopher Nolan take? Whichever storyline you prefer the point is I\’m one of the better batman villains because we\’re mirror images of each other. We each possess dual personalities, but you are able to control yours and channel them for good. Where as I expect compensation for my losses and channel my anger toward retribution against those who\’ve wronged me. We\’re not too different, Bruce. We\’re opposites yet the same, we\’re Yin and … fuck it, wanna play blackjack?”',
+        '“Hello Bruce. You\’ve always been a loyal friend. Do you recall that day, here at Gotham Courthouse, when a vile of acid scalded the left half of my face? Or perhaps when the left half of my body was doused in gasoline then set ablaze if you prefer the Christopher Nolan take? Whichever storyline suits your taste the point is I\’m one of the better batman villains because we\’re mirror images of each other. We each possess dual personalities, but you are able to control yours and channel them for good. Where as I expect compensation for my losses and channel my anger toward retribution against those who\’ve wronged me. We\’re not too different, Bruce. We\’re opposites yet the same, we\’re Yin and … fuck it, wanna play blackjack?”',
   },
   {
     'location': 'Ace Chemicals',

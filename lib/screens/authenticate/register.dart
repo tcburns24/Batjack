@@ -117,7 +117,7 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 20),
                   isLoading
                       ? Padding(
-                          padding: EdgeInsets.only(top: 6),
+                          padding: EdgeInsets.only(top: 6, bottom: 6),
                           child: Loading(
                             bgColor: Colors.black,
                             dotColor: BatmanColors.yellow,
