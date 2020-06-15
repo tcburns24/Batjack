@@ -34,6 +34,7 @@ class Casino extends StatefulWidget {
 class _CasinoState extends State<Casino> {
   // 1) State
   int _playerCash = 0;
+  int _playerBatpoints = 0;
   String _playerBatvatar = '';
   bool _gameInSession = false;
   bool _hitBtnEnabled = true;
@@ -75,6 +76,7 @@ class _CasinoState extends State<Casino> {
     await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
       _playerCash = doc.data['chips'];
       _playerBatvatar = doc.data['batvatar'];
+      _playerBatpoints = doc.data['batpoints'];
     });
   }
 
@@ -85,6 +87,8 @@ class _CasinoState extends State<Casino> {
       if (doc.data['openCasinos'][widget.openCasino] == false) {
         Firestore.instance.collection('gamblers').document(user.uid).updateData({'openCasinos.${widget.openCasino}': true});
         _welcomeDialog();
+        (context) => Scaffold.of(context).showSnackBar(newCasinoSnackbar);
+        Firestore.instance.collection('gamblers').document(user.uid).updateData({'batpoints': _playerBatpoints + 10});
       }
     });
   }
@@ -304,15 +308,15 @@ class _CasinoState extends State<Casino> {
   }
 
   // wrap in function w/ buildcontext so you can use $widget.tableMin
-  final cashSnackbar = SnackBar(
+  final newCasinoSnackbar = SnackBar(
     content: Row(
       children: <Widget>[
-        Icon(Icons.lock, color: BatmanColors.darkGrey, size: 44),
+        Icon(Icons.add_circle, color: BatmanColors.jokerGreen, size: 44),
         Flexible(
           child: Padding(
               padding: EdgeInsets.only(left: 6.0),
               child: Text(
-                '\$tableMin required to gamble here',
+                'Open a new casino. +10 Batpoints',
                 style: GoogleFonts.oxanium(color: Colors.black, fontSize: 14),
                 textAlign: TextAlign.left,
               )),

@@ -3,55 +3,55 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-9.jpg",
+      "filename" : "batjack_icon_40.jpg",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-8.jpg",
+      "filename" : "batjack_icon_60.jpg",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-2.jpg",
+      "filename" : "batjack_icon_29.jpg",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-1.jpg",
+      "filename" : "batjack_icon_58.jpg",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon.jpg",
+      "filename" : "batjack_icon_87.jpg",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-3.jpg",
+      "filename" : "batjack_icon_80.jpg",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-4.jpg",
+      "filename" : "batjack_icon_120.jpg",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-6.jpg",
+      "filename" : "batjack_icon_120-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "batjack_app_icon-5.jpg",
+      "filename" : "batjack_icon_180.jpg",
       "scale" : "3x"
     },
     {
@@ -111,12 +111,15 @@
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "batjack_app_icon-7.jpg",
+      "filename" : "batjack_icon_1024.jpg",
       "scale" : "1x"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "pre-rendered" : true
   }
 }
