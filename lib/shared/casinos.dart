@@ -90,7 +90,8 @@ List<Map<String, dynamic>> casinos = [
     'unlockAt': 600,
     'wallpaper': 'assets/wallpapers/joker.jpg',
     'openCasino': 'ace',
-    'welcomeMessage': 'xyz',
+    'welcomeMessage':
+        '“Hey Bats! Welcome to Ace Chemicals, my tropical home away from home. The Tim Burton fell-into-a-vat-of-chemicals backstory is a bit underdeveloped for my tastes, plus a mysterious, sans-backstory Joker is a good Joker! Unlike me, Bats, you are a product of your backstory; eternally spending your midnights galloping between rooftops aiming to bring order to Gotham in the name of avenging your parents\’ deaths. I, on the other hand, revel in chaos and the lack of order. This is what makes us arch nemeses, Bats—I don\’t threaten bodily harm to you like Penguin, Twoface and those boring tom-dick-and-harry villains. No no, I threaten the entire premise of your existence. \n\nYou cannot defeat me at blackjack, Bats. You see, blackjack is the embodiment of chaos. Each hit, double, and stand is an invitation to descend into anarchy and madness. The blackjack table is a realm of blissful disorder. It cannot be controlled or strategized—chaos in its purest form. A man of discipline cannot win at a game of chaos. Your demise begins now, Bats! HAAAAAAA HAHAHAHAHAHAHA!”',
   },
   {
     'location': 'Gotham Cemetary',

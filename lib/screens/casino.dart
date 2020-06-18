@@ -86,7 +86,7 @@ class _CasinoState extends State<Casino> {
       print('doc.data[openCasinos][${widget.openCasino}] == ${doc.data['openCasinos'][widget.openCasino]}');
       if (doc.data['openCasinos'][widget.openCasino] == false) {
         Firestore.instance.collection('gamblers').document(user.uid).updateData({'openCasinos.${widget.openCasino}': true});
-        _welcomeDialog();
+        _welcomeDialog(true);
         (context) => Scaffold.of(context).showSnackBar(newCasinoSnackbar);
         Firestore.instance.collection('gamblers').document(user.uid).updateData({'batpoints': _playerBatpoints + 10});
       }
@@ -516,7 +516,7 @@ class _CasinoState extends State<Casino> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         GestureDetector(
-          onTap: _welcomeDialog,
+          onTap: () => _welcomeDialog(false),
           child: Container(
             height: 115,
             child: Stack(
@@ -577,15 +577,14 @@ class _CasinoState extends State<Casino> {
     );
   }
 
-  Future<void> _welcomeDialog() async {
-    print('🍺🍑✴️🆚⭐️_welcomeDialog called!');
+  Future<void> _welcomeDialog(bool firstShow) async {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: BatmanColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               height: 43,
@@ -597,7 +596,21 @@ class _CasinoState extends State<Casino> {
                   backgroundImage: AssetImage(widget.dealerImage),
                 ),
               ),
-            )
+            ),
+            firstShow
+                ? Container(
+                    padding: EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), border: Border.all(color: BatmanColors.yellow)),
+                    child: RichText(
+                      text: TextSpan(text: '${widget.casinoName}\n', style: GoogleFonts.oxanium(fontSize: 16, color: BatmanColors.yellow, height: 1.5), children: <TextSpan>[
+                        TextSpan(
+                          text: '✅  +10 Batpoints',
+                          style: GoogleFonts.oxanium(fontSize: 14, color: BatmanColors.jokerGreen, height: 1.5),
+                        )
+                      ]),
+                    ),
+                  )
+                : Container()
           ],
         ),
         content: SingleChildScrollView(child: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white))),
