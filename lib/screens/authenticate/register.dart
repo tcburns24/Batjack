@@ -114,6 +114,7 @@ class _RegisterState extends State<Register> {
                       labelStyle: GoogleFonts.oxanium(color: BatmanColors.darkGrey),
                       errorStyle: GoogleFonts.oxanium(color: Colors.orangeAccent),
                     ),
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   SizedBox(height: 20),
                   isLoading
