@@ -71,7 +71,7 @@ List<Map<String, dynamic>> casinos = [
     'villainColor': Color(0xff9e1313),
     'tableMin': 60,
     'tableMax': 800,
-    'bgGradient': LinearGradient(colors: [Colors.lightBlue[400], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+    'bgGradient': LinearGradient(colors: [Colors.lightBlue[500], Colors.lightBlue[100]], begin: Alignment.topCenter, end: Alignment.bottomCenter),
     'unlockAt': 500,
     'wallpaper': 'assets/wallpapers/twoface_wallpaper.jpg',
     'openCasino': 'courthouse',
