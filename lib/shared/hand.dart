@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Hand extends StatefulWidget {
-  Hand({this.cards});
+  Hand({required this.cards, Key? key}) : super(key: key);
 
   List<dynamic> cards;
 

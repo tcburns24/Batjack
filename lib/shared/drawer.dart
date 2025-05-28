@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'loading.dart';
 
@@ -22,8 +23,8 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   AuthService _auth = new AuthService();
 
-  int _selectedBatvatar;
-  num _playerCash;
+  late int _selectedBatvatar;
+  late num _playerCash;
   num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
   int _exchangeRate = 15;
@@ -42,10 +43,10 @@ class _MainDrawerState extends State<MainDrawer> {
   List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
 
   void _getUserChips() async {
-    var user = Provider.of<User>(context, listen: false);
-    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
-      _playerCash = doc.data['chips'];
-      _playerBatpoints = doc.data['batpoints'];
+    var user = Provider.of<AppUser>(context, listen: false);
+    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
+      _playerCash = doc.data()?['chips'];
+      _playerBatpoints = doc.data()?['batpoints'];
     });
   }
 
@@ -62,8 +63,8 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void _updateBatvatar() async {
-    var user = Provider.of<User>(context, listen: false);
-    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'batvatar': _batvatars[_selectedBatvatar]});
+    var user = Provider.of<AppUser>(context, listen: false);
+    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batvatar': _batvatars[_selectedBatvatar]});
   }
 
   Widget _batvatarSelection() {
@@ -97,13 +98,13 @@ class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
-    final user = Provider.of<User>(context);
+    final user = Provider.of<AppUser?>(context);
     final theme = Theme.of(context);
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserData userData = snapshot.data;
+            UserData? userData = snapshot.data;
             return Drawer(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -130,7 +131,7 @@ class _MainDrawerState extends State<MainDrawer> {
                                   child: CircleAvatar(
                                     radius: 10,
                                     backgroundColor: BatmanColors.lightGrey,
-                                    backgroundImage: AssetImage(userData.batvatar),
+                                    backgroundImage: AssetImage(userData!.batvatar),
                                   ),
                                 ),
                               ),
@@ -214,10 +215,10 @@ class _MainDrawerState extends State<MainDrawer> {
                       Container(
                         height: 50,
                         child: Theme(
-                          data: theme.copyWith(accentColor: BatmanColors.yellow),
-                          child: NumberPicker.integer(
-                              initialValue: _wageredBatpoints,
-                              scrollDirection: Axis.horizontal,
+                          data: theme.copyWith(hintColor: BatmanColors.yellow),
+                          child: NumberPicker(
+                              value: _wageredBatpoints,
+                              axis: Axis.horizontal,
                               minValue: 0,
                               maxValue: _playerBatpoints.toInt(),
                               onChanged: (newVal) {
@@ -233,10 +234,10 @@ class _MainDrawerState extends State<MainDrawer> {
                           enabledBool: true,
                           text: 'Exchange for ${_wageredBatpoints * _exchangeRate} Chips',
                           tapFunc: () {
-                            Firestore.instance
+                            FirebaseFirestore.instance
                                 .collection('gamblers')
-                                .document(user.uid)
-                                .updateData({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * _exchangeRate)).floor()});
+                                .doc(user.uid)
+                                .update({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * _exchangeRate)).floor()});
                           },
                           textSize: 14.0,
                           textColor: Colors.white,

@@ -1,14 +1,20 @@
-class User {
-  User({this.uid});
+class AppUser {
   final String uid;
+  AppUser({required this.uid});
 }
 
 class UserData {
-  UserData({this.uid, this.chips, this.username, this.batpoints, this.batvatar});
-
   final String uid;
   final int chips;
   final String username;
   final int batpoints;
   final String batvatar;
+
+  UserData({
+    required this.uid,
+    required this.chips,
+    required this.username,
+    required this.batpoints,
+    required this.batvatar,
+  });
 }

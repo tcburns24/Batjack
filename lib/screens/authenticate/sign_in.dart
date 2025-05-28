@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignIn extends StatefulWidget {
-  SignIn({this.toggleView});
   final Function toggleView;
+  SignIn({required this.toggleView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -49,7 +49,7 @@ class _SignInState extends State<SignIn> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 8, bottom: 12),
-                    child: Image.asset('assets/batman_logos/white.png', height: batLogoHeight, width: batLogoWidth),
+                    child: Image.asset('assets/batman_logos/white.png', height: batLogoHeight.toDouble(), width: batLogoWidth.toDouble()),
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
                       });
                     },
                     style: GoogleFonts.oxanium(color: Colors.white),
-                    validator: (val) => !_isValidEmail(val) ? 'You sure about that? 👆🏼' : null,
+                    validator: (val) => !_isValidEmail(val ?? '') ? 'You sure about that? 👆🏼' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -93,7 +93,7 @@ class _SignInState extends State<SignIn> {
                         password = val;
                       });
                     },
-                    validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
+                    validator: (val) => (val?.length ?? 0) < 6 ? 'Password\'s gotta be 6+ characters' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -124,26 +124,35 @@ class _SignInState extends State<SignIn> {
                             bgColor: Colors.black,
                             dotColor: Colors.white,
                           ))
-                      : RaisedButton(
-                          color: BatmanColors.black,
-                          textColor: Colors.white,
-                          child: Padding(padding: EdgeInsets.all(10.0), child: Text('Sign In', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                              if (result == null) {
-                                setState(() {
-                                  errorText = 'That\'s not your password. Hopefully Alfred wrote it on a post-it note.';
-                                  isLoading = false;
-                                });
-                              }
-                            }
-                          },
-                        ),
+                      : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white, backgroundColor: BatmanColors.black, // text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        side: BorderSide(color: BatmanColors.black),
+                      ),
+                      padding: EdgeInsets.all(10.0), // move padding here
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                        if (result == null) {
+                          setState(() {
+                            errorText = 'That\'s not your password. Hopefully Alfred wrote it on a post-it note.';
+                            isLoading = false;
+                          });
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Sign In',
+                      style: GoogleFonts.oxanium(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+
                   SizedBox(height: 12),
                   Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),
                   Padding(

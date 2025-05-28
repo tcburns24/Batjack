@@ -8,19 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CasinoSlide extends StatelessWidget {
-  CasinoSlide(
-      {this.tableMin,
-      this.tableMax,
-      this.dealer,
-      this.villainColor,
-      this.dealerImage,
-      this.location,
-      this.locationImage,
-      this.bgGradient,
-      this.unlockAt,
-      this.wallpaper,
-      this.openCasino,
-      this.welcomeMssg});
   final int tableMin;
   final int tableMax;
   final String dealer;
@@ -33,10 +20,23 @@ class CasinoSlide extends StatelessWidget {
   final String wallpaper;
   final String openCasino;
   final String welcomeMssg;
+  CasinoSlide(
+      {required this.tableMin,
+      required this.tableMax,
+      required this.dealer,
+      required this.villainColor,
+      required this.dealerImage,
+      required this.location,
+      required this.locationImage,
+      required this.bgGradient,
+      required this.unlockAt,
+      required this.wallpaper,
+      required this.openCasino,
+      required this.welcomeMssg});
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<AppUser?>(context);
     final lockedSnackbar = SnackBar(
       content: Row(
         children: <Widget>[
@@ -61,12 +61,12 @@ class CasinoSlide extends StatelessWidget {
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserData userData = snapshot.data;
+            UserData? userData = snapshot.data;
             return Padding(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: GestureDetector(
-                    onTap: userData.chips < unlockAt
-                        ? () => Scaffold.of(context).showSnackBar(lockedSnackbar)
+                    onTap: userData!.chips < unlockAt
+                        ? () => ScaffoldMessenger.of(context).showSnackBar(lockedSnackbar)
                         : () => Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Casino(
                                   dealerImage: dealerImage,

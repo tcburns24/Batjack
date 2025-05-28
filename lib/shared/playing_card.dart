@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlayingCard extends StatefulWidget {
-  PlayingCard({this.value, this.number, this.suit, this.isTen, this.isAce});
+  PlayingCard({
+    required this.value,
+    required this.number,
+    required this.suit,
+    required this.isTen,
+    required this.isAce});
   final int value;
   final String number;
   final String suit;
@@ -14,8 +19,8 @@ class PlayingCard extends StatefulWidget {
 }
 
 class _PlayingCardState extends State<PlayingCard> with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   initState() {
     super.initState();

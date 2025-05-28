@@ -2,7 +2,12 @@ import 'package:blacktom/shared/palettes.dart';
 import 'package:flutter/material.dart';
 
 class Batvatar extends StatefulWidget {
-  Batvatar({this.radius, this.borderWidth, this.avatarImage, this.bgColor, this.isSelected});
+  Batvatar({
+    required this.radius,
+    required this.borderWidth,
+    required this.avatarImage,
+    required this.bgColor,
+    required this.isSelected});
 
   final double radius;
   final double borderWidth;

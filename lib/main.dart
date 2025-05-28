@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart'; // ✅ Add this import
 import 'package:blacktom/screens/wrapper.dart';
 import 'package:blacktom/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -7,24 +8,31 @@ import 'package:provider/provider.dart';
 
 import 'models/user.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();         // ✅ Required before Firebase init
+  await Firebase.initializeApp();                    // ✅ Initialize Firebase
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return StreamProvider<User>.value(
-        value: AuthService().user,
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Wrapper(),
-          theme: ThemeData(
-              textTheme: TextTheme(
-            body1: GoogleFonts.oxanium(),
-          )),
-        ));
+
+    return StreamProvider<AppUser?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Wrapper(),
+        theme: ThemeData(
+          textTheme: TextTheme(
+            bodyLarge: GoogleFonts.oxanium(),
+          ),
+        ),
+      ),
+    );
   }
 }

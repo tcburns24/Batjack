@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Register extends StatefulWidget {
-  Register({this.toggleView});
   final Function toggleView;
 
-  @override
-  _RegisterState createState() => _RegisterState();
+  const Register({required this.toggleView, super.key});
+
+@override
+_RegisterState createState() => _RegisterState();
 }
+
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = new AuthService();
@@ -49,7 +51,7 @@ class _RegisterState extends State<Register> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 8, bottom: 12),
-                    child: Image.asset('assets/batman_logos/yellow_bg.png', height: batLogoHeight, width: batLogoWidth),
+                    child: Image.asset('assets/batman_logos/yellow_bg.png', height: batLogoHeight.toDouble(), width: batLogoWidth.toDouble()),
                   ),
                   Padding(padding: EdgeInsets.only(top: 12, bottom: 12), child: Container(child: Text('Sign up for Batjack', style: GoogleFonts.oxanium(fontSize: 20)))),
                   TextFormField(
@@ -59,7 +61,7 @@ class _RegisterState extends State<Register> {
                         email = val;
                       });
                     },
-                    validator: (val) => !_isValidEmail(val) ? 'You underestimate Batcave security. Enter a real email.' : null,
+                    validator: (val) => !_isValidEmail(val ?? '') ? 'You underestimate Batcave security. Enter a real email.' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -92,7 +94,7 @@ class _RegisterState extends State<Register> {
                         password = val;
                       });
                     },
-                    validator: (val) => val.length < 6 ? 'Password\'s gotta be 6+ characters' : null,
+                    validator: (val) => (val?.length ?? 0) < 6 ? 'Password\'s gotta be 6+ characters' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -124,13 +126,18 @@ class _RegisterState extends State<Register> {
                             bgColor: Colors.black,
                             dotColor: BatmanColors.yellow,
                           ))
-                      : RaisedButton(
-                          color: BatmanColors.black,
-                          textColor: BatmanColors.yellow,
-                          child: Padding(padding: EdgeInsets.all(10.0), child: Text('Sign Up', style: GoogleFonts.oxanium(fontWeight: FontWeight.w600))),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50)), side: BorderSide(color: BatmanColors.black)),
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: BorderSide(color: Colors.black),
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                          ),
                           onPressed: () async {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState?.validate() ?? false) {
                               setState(() {
                                 isLoading = true;
                               });
@@ -143,6 +150,10 @@ class _RegisterState extends State<Register> {
                               }
                             }
                           },
+                          child: Text(
+                            'Register',
+                            style: GoogleFonts.oxanium(fontWeight: FontWeight.w600),
+                          ),
                         ),
                   SizedBox(height: 12),
                   Text(errorText, style: GoogleFonts.oxanium(color: Colors.orangeAccent)),

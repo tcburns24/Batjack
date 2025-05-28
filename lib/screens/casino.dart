@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:blacktom/models/bat_button.dart';
@@ -15,7 +16,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Casino extends StatefulWidget {
-  Casino({this.bgGradient, this.dealerImage, this.casinoName, this.tableMin, this.tableMax, this.appBarColor, this.wallpaper, this.openCasino, this.welcomeMssg});
+  Casino({required this.bgGradient,
+    required this.dealerImage,
+    required this.casinoName,
+    required this.tableMin,
+    required this.tableMax,
+    required this.appBarColor,
+    required this.wallpaper,
+    required this.openCasino,
+    required this.welcomeMssg,
+  Key? key,
+  }) : super(key: key);
 
   final LinearGradient bgGradient;
   final String dealerImage;
@@ -33,7 +44,7 @@ class Casino extends StatefulWidget {
 
 class _CasinoState extends State<Casino> {
   // 1) State
-  int _playerCash = 0;
+  num _playerCash = 0;
   int _playerBatpoints = 0;
   String _playerBatvatar = '';
   bool _gameInSession = false;
@@ -72,23 +83,23 @@ class _CasinoState extends State<Casino> {
   };
 
   Future<void> _getUserChips() async {
-    var user = Provider.of<User>(context, listen: false);
-    await Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
-      _playerCash = doc.data['chips'];
-      _playerBatvatar = doc.data['batvatar'];
-      _playerBatpoints = doc.data['batpoints'];
+    var user = Provider.of<AppUser>(context, listen: false);
+    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
+      _playerCash = doc.data()?['chips'];
+      _playerBatvatar = doc.data()?['batvatar'];
+      _playerBatpoints = doc.data()?['batpoints'];
     });
   }
 
   void _maybeShowWelcomeDialog(BuildContext context) {
-    var user = Provider.of<User>(context, listen: false);
-    Firestore.instance.collection('gamblers').document(user.uid).get().then((doc) {
-      print('doc.data[openCasinos][${widget.openCasino}] == ${doc.data['openCasinos'][widget.openCasino]}');
-      if (doc.data['openCasinos'][widget.openCasino] == false) {
-        Firestore.instance.collection('gamblers').document(user.uid).updateData({'openCasinos.${widget.openCasino}': true});
+    var user = Provider.of<AppUser>(context, listen: false);
+    FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
+      print('doc.data[openCasinos][${widget.openCasino}] == ${doc.data()?['openCasinos'][widget.openCasino]}');
+      if (doc.data()?['openCasinos'][widget.openCasino] == false) {
+        FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'openCasinos.${widget.openCasino}': true});
         _welcomeDialog(true);
-        (context) => Scaffold.of(context).showSnackBar(newCasinoSnackbar);
-        Firestore.instance.collection('gamblers').document(user.uid).updateData({'batpoints': _playerBatpoints + 10});
+        (context) => ScaffoldMessenger.of(context).showSnackBar(newCasinoSnackbar);
+        FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batpoints': _playerBatpoints + 10});
       }
     });
   }
@@ -121,7 +132,7 @@ class _CasinoState extends State<Casino> {
   }
 
   Future _bank(BuildContext context) async {
-    var user = Provider.of<User>(context, listen: false);
+    var user = Provider.of<AppUser>(context, listen: false);
 
     print('🐉🐲🐉 _bank called.');
     for (int i = 0; i < _player.length; i++) {
@@ -153,7 +164,7 @@ class _CasinoState extends State<Casino> {
       }
     }
     _gameInSession = false;
-    await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
+    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'chips': _playerCash});
     print('🐲🐉🐲 _bank done.');
   }
 
@@ -292,13 +303,13 @@ class _CasinoState extends State<Casino> {
         (int index) => Container(
             padding: EdgeInsets.only(bottom: 16),
             child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-              Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]['text']}',
+              Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]!['text']}',
                   style: GoogleFonts.ultra(
-                      fontSize: 24, color: _handResults[_player[index]['result']]['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
+                      fontSize: 24, color: _handResults[_player[index]['result']]!['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
               Text('\$${_player[index]['result'] == 2 ? (_player[index]['handBet'].floor()) * 2 : _player[index]['handBet'].floor()}',
                   style: GoogleFonts.ultra(
                     fontSize: 18,
-                    color: _player[index]['result'] != 0 ? _handResults[_player[index]['result']]['color'] : BatmanColors.lightGrey,
+                    color: _player[index]['result'] != 0 ? _handResults[_player[index]['result']]!['color'] : BatmanColors.lightGrey,
                   ))
             ])));
   }
@@ -615,7 +626,7 @@ class _CasinoState extends State<Casino> {
         ),
         content: SingleChildScrollView(child: Text('${widget.welcomeMssg}', style: GoogleFonts.oxanium(color: Colors.white))),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Deal the cards', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -636,19 +647,19 @@ class _CasinoState extends State<Casino> {
               title: Text('Sure you want to leave?', style: GoogleFonts.oxanium(color: Colors.white, fontWeight: FontWeight.w800)),
               content: Text('If you exit, you\'ll lose your bet', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('I\'ll Stay', style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                FlatButton(
+                TextButton(
                   child: Text('Gotham Needs Me', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
                   onPressed: () async {
-                    var user = Provider.of<User>(context, listen: false);
+                    var user = Provider.of<AppUser>(context, listen: false);
                     for (int i = 0; i < _player.length; i++) {
                       _player[i]['result'] = -1;
                       _playerCash -= _bet.floor();
                       _gameInSession = false;
-                      await Firestore.instance.collection('gamblers').document(user.uid).updateData({'chips': _playerCash});
+                      await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'chips': _playerCash});
                     }
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
@@ -660,9 +671,12 @@ class _CasinoState extends State<Casino> {
             barrierDismissible: false,
           )
         : Navigator.of(context).pop();
+      throw {
+        true
+      };
   }
 
-  Future<bool> _notEnoughCash() async {
+  FutureOr<bool> _notEnoughCash() async {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -672,7 +686,7 @@ class _CasinoState extends State<Casino> {
         content: Text('The minimum bet allowed at ${widget.casinoName} is \$${widget.tableMin}. Exchange Batpoints for chips in the Batcave.',
             style: GoogleFonts.oxanium(color: BatmanColors.lightGrey)),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Gas up the Batmobile', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -681,15 +695,18 @@ class _CasinoState extends State<Casino> {
       ),
       barrierDismissible: true,
     );
+    throw {
+      true
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<AppUser?>(context);
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).gamblerData,
       builder: (context, snapshot) {
-        UserData userData = snapshot.data;
+        UserData? userData = snapshot.data;
         return WillPopScope(
           onWillPop: _confirmLeave,
           child: Scaffold(

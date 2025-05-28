@@ -61,11 +61,10 @@ class _LeaderboardState extends State<Leaderboard> {
         title: Text('Leaderboard'),
       ),
       body: StreamBuilder(
-        stream: Firestore.instance.collection('gamblers').snapshots(),
+        stream: FirebaseFirestore.instance.collection('gamblers').snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _allDocs(snapshot.data.documents);
-          }
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          return _allDocs((snapshot.data as QuerySnapshot).docs);
         },
       ),
     );

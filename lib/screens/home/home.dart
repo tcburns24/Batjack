@@ -16,9 +16,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     num batLogoWidth = MediaQuery.of(context).size.width / 2;
     num batLogoHeight = batLogoWidth * 0.6;
-    final user = Provider.of<User>(context);
-    return StreamProvider<QuerySnapshot>.value(
-        value: DatabaseService().gamblers,
+    final user = Provider.of<AppUser?>(context);
+    return StreamProvider<QuerySnapshot<Object?>?>.value(
+        value: DatabaseService(uid: user!.uid).gamblers,
+        initialData: null,
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -26,7 +27,7 @@ class Home extends StatelessWidget {
             title: Text('Batjack'),
             elevation: 0.8,
             actions: <Widget>[
-              FlatButton.icon(
+              TextButton.icon(
                   onPressed: () async {
                     await _auth.signOut();
                   },
