@@ -37,6 +37,7 @@ class CasinoSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser?>(context);
+    if (user == null) return Text('No user');
     final lockedSnackbar = SnackBar(
       content: Row(
         children: <Widget>[
@@ -57,6 +58,7 @@ class CasinoSlide extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.white,
     );
+    print('locationImage = ' + locationImage);
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {

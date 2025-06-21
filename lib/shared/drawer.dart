@@ -43,7 +43,8 @@ class _MainDrawerState extends State<MainDrawer> {
   List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
 
   void _getUserChips() async {
-    var user = Provider.of<AppUser>(context, listen: false);
+    var user = Provider.of<AppUser?>(context, listen: false);
+    if (user == null) return;
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
       _playerCash = doc.data()?['chips'];
       _playerBatpoints = doc.data()?['batpoints'];
@@ -53,6 +54,7 @@ class _MainDrawerState extends State<MainDrawer> {
   @override
   void initState() {
     super.initState();
+    _selectedBatvatar = 1;
     _getUserChips();
   }
 
@@ -63,7 +65,9 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void _updateBatvatar() async {
-    var user = Provider.of<AppUser>(context, listen: false);
+    print('🦇🦇 updateBatvatar');
+    var user = Provider.of<AppUser?>(context, listen: false);
+    if (user == null) return;
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batvatar': _batvatars[_selectedBatvatar]});
   }
 
@@ -100,6 +104,7 @@ class _MainDrawerState extends State<MainDrawer> {
     double statusBar = MediaQuery.of(context).padding.top;
     final user = Provider.of<AppUser?>(context);
     final theme = Theme.of(context);
+    if (user == null) return Text('No user');
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {

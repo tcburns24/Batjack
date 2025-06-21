@@ -17,8 +17,9 @@ class Home extends StatelessWidget {
     num batLogoWidth = MediaQuery.of(context).size.width / 2;
     num batLogoHeight = batLogoWidth * 0.6;
     final user = Provider.of<AppUser?>(context);
+    if (user == null) return Text('No user');
     return StreamProvider<QuerySnapshot<Object?>?>.value(
-        value: DatabaseService(uid: user!.uid).gamblers,
+        value: DatabaseService(uid: user.uid).gamblers,
         initialData: null,
         child: Scaffold(
           backgroundColor: Colors.white,

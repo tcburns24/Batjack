@@ -83,7 +83,8 @@ class _CasinoState extends State<Casino> {
   };
 
   Future<void> _getUserChips() async {
-    var user = Provider.of<AppUser>(context, listen: false);
+    var user = Provider.of<AppUser?>(context, listen: false);
+    if (user == null) return;
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
       _playerCash = doc.data()?['chips'];
       _playerBatvatar = doc.data()?['batvatar'];
@@ -92,7 +93,8 @@ class _CasinoState extends State<Casino> {
   }
 
   void _maybeShowWelcomeDialog(BuildContext context) {
-    var user = Provider.of<AppUser>(context, listen: false);
+    var user = Provider.of<AppUser?>(context, listen: false);
+    if (user == null) return;
     FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
       print('doc.data[openCasinos][${widget.openCasino}] == ${doc.data()?['openCasinos'][widget.openCasino]}');
       if (doc.data()?['openCasinos'][widget.openCasino] == false) {
@@ -132,7 +134,8 @@ class _CasinoState extends State<Casino> {
   }
 
   Future _bank(BuildContext context) async {
-    var user = Provider.of<AppUser>(context, listen: false);
+    var user = Provider.of<AppUser?>(context, listen: false);
+    if (user == null) return;
 
     print('🐉🐲🐉 _bank called.');
     for (int i = 0; i < _player.length; i++) {
@@ -638,6 +641,7 @@ class _CasinoState extends State<Casino> {
   }
 
   Future<bool> _confirmLeave() async {
+    print('💚 _confirmLeave');
     _gameInSession
         ? await showDialog(
             context: context,
@@ -654,7 +658,8 @@ class _CasinoState extends State<Casino> {
                 TextButton(
                   child: Text('Gotham Needs Me', style: GoogleFonts.oxanium(color: BatmanColors.yellow)),
                   onPressed: () async {
-                    var user = Provider.of<AppUser>(context, listen: false);
+                    var user = Provider.of<AppUser?>(context, listen: false);
+                    if (user == null) return;
                     for (int i = 0; i < _player.length; i++) {
                       _player[i]['result'] = -1;
                       _playerCash -= _bet.floor();
@@ -703,6 +708,7 @@ class _CasinoState extends State<Casino> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser?>(context);
+    if (user == null) return Text('No user');
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).gamblerData,
       builder: (context, snapshot) {

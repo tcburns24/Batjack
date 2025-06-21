@@ -21,7 +21,7 @@ class BatButton extends StatelessWidget {
         backgroundColor: Colors.blue,
       ),
       child: Text(text, style: GoogleFonts.oxanium(fontSize: textSize)),
-      onPressed: () => tapFunc,
+      onPressed: () => tapFunc(),
     );
   }
 }
