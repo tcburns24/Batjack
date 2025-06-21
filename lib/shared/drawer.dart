@@ -23,7 +23,7 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   AuthService _auth = new AuthService();
 
-  late int _selectedBatvatar;
+  int? _selectedBatvatar;
   late num _playerCash;
   num _playerBatpoints = 40;
   int _wageredBatpoints = 0;
@@ -48,13 +48,22 @@ class _MainDrawerState extends State<MainDrawer> {
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).get().then((doc) {
       _playerCash = doc.data()?['chips'];
       _playerBatpoints = doc.data()?['batpoints'];
+
+      String? currentBatvatar = doc.data()?['batvatar'];
+      if (currentBatvatar != null) {
+        int index = _batvatars.indexOf(currentBatvatar);
+        if (index != -1) {
+          setState(() {
+            _selectedBatvatar = index;
+          });
+        }
+      }
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _selectedBatvatar = 1;
     _getUserChips();
   }
 
@@ -68,7 +77,7 @@ class _MainDrawerState extends State<MainDrawer> {
     print('🦇🦇 updateBatvatar');
     var user = Provider.of<AppUser?>(context, listen: false);
     if (user == null) return;
-    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batvatar': _batvatars[_selectedBatvatar]});
+    await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batvatar': _batvatars[_selectedBatvatar ?? 0]});
   }
 
   Widget _batvatarSelection() {
