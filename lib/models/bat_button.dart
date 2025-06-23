@@ -18,7 +18,7 @@ class BatButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25), // Pill shape - adjust as needed
           side: BorderSide(
-            color: Colors.yellow,
+            color: enabledBool ? Colors.yellow : Colors.grey,
             width: 3.0, // Thick yellow border
           ),
         ),
@@ -28,7 +28,7 @@ class BatButton extends StatelessWidget {
         text,
         style: GoogleFonts.oxanium(
           fontSize: textSize,
-          color: Colors.yellow, // Yellow text
+          color: enabledBool ? Colors.yellow : Colors.grey, // Yellow text
         ),
       ),
       onPressed: () => tapFunc(),
