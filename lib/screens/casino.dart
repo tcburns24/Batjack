@@ -308,7 +308,12 @@ class _CasinoState extends State<Casino> {
             child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
               Text(_gameInSession ? '${_player[index]['value'].length > 0 ? _player[index]['value'][0] : 'Bust'}' : '${_handResults[_player[index]['result']]!['text']}',
                   style: GoogleFonts.ultra(
-                      fontSize: 24, color: _handResults[_player[index]['result']]!['color'], decoration: index == curr ? TextDecoration.underline : TextDecoration.none)),
+                      fontSize: 24,
+                      color: _handResults[_player[index]['result']]!['color'],
+                      decoration: index == curr ? TextDecoration.underline : TextDecoration.none,
+                      decorationColor: _handResults[_player[index]['result']]!['color'],
+                      decorationThickness: 2.0,
+                  )),
               Text('\$${_player[index]['result'] == 2 ? (_player[index]['handBet'].floor()) * 2 : _player[index]['handBet'].floor()}',
                   style: GoogleFonts.ultra(
                     fontSize: 18,
