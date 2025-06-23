@@ -16,11 +16,21 @@ class BatButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(25), // Pill shape - adjust as needed
+          side: BorderSide(
+            color: Colors.yellow,
+            width: 3.0, // Thick yellow border
+          ),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.transparent, // Black background
       ),
-      child: Text(text, style: GoogleFonts.oxanium(fontSize: textSize)),
+      child: Text(
+        text,
+        style: GoogleFonts.oxanium(
+          fontSize: textSize,
+          color: Colors.yellow, // Yellow text
+        ),
+      ),
       onPressed: () => tapFunc(),
     );
   }

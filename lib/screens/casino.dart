@@ -459,17 +459,21 @@ class _CasinoState extends State<Casino> {
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            BatButton(
-              text: _gameInSession ? 'Stand' : 'Play Again',
-              enabledBool: 2 > 1,
-              tapFunc: () {
-                setState(() {
-                  _gameInSession ? _stand() : _reset();
-                });
-              },
+            Expanded(child: Container()),
+            Expanded(
+              child: BatButton(
+                text: _gameInSession ? 'Stand' : 'Play Again',
+                enabledBool: 2 > 1,
+                tapFunc: () {
+                  setState(() {
+                    _gameInSession ? _stand() : _reset();
+                  });
+                },
+              ),
             ),
+            Expanded(child: Container()),
           ],
         ),
       ],
