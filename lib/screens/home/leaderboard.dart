@@ -11,7 +11,7 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   ListView _allDocs(List arr) {
     // sort the arr items by chips (descending)
-    arr.sort((a, b) => b.data['chips'].compareTo(a.data['chips']));
+    arr.sort((a, b) => b.data()['chips'].compareTo(a.data()['chips']));
     return ListView.separated(
         separatorBuilder: (context, index) => Divider(
               color: BatmanColors.lightGrey,
@@ -33,7 +33,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         width: 42,
                         child: Center(
                           child: CircleAvatar(
-                            backgroundImage: AssetImage(arr[index].data['batvatar']),
+                            backgroundImage: AssetImage(arr[index].data()['batvatar']),
                           ),
                         ),
                       ),
@@ -42,12 +42,12 @@ class _LeaderboardState extends State<Leaderboard> {
                   Flexible(
                     child: Padding(
                         padding: EdgeInsets.only(left: 12),
-                        child: Text('${arr[index].data['username']}', overflow: TextOverflow.ellipsis, style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16))),
+                        child: Text('${arr[index].data()['username']}', overflow: TextOverflow.ellipsis, style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16))),
                   ),
                 ],
               ),
               trailing: Container(
-                child: Text('${arr[index].data['chips']} ', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16)),
+                child: Text('${arr[index].data()['chips']} ', style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16)),
               ),
             ));
   }
