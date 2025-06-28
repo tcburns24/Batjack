@@ -120,7 +120,7 @@ class CasinoSlide extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     location,
-                                    style: GoogleFonts.adamina(color: Colors.white, fontSize: 16),
+                                    style: GoogleFonts.oxanium(color: Colors.white, fontSize: 16),
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(

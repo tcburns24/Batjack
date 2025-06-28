@@ -25,7 +25,12 @@ class Home extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: BatmanColors.blueGrey,
-            title: Text('Batjack'),
+            title: Text(
+              'Batjack',
+              style: GoogleFonts.oxanium(
+                color: Colors.white,
+              )
+            ),
             elevation: 0.8,
             actions: <Widget>[
               TextButton.icon(

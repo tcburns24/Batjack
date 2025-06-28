@@ -36,11 +36,10 @@ class _MainDrawerState extends State<MainDrawer> {
     'assets/batmen/george_clooney.png',
     'assets/batmen/christian_bale.png',
     'assets/batmen/ben_affleck.png',
-    'assets/batmen/arkham_knight.png',
-    'assets/batmen/lego.png'
+    'assets/batmen/robert_pattinson.png',
   ];
 
-  List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Xbox', 'Lego'];
+  List<String> _actors = ['West', 'Keaton', 'Kilmer', 'Clooney', 'Bale', 'Affleck', 'Pattinson'];
 
   void _getUserChips() async {
     var user = Provider.of<AppUser?>(context, listen: false);

@@ -115,7 +115,6 @@ class _CasinoState extends State<Casino> {
   }
 
   void _reset() {
-    print('🦒🦒_reset() called.');
     _hitBtnEnabled = true;
     curr = 0;
     _player = [
@@ -137,14 +136,11 @@ class _CasinoState extends State<Casino> {
     var user = Provider.of<AppUser?>(context, listen: false);
     if (user == null) return;
 
-    print('🐉🐲🐉 _bank called.');
     for (int i = 0; i < _player.length; i++) {
       if (_player[i]['result'] == 0) {
         if (_player[i]['value'][0] > _dealer['value'][0]) {
-          print('🤑 _player (${_player[i]['value'][0]}) > _dealer (${_dealer['value'][0]}). Player wins.');
           _player[i]['result'] = 1;
         } else if (_player[i]['value'][0] < _dealer['value'][0]) {
-          print('🤑 _player (${_player[i]['value'][0]}) < _dealer (${_dealer['value'][0]}). Dealer wins.');
           _player[i]['result'] = -1;
         } else {
           _player[i]['result'] = 3;
@@ -152,7 +148,6 @@ class _CasinoState extends State<Casino> {
       }
     }
     for (int i = 0; i < _player.length; i++) {
-      print('\n🐉🐉 i = $i\n🐉 _player[$i][result] == ${_player[i]['result']}\n🐉 _player[$i][handBet] == ${_player[i]['handBet']}');
       // if push, give player their $ back.
       if (_player[i]['result'] == 3) {
         _playerCash += 0;
@@ -168,7 +163,6 @@ class _CasinoState extends State<Casino> {
     }
     _gameInSession = false;
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'chips': _playerCash});
-    print('🐲🐉🐲 _bank done.');
   }
 
   void _hit() {
@@ -194,7 +188,7 @@ class _CasinoState extends State<Casino> {
         }
       }
     } else {
-      print('🍑✴️🍑 _player[curr][value] = ${_player[curr]['value']}\n-------');
+      print('_player[curr][value] = ${_player[curr]['value']}\n-------');
     }
   }
 
@@ -650,7 +644,6 @@ class _CasinoState extends State<Casino> {
   }
 
   Future<bool> _confirmLeave() async {
-    print('💚 _confirmLeave');
     _gameInSession
         ? await showDialog(
             context: context,
@@ -726,7 +719,16 @@ class _CasinoState extends State<Casino> {
           onWillPop: _confirmLeave,
           child: Scaffold(
             appBar: AppBar(
-              title: Text(widget.casinoName),
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+              title: Text(
+                  widget.casinoName,
+                  style: GoogleFonts.oxanium(
+                    color: Colors.white,
+                  )
+              ),
+
               backgroundColor: widget.appBarColor,
             ),
             body: Stack(
