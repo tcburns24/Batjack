@@ -58,7 +58,6 @@ class CasinoSlide extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.white,
     );
-    print('locationImage = ' + locationImage);
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).gamblerData,
         builder: (context, snapshot) {

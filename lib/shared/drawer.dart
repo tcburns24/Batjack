@@ -26,8 +26,8 @@ class _MainDrawerState extends State<MainDrawer> {
   int? _selectedBatvatar;
   late num _playerCash;
   num _playerBatpoints = 40;
-  int _wageredBatpoints = 0;
-  int _exchangeRate = 15;
+  int _wageredBatpoints = 1;
+  int _exchangeRate = 6;
 
   List<String> _batvatars = [
     'assets/batmen/adam_west.png',
@@ -73,7 +73,6 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void _updateBatvatar() async {
-    print('🦇🦇 updateBatvatar');
     var user = Provider.of<AppUser?>(context, listen: false);
     if (user == null) return;
     await FirebaseFirestore.instance.collection('gamblers').doc(user.uid).update({'batvatar': _batvatars[_selectedBatvatar ?? 0]});
@@ -232,8 +231,10 @@ class _MainDrawerState extends State<MainDrawer> {
                           child: NumberPicker(
                               value: _wageredBatpoints,
                               axis: Axis.horizontal,
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: _playerBatpoints.toInt(),
+                              textStyle: TextStyle(color: BatmanColors.black),
+                              selectedTextStyle: TextStyle(color: BatmanColors.yellow, fontSize: 22.0 ),
                               onChanged: (newVal) {
                                 setState(() {
                                   _wageredBatpoints = newVal;
@@ -246,11 +247,16 @@ class _MainDrawerState extends State<MainDrawer> {
                         child: BatButton(
                           enabledBool: true,
                           text: 'Exchange for ${_wageredBatpoints * _exchangeRate} Chips',
-                          tapFunc: () {
+                          tapFunc: () async {
                             FirebaseFirestore.instance
-                                .collection('gamblers')
-                                .doc(user.uid)
-                                .update({'batpoints': (_playerBatpoints - _wageredBatpoints).floor(), 'chips': (_playerCash + (_wageredBatpoints * _exchangeRate)).floor()});
+                              .collection('gamblers')
+                              .doc(user.uid)
+                              .update({'batpoints': (_playerBatpoints - _wageredBatpoints), 'chips': (_playerCash + (_wageredBatpoints * _exchangeRate))});
+
+                            setState(() {
+                              _playerBatpoints = _playerBatpoints - _wageredBatpoints;
+                              _playerCash = _playerCash + (_wageredBatpoints * _exchangeRate);
+                            });
                           },
                           textSize: 14.0,
                           textColor: Colors.white,
